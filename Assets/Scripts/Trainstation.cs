@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 public class Trainstation : MonoBehaviour
@@ -93,5 +94,17 @@ public class Trainstation : MonoBehaviour
         GameObject train = Instantiate(lambdaTrain, transform.position, Quaternion.identity, null);
         Train trainComponent = train.GetComponent<Train>();
         trainComponent.Initialize(Random.Range(14, 26), 8);
+    }
+
+    void OnMouseOver()
+    {
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            GameStateResources.trainStationSelected = true;
+            GameStateResources.currentFixedX = (int)transform.position.x;
+            GameStateResources.currentFixedZ = (int)transform.position.z;
+            GameStateResources.previousX = (int)transform.position.x;
+            GameStateResources.previousZ = (int)transform.position.z;
+        }
     }
 }
