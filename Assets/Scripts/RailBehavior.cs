@@ -6,8 +6,8 @@ public class RailBehavior : MonoBehaviour
     // A list of pairs (trainID, orderID)
     public List<(int trainID, int orderID)> trainOrders = new List<(int, int)>();
     private bool isBuilding;
-    private int additionalTrainId;
     private int additionalOrderID;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -45,15 +45,7 @@ public class RailBehavior : MonoBehaviour
         GameStateResources.currentX = (int)transform.position.x;
         GameStateResources.currentZ = (int)transform.position.z;
 
-        if ((GameStateResources.zAxisFixed == false) && (GameStateResources.xAxisFixed == false) && GameStateResources.mouseButtonHeldDown && GameStateResources.trainStationSelected)
-        {
-            if (GameStateResources.currentX > GameStateResources.currentFixedX)
-            {
-                GameStateResources.zAxisFixed = true;
-            }
-            else
-                GameStateResources.xAxisFixed = true;
-        }
+
 
         if (GameStateResources.mouseButtonHeldDown && GameStateResources.trainStationSelected) // Check if the left mouse button is pressed
         {

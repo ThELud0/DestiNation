@@ -7,7 +7,7 @@ public class Trainstation : MonoBehaviour
     float destinyTimer;
     float lifetime;
     int destinyType;
-
+    
     void Start()
     {
         destinyTimer = Time.time + Random.Range(3, 10);
