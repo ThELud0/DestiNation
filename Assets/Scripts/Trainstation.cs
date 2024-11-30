@@ -101,6 +101,7 @@ public class Trainstation : MonoBehaviour
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             GameStateResources.trainStationSelected = true;
+            GameStateResources.currentTrainStationId += 1;
             GameStateResources.currentFixedX = (int)transform.position.x;
             GameStateResources.currentFixedZ = (int)transform.position.z;
             GameStateResources.previousX = (int)transform.position.x;
