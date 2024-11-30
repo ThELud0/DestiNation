@@ -1,18 +1,39 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 public class RailBehavior : MonoBehaviour
 {
-
+    [Serializable]
+    public class RailStyle
+    {
+        public float rotation;
+        public Mesh mesh;
+    }
     // A list of pairs (trainID, orderID)
     public List<(int trainID, int orderID)> trainOrders = new List<(int, int)>();
     private bool isBuilding;
     private int additionalOrderID;
 
 
+    // Array to store different rail style meshes
+    public RailStyle[] railStyles;
+
+    // Reference to the MeshFilter of the Rail GameObject
+    private MeshFilter meshFilter;
+
+    // Variable to determine which rail style to use (can be set dynamically)
+    public int currentRailStyleIndex;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         isBuilding = false;
+
+        // Get the MeshFilter component
+        meshFilter = GetComponent<MeshFilter>();
+
+        // Set the initial mesh
+        UpdateRailStyle();
     }
 
     public void AddTrainOrder(int trainID, int orderID)
@@ -32,6 +53,7 @@ public class RailBehavior : MonoBehaviour
             else if (GameStateResources.mouseButtonReleased && GameStateResources.humanReached)
             {
                 AddTrainOrder(GameStateResources.currentTrainStationId, additionalOrderID);
+                //UpdateRailStyle();
                 isBuilding = false;
             }
 
@@ -75,4 +97,24 @@ public class RailBehavior : MonoBehaviour
 
 
     }
+
+    public void UpdateRailStyle()
+    {
+        // Ensure the index is within bounds
+        if (railStyles != null && railStyles.Length > 0 && currentRailStyleIndex >= 0 && currentRailStyleIndex < railStyles.Length)
+        {
+            // Update the mesh based on the current index
+            meshFilter.mesh = railStyles[currentRailStyleIndex].mesh;
+        }
+        else
+        {
+            Debug.LogWarning("Invalid rail style index or no rail styles assigned!");
+        }
+    }
+
+    public void checkSurroundings()
+    {
+
+    }
+
 }

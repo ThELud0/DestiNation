@@ -51,6 +51,7 @@ public class EmptyTileBehavior : MonoBehaviour
                 GameObject rail = Instantiate(railPrefab, transform.position + additionnalHeight, Quaternion.identity);
                 RailBehavior railComponent = rail.GetComponent<RailBehavior>();
                 railComponent.AddTrainOrder(GameStateResources.currentTrainStationId, currentOrderId);
+                railComponent.UpdateRailStyle();
                 isBuilding = false;
                 built = true;
 
