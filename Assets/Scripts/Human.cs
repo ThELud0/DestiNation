@@ -22,4 +22,18 @@ public class Human : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    private void OnMouseOver()
+    {
+        if (GameStateResources.mouseButtonHeldDown)
+        {
+            GameStateResources.humanReached = true;
+        }
+    }
+
+    private void OnMouseExit()
+    {
+        if (GameStateResources.humanReached)
+        GameStateResources.humanReached = false;
+    }
 }
