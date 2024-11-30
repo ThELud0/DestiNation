@@ -8,6 +8,7 @@ TagManager:
   - Human
   - Trainstation
   - Rail
+  - Structure
   layers:
   - Default
   - TransparentFX
