@@ -15,9 +15,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
-            Debug.Log("before click: " + GameStateResources.mouseButtonHeldDown);
             GameStateResources.mouseButtonHeldDown = true;
-            Debug.Log("after click: "+ GameStateResources.mouseButtonHeldDown);
         }
 
         if (Mouse.current.leftButton.wasReleasedThisFrame)
@@ -28,16 +26,9 @@ public class PlayerController : MonoBehaviour
             }
 
 
-            GameStateResources.currentFixedZ = 0;
-            GameStateResources.currentFixedX = 0;
-            GameStateResources.zAxisFixed = false;
-            GameStateResources.xAxisFixed = false;
-            GameStateResources.currentRailOrderId = 0;
-            GameStateResources.currentTrainStationId = 0;
-            GameStateResources.previousX = 0;
-            GameStateResources.previousZ = 0;
-            GameStateResources.mouseButtonHeldDown = false;
+
             GameStateResources.mouseButtonReleased = true;
+            Invoke("resetState", 0.05f);
             Invoke("setMouseButtonReleasedFalse", 0.05f);
         }
 
@@ -57,6 +48,19 @@ public class PlayerController : MonoBehaviour
     void setMouseButtonReleasedFalse()
     {
         GameStateResources.mouseButtonReleased = false;
+    }
+
+    void resetState()
+    {
+        GameStateResources.currentFixedZ = 0;
+        GameStateResources.currentFixedX = 0;
+        GameStateResources.zAxisFixed = false;
+        GameStateResources.xAxisFixed = false;
+        GameStateResources.currentRailOrderId = 0;
+        GameStateResources.currentTrainStationId = 0;
+        GameStateResources.previousX = 0;
+        GameStateResources.previousZ = 0;
+        GameStateResources.mouseButtonHeldDown = false;
     }
 
 }

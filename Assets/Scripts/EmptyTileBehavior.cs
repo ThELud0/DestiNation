@@ -12,6 +12,8 @@ public class EmptyTileBehavior : MonoBehaviour
     public List<int> railIdVector;
     public int currentOrderId;
 
+    [SerializeField] GameObject railPrefab;
+
     void Start()
     {
         railIdVector = new List<int>();
@@ -40,6 +42,11 @@ public class EmptyTileBehavior : MonoBehaviour
             else if (GameStateResources.mouseButtonReleased && GameStateResources.humanReached)
             {
                 cubeRenderer.material.color = Color.blue;
+                Vector3 additionnalHeight = new Vector3(0f, 1f, 0f);
+                GameObject rail = Instantiate(railPrefab, transform.position + additionnalHeight, Quaternion.identity);
+                RailBehavior railComponent = rail.GetComponent<RailBehavior>();
+                railComponent.AddTrainOrder(GameStateResources.currentTrainStationId, currentOrderId);
+
                 isBuilding = false;
                 built = true;
             }
@@ -86,6 +93,7 @@ public class EmptyTileBehavior : MonoBehaviour
                     isBuilding = true;
                     cubeRenderer.material.color = Color.red;
                     GameStateResources.previousZ = (int)transform.position.z;
+
                 }
 
             }
