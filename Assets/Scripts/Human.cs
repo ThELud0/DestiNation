@@ -25,7 +25,11 @@ public class Human : MonoBehaviour
 
     private void OnMouseOver()
     {
-        if (GameStateResources.mouseButtonHeldDown)
+        if (GameStateResources.mouseButtonHeldDown && 
+            (Mathf.Abs((int)transform.position.x - GameStateResources.previousX) < 2) && 
+            (Mathf.Abs((int)transform.position.z - GameStateResources.previousZ) < 2) &&
+            ((GameStateResources.xAxisFixed && ((int)transform.position.x == GameStateResources.currentFixedX)) || (GameStateResources.zAxisFixed && ((int)transform.position.z == GameStateResources.currentFixedZ)))
+            )
         {
             GameStateResources.humanReached = true;
         }

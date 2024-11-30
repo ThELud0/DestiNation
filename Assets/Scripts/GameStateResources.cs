@@ -17,6 +17,8 @@ public static class GameStateResources
     public static int currentFixedX = 0;
     public static int currentFixedZ = 0;
 
+   
+
     public static int currentX = 0;
     public static int currentZ = 0;
     public static int previousX = 0;

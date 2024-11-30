@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour
             GameStateResources.xAxisFixed = false;
             GameStateResources.currentRailOrderId = 0;
             GameStateResources.currentTrainStationId = 0;
+            GameStateResources.previousX = 0;
+            GameStateResources.previousZ = 0;
             GameStateResources.mouseButtonHeldDown = false;
             GameStateResources.mouseButtonReleased = true;
             Invoke("setMouseButtonReleasedFalse", 0.05f);
@@ -45,8 +47,8 @@ public class PlayerController : MonoBehaviour
             {
                 GameStateResources.zAxisFixed = !GameStateResources.zAxisFixed;
                 GameStateResources.xAxisFixed = !GameStateResources.xAxisFixed;
-                GameStateResources.currentFixedX = GameStateResources.xAxisFixed ? GameStateResources.currentX : GameStateResources.currentFixedX;
-                GameStateResources.currentFixedZ = GameStateResources.zAxisFixed ? GameStateResources.currentZ : GameStateResources.currentFixedZ;
+                GameStateResources.currentFixedX = GameStateResources.xAxisFixed ? GameStateResources.previousX : GameStateResources.currentFixedX;
+                GameStateResources.currentFixedZ = GameStateResources.zAxisFixed ? GameStateResources.previousZ : GameStateResources.currentFixedZ;
             }
         }
     }

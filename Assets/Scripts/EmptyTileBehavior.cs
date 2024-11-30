@@ -80,6 +80,7 @@ public class EmptyTileBehavior : MonoBehaviour
                     isBuilding = true;
                     cubeRenderer.material.color = Color.red;
                     GameStateResources.previousX = (int)transform.position.x;
+
                 }
                 else if (GameStateResources.xAxisFixed && ((int)transform.position.x == GameStateResources.currentFixedX) && (Mathf.Abs((int)transform.position.z - GameStateResources.previousZ) < 2) )
                 {
