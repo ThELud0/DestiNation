@@ -7,7 +7,7 @@ public class Trainstation : MonoBehaviour
     float destinyTimer;
     float lifetime;
     int destinyType;
-    
+    [SerializeField] GameObject departure;
     void Start()
     {
         destinyTimer = Time.time + Random.Range(3, 10);
@@ -53,12 +53,12 @@ public class Trainstation : MonoBehaviour
         {
             GameStateResources.trainStationSelected = true;
             GameStateResources.currentTrainStationId += 1;
-            GameStateResources.trainstationPosition = transform.position;
+            GameStateResources.trainstationPosition = departure.transform.position;
             GameStateResources.trainstationDestinyType = destinyType;
-            GameStateResources.currentFixedX = (int)transform.position.x;
-            GameStateResources.currentFixedZ = (int)transform.position.z;
-            GameStateResources.previousX = (int)transform.position.x;
-            GameStateResources.previousZ = (int)transform.position.z;
+            GameStateResources.currentFixedX = (int)departure.transform.position.x;
+            GameStateResources.currentFixedZ = (int)departure.transform.position.z;
+            GameStateResources.previousX = (int)departure.transform.position.x;
+            GameStateResources.previousZ = (int)departure.transform.position.z;
         }
     }
 }
