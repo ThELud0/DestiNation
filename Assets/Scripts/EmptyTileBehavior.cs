@@ -145,28 +145,28 @@ public class EmptyTileBehavior : MonoBehaviour
 
     void SpawnRockstarTrain()
     {
-        GameObject train = Instantiate(rockstarTrain, transform.position, Quaternion.identity, null);
+        GameObject train = Instantiate(rockstarTrain, GameStateResources.trainstationPosition, Quaternion.identity, null);
         Train trainComponent = train.GetComponent<Train>();
         trainComponent.Initialize(9, 12);
     }
 
     void SpawnOldTrain()
     {
-        GameObject train = Instantiate(oldTrain, transform.position, Quaternion.identity, null);
+        GameObject train = Instantiate(oldTrain, GameStateResources.trainstationPosition, Quaternion.identity, null);
         Train trainComponent = train.GetComponent<Train>();
         trainComponent.Initialize(Random.Range(34, 40), 5);
     }
 
     void SpawnDictatorTrain()
     {
-        GameObject train = Instantiate(dictatorTrain, transform.position, Quaternion.identity, null);
+        GameObject train = Instantiate(dictatorTrain, GameStateResources.trainstationPosition, Quaternion.identity, null);
         Train trainComponent = train.GetComponent<Train>();
         trainComponent.Initialize(Random.Range(14, 26), 6);
     }
 
     void SpawnLambdaTrain()
     {
-        GameObject train = Instantiate(lambdaTrain, transform.position, Quaternion.identity, null);
+        GameObject train = Instantiate(lambdaTrain, GameStateResources.trainstationPosition, Quaternion.identity, null);
         Train trainComponent = train.GetComponent<Train>();
         trainComponent.Initialize(Random.Range(14, 26), 8);
     }

@@ -53,6 +53,7 @@ public class Trainstation : MonoBehaviour
         {
             GameStateResources.trainStationSelected = true;
             GameStateResources.currentTrainStationId += 1;
+            GameStateResources.trainstationPosition = transform.position;
             GameStateResources.trainstationDestinyType = destinyType;
             GameStateResources.currentFixedX = (int)transform.position.x;
             GameStateResources.currentFixedZ = (int)transform.position.z;
