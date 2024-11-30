@@ -57,7 +57,6 @@ public class PlayerController : MonoBehaviour
         GameStateResources.zAxisFixed = false;
         GameStateResources.xAxisFixed = false;
         GameStateResources.currentRailOrderId = 0;
-        GameStateResources.currentTrainStationId = 0;
         GameStateResources.previousX = 0;
         GameStateResources.previousZ = 0;
         GameStateResources.mouseButtonHeldDown = false;
