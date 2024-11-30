@@ -22,9 +22,8 @@ public class PlayerController : MonoBehaviour
 
         if (Mouse.current.leftButton.wasReleasedThisFrame)
         {
-            Debug.Log("before release: " + GameStateResources.mouseButtonHeldDown);
+
             GameStateResources.mouseButtonHeldDown = false;
-            Debug.Log("after release: " + GameStateResources.mouseButtonHeldDown);
             GameStateResources.mouseButtonReleased = true;
             Invoke("setMouseButtonReleasedFalse", 0.05f);
         }
