@@ -5,19 +5,19 @@ public class SoundManager : MonoBehaviour
     // Singleton instance
     public static SoundManager Instance { get; private set; }
 
-    private AudioSource PopUpSource;
-    private AudioSource PlayerActionSource;
+    [SerializeField] private AudioSource PopUpSource;
+    [SerializeField]private AudioSource PlayerActionSource;
     //Pop ups
-    private AudioClip ArrivedToDestination;
-    private AudioClip PopUpBaby;
-    private AudioClip BabyEnd;
-    private AudioClip PopUpStation;
-    private AudioClip TrainAccident;
+    [SerializeField]private AudioClip ArrivedToDestination;
+    [SerializeField]private AudioClip PopUpBaby;
+    [SerializeField]private AudioClip BabyEnd;
+    [SerializeField]private AudioClip PopUpStation;
+    [SerializeField]private AudioClip TrainAccident;
     //PlayerActions
-    private AudioClip RailPose;
-    private AudioClip RailUnPose;
-    private AudioClip EndRailPose;
-    private AudioClip Button0;
+    [SerializeField]private AudioClip RailPose;
+    [SerializeField]private AudioClip RailUnPose;
+    [SerializeField]private AudioClip EndRailPose;
+    [SerializeField]private AudioClip Button0;
 
     //Priority
     public enum SoundPriority{ Low, Medium, High}
@@ -82,6 +82,7 @@ public class SoundManager : MonoBehaviour
     public void PlayTrainAccident(){
         PlaySoundWithPriority(TrainAccident, SoundPriority.High);
     }
+    
     //Play PlayerActionSounds
     public void PlayRailPose(){
         PlayerActionSource.clip = RailPose;
