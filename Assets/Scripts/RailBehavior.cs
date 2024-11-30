@@ -11,8 +11,14 @@ public class RailBehavior : MonoBehaviour
         public float rotation;
         public Mesh mesh;
     }
+
+    public class TrainOrderItem 
+    {
+        public int trainID;
+        public int orderID;
+    }
     // A list of pairs (trainID, orderID)
-    public List<(int trainID, int orderID)> trainOrders = new List<(int, int)>();
+    public List<TrainOrderItem> trainOrders = new List<TrainOrderItem>();
     private bool isBuilding;
     private int additionalOrderID;
 
@@ -50,7 +56,11 @@ public class RailBehavior : MonoBehaviour
 
     public void AddTrainOrder(int trainID, int orderID)
     {
-        trainOrders.Add((trainID, orderID));
+        trainOrders.Add(new TrainOrderItem
+        {
+            trainID = trainID, 
+            orderID = orderID
+        });
     }
 
     // Update is called once per frame

@@ -57,7 +57,6 @@ public class EmptyTileBehavior : MonoBehaviour
 
                 if (currentOrderId == GameStateResources.currentRailOrderId - 1)
                 {
-
                     if (GameStateResources.trainstationDestinyType == 0)
                     {
                         SpawnLambdaTrain();
@@ -164,14 +163,14 @@ public class EmptyTileBehavior : MonoBehaviour
 
     void SpawnDictatorTrain()
     {
-        GameObject train = Instantiate(dictatorTrain, GameStateResources.trainstationPosition, Quaternion.LookRotation(-dictatorTrain.transform.forward), null);
+        GameObject train = Instantiate(dictatorTrain, GameStateResources.trainstationPosition, Quaternion.LookRotation(transform.right), null);
         Train trainComponent = train.GetComponent<Train>();
         trainComponent.Initialize(Random.Range(14, 26), 6, GameStateResources.currentTrainStationId);
     }
 
     void SpawnLambdaTrain()
     {
-        GameObject train = Instantiate(lambdaTrain, GameStateResources.trainstationPosition, Quaternion.identity, null);
+        GameObject train = Instantiate(lambdaTrain, GameStateResources.trainstationPosition, Quaternion.LookRotation(transform.right), null);
         Train trainComponent = train.GetComponent<Train>();
         trainComponent.Initialize(Random.Range(14, 26), 8, GameStateResources.currentTrainStationId);
     }
