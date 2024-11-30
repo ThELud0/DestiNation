@@ -6,17 +6,20 @@ public class Trainstation : MonoBehaviour
     float trainTimer;
     void Start()
     {
-        destinyTimer = Random.Range(10, 30);
+        destinyTimer = Time.time + Random.Range(10, 30);
         trainTimer = Random.Range(2, 6);
     }
 
     void Update()
     {
-        
+        if (Time.time >= destinyTimer)
+        {
+            changeNature();
+        }
     }
 
-    void releaseTrain()
+    void changeNature()
     {
-        //Instantiate(train, position, Quaternion.identity);
+        //GetComponent<MeshRenderer>().material.mainTexture ;
     }
 }
