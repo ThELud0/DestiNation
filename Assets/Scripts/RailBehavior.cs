@@ -26,6 +26,16 @@ public class RailBehavior : MonoBehaviour
     // Variable to determine which rail style to use (can be set dynamically)
     public int currentRailStyleIndex;
 
+    public Transform topCheck;
+    public Transform botCheck;
+    public Transform rightCheck;
+    public Transform leftCheck;
+
+    public bool topOccupied;
+    public bool botOccupied;
+    public bool leftOccupied;
+    public bool rightOccupied;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

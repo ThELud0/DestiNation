@@ -55,21 +55,25 @@ public class EmptyTileBehavior : MonoBehaviour
                 isBuilding = false;
                 built = true;
 
-                if (GameStateResources.trainstationDestinyType == 0)
+                if (currentOrderId == GameStateResources.currentRailOrderId - 1)
                 {
-                    SpawnLambdaTrain();
-                }
-                if (GameStateResources.trainstationDestinyType == 1)
-                {
-                    SpawnDictatorTrain();
-                }
-                if (GameStateResources.trainstationDestinyType == 2)
-                {
-                    SpawnRockstarTrain();
-                }
-                if (GameStateResources.trainstationDestinyType == 3)
-                {
-                    SpawnOldTrain();
+
+                    if (GameStateResources.trainstationDestinyType == 0)
+                    {
+                        SpawnLambdaTrain();
+                    }
+                    if (GameStateResources.trainstationDestinyType == 1)
+                    {
+                        SpawnDictatorTrain();
+                    }
+                    if (GameStateResources.trainstationDestinyType == 2)
+                    {
+                        SpawnRockstarTrain();
+                    }
+                    if (GameStateResources.trainstationDestinyType == 3)
+                    {
+                        SpawnOldTrain();
+                    }
                 }
             }
             else if (GameStateResources.mouseButtonHeldDown && GameStateResources.humanReached)
