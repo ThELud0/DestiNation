@@ -1,16 +1,37 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
+using System.Collections.Generic;
+using TMPro.Examples;
 
 public class Trainstation : MonoBehaviour
 {
     float destinyTimer;
-    float lifetime;
+    float trainlifetime;
+    float trainspeed;
     int destinyType;
+    List<Vector2> test;
+
+
+    [SerializeField] GameObject rockstarTrain;
+    [SerializeField] GameObject oldTrain;
+    [SerializeField] GameObject dictatorTrain;
+    [SerializeField] GameObject lambdaTrain;
+
     [SerializeField] GameObject departure;
     void Start()
     {
         destinyTimer = Time.time + Random.Range(3, 10);
+
+        test = new List<Vector2>();
+        for (int i = 5; i<15; i++)
+        {
+            test.Add(new Vector2(i, 5));
+        }
+        for (int i = 5; i < 15; i++)
+        {
+            test.Add(new Vector2(14, i));
+        }
     }
 
     void Update()
@@ -18,6 +39,11 @@ public class Trainstation : MonoBehaviour
         if (Time.time >= destinyTimer)
         {
             changeNature();
+        }
+
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            spawnTrain(test);
         }
     }
 
@@ -47,6 +73,47 @@ public class Trainstation : MonoBehaviour
         destinyTimer = Time.time + Random.Range(10, 30);
     }
 
+
+
+    void spawnTrain(List<Vector2> railway)
+    {
+        GameObject train = new();
+            if (GameStateResources.trainstationDestinyType == 0)
+            {
+            trainlifetime = Random.Range(14, 26);
+            trainspeed = 8;
+             train = Instantiate(lambdaTrain, new Vector3(5f,1f,0f), Quaternion.identity);
+        }
+            else if (GameStateResources.trainstationDestinyType == 1)
+            {
+            trainlifetime = Random.Range(14, 26);
+            trainspeed = 6;
+             train = Instantiate(dictatorTrain, new Vector3(5f, 1f, 0f), Quaternion.LookRotation(-dictatorTrain.transform.forward));
+        }
+            else if (GameStateResources.trainstationDestinyType == 2)
+            {
+                trainlifetime = 9;
+                trainspeed = 12;
+                 train = Instantiate(rockstarTrain, new Vector3(5f, 1f, 0f), Quaternion.identity);
+            }
+            else if (GameStateResources.trainstationDestinyType == 3)
+            {
+            trainlifetime = Random.Range(34, 40);
+            trainspeed = 5;
+             train = Instantiate(oldTrain, new Vector3(5f, 1f, 0f), Quaternion.identity);
+        }
+        if (train.GetComponent<Train>() != null)
+        {
+            Debug.Log("here");
+            Train trainComponent = train.GetComponent<Train>();
+            trainComponent.Initialize(trainlifetime, trainspeed, railway);
+        }
+
+    }
+
+
+
+    /*
     void OnMouseOver()
     {
         if (Mouse.current.leftButton.wasPressedThisFrame)
@@ -60,5 +127,6 @@ public class Trainstation : MonoBehaviour
             GameStateResources.previousX = (int)departure.transform.position.x;
             GameStateResources.previousZ = (int)departure.transform.position.z;
         }
-    }
+    }*/
+
 }

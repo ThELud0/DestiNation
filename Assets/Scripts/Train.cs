@@ -1,28 +1,111 @@
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
+using UnityEngine.Events;
+using System.Collections.Generic;
 
 public class Train : MonoBehaviour
 {
     float lifetime;
     float speed;
-    public int trainID;
-    [SerializeField] GameObject raycastOrigin;
-    public void Initialize(float lifetime, float speed, int trainID)
+    //public int trainID;
+    List<Vector2> railway;
+
+    private int currentTargetIndex = 0; // Index of the current waypoint
+    private Vector3 currentTarget; // The current target position in 3D space
+    private bool isMoving = false; // Is the train moving?
+
+    public UnityEvent onTrainArrived = new ();
+
+    //[SerializeField] GameObject raycastOrigin;
+    public void Initialize(float lifetime, float speed, List<Vector2> railway)
     {
         this.lifetime = lifetime;
         this.speed = speed;
+        this.railway = railway;
     }
-    bool test;
+
 
     void Start(){
-        speed = 5;
-        test = true;
-
+        if (railway.Count > 0)
+        {
+            isMoving = true;
+            SetNextTarget();
+        }
     }
 
+    void Update()
+    {
+        if (isMoving)
+        {
+            MoveTowardsTarget();
+        }
+    }
+
+    private void SetNextTarget()
+    {
+        if (currentTargetIndex < railway.Count)
+        {
+            // Convert Vector2 to Vector3 (x, 0, z) for 3D space
+            currentTarget = new Vector3(railway[currentTargetIndex].x, transform.position.y, railway[currentTargetIndex].y);
+        }
+        else
+        {
+            // No more waypoints, stop moving
+            isMoving = false;
+            Debug.Log("Train has reached the final destination.");
+        }
+    }
+
+    private void MoveTowardsTarget()
+    {
+        // Calculate the step size for this frame
+        float step = speed * Time.deltaTime;
+
+        // Move the train towards the current target
+        //transform.position = Vector3.MoveTowards(transform.position, currentTarget, step);
+        transform.position = Vector3.Lerp(transform.position, currentTarget, step / Vector3.Distance(transform.position, currentTarget));
+        RotateTowardsTarget();
+
+        // Check if the train has reached the current target
+        if (Vector3.Distance(transform.position, currentTarget) < 0.01f)
+        {
+            // Move to the next waypoint
+            currentTargetIndex++;
+            SetNextTarget();
+        }
+    }
+
+    private void RotateTowardsTarget()
+    {
+        Vector3 direction = currentTarget - transform.position;
+        if (direction != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+
+            Quaternion rotationOffset = Quaternion.Euler(0, -90, 0);
+            targetRotation *= rotationOffset;
+
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * speed);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("Train"))
+        {
+            onTrainArrived.Invoke();
+            Destroy(collision.gameObject);
+            Destroy(gameObject);
+        }
+    }
+
+    /*
     // Update is called once per frame
     void Update()
     {
+
+
+        
         //transform.position += new Vector3(speed * Time.deltaTime, 0, 0);
         transform.position += transform.forward*speed*Time.deltaTime;
 
@@ -63,19 +146,8 @@ public class Train : MonoBehaviour
         //     Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.back) * 1000, Color.white);
         //     Debug.Log("Did not Hit");
         // }
-    }
+    }*/
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.collider.CompareTag("Train"))
-        {
-            Destroy(collision.gameObject);
-            Destroy(gameObject);
-        }
-    }
 
-    public void CheckRailway()
-    {
 
-    }
 }

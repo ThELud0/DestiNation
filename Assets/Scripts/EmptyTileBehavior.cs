@@ -14,10 +14,7 @@ public class EmptyTileBehavior : MonoBehaviour
 
     [SerializeField] GameObject railPrefab;
 
-    [SerializeField] GameObject rockstarTrain;
-    [SerializeField] GameObject oldTrain;
-    [SerializeField] GameObject dictatorTrain;
-    [SerializeField] GameObject lambdaTrain;
+
 
     void Start()
     {
@@ -53,28 +50,10 @@ public class EmptyTileBehavior : MonoBehaviour
                 railComponent.AddTrainOrder(GameStateResources.currentTrainStationId, currentOrderId);
                 //railComponent.UpdateRailStyle();
                 isBuilding = false;
+                      
                 built = true;
 
-                if (currentOrderId == GameStateResources.currentRailOrderId - 1)
-                {
 
-                    if (GameStateResources.trainstationDestinyType == 0)
-                    {
-                        SpawnLambdaTrain();
-                    }
-                    if (GameStateResources.trainstationDestinyType == 1)
-                    {
-                        SpawnDictatorTrain();
-                    }
-                    if (GameStateResources.trainstationDestinyType == 2)
-                    {
-                        SpawnRockstarTrain();
-                    }
-                    if (GameStateResources.trainstationDestinyType == 3)
-                    {
-                        SpawnOldTrain();
-                    }
-                }
             }
             else if (GameStateResources.mouseButtonHeldDown && GameStateResources.humanReached)
             {
@@ -148,31 +127,5 @@ public class EmptyTileBehavior : MonoBehaviour
 
     }*/
 
-    void SpawnRockstarTrain()
-    {
-        GameObject train = Instantiate(rockstarTrain, GameStateResources.trainstationPosition, Quaternion.identity, null);
-        Train trainComponent = train.GetComponent<Train>();
-        trainComponent.Initialize(9, 12, GameStateResources.currentTrainStationId);
-    }
 
-    void SpawnOldTrain()
-    {
-        GameObject train = Instantiate(oldTrain, GameStateResources.trainstationPosition, Quaternion.identity, null);
-        Train trainComponent = train.GetComponent<Train>();
-        trainComponent.Initialize(Random.Range(34, 40), 5, GameStateResources.currentTrainStationId);
-    }
-
-    void SpawnDictatorTrain()
-    {
-        GameObject train = Instantiate(dictatorTrain, GameStateResources.trainstationPosition, Quaternion.LookRotation(-dictatorTrain.transform.forward), null);
-        Train trainComponent = train.GetComponent<Train>();
-        trainComponent.Initialize(Random.Range(14, 26), 6, GameStateResources.currentTrainStationId);
-    }
-
-    void SpawnLambdaTrain()
-    {
-        GameObject train = Instantiate(lambdaTrain, GameStateResources.trainstationPosition, Quaternion.identity, null);
-        Train trainComponent = train.GetComponent<Train>();
-        trainComponent.Initialize(Random.Range(14, 26), 8, GameStateResources.currentTrainStationId);
-    }
 }
