@@ -1,16 +1,20 @@
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class Train : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    float lifetime;
+    float speed;
+    
+    public void Initialize(float lifetime, float speed)
     {
-        
+        this.lifetime = lifetime;
+        this.speed = speed;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        transform.position += new Vector3(speed * Time.deltaTime, 0, 0);
     }
 }
