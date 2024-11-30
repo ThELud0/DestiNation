@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5071496698663469620}
   - component: {fileID: 6080120626967650145}
   - component: {fileID: 2573802107218873733}
+  - component: {fileID: 2757505744482892066}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -129,3 +130,16 @@ MonoBehaviour:
   oldTrain: {fileID: 88967640214497830, guid: e051c6af67ba9254083d1cce55aa5f23, type: 3}
   dictatorTrain: {fileID: 88967640214497830, guid: 4e236b93d82dd7d4fba7260460c52dd5, type: 3}
   lambdaTrain: {fileID: 88967640214497830, guid: e167707baf90ffa448f7c2f3a6d90446, type: 3}
+--- !u!114 &2757505744482892066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8651519298966343816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2819fc66bc1a52a4a9298ac27eaf2beb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  railPrefab: {fileID: 6872931132089904781, guid: 3c9beab240c39d1499eccca9498d2b0d, type: 3}
