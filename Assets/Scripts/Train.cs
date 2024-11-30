@@ -5,9 +5,9 @@ public class Train : MonoBehaviour
 {
     float lifetime;
     float speed;
-    int trainID;
-    
-    public void Initialize(float lifetime, float speed)
+    public int trainID;
+    [SerializeField] GameObject raycastOrigin;
+    public void Initialize(float lifetime, float speed, int trainID)
     {
         this.lifetime = lifetime;
         this.speed = speed;
@@ -17,15 +17,40 @@ public class Train : MonoBehaviour
     void Update()
     {
         transform.position += new Vector3(speed * Time.deltaTime, 0, 0);
-        
+
+        int layerMask = 1 << 6;
+        layerMask = ~layerMask;
+        RaycastHit hit;
+        if (Physics.Raycast(raycastOrigin.transform.position, transform.TransformDirection(Vector3.forward), out hit, 1, layerMask))
+        {
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+            Debug.Log("Did Hit");
+            if (hit.collider.CompareTag("Rail"))
+            {
+                if (hit.collider.gameObject.GetComponent<RailBehavior>().trainOrders[0].trainID == trainID)
+                {
+
+                }
+            }
+        }
+        else
+        {
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.back) * 1000, Color.white);
+            Debug.Log("Did not Hit");
+        }
     }
 
-    void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.CompareTag("Train"))
+        if (collision.collider.CompareTag("Train"))
         {
-            Destroy(other.gameObject);
+            Destroy(collision.gameObject);
             Destroy(gameObject);
         }
+    }
+
+    public void CheckRailway()
+    {
+
     }
 }
