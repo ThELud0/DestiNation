@@ -14,6 +14,11 @@ public class EmptyTileBehavior : MonoBehaviour
 
     [SerializeField] GameObject railPrefab;
 
+    [SerializeField] GameObject rockstarTrain;
+    [SerializeField] GameObject oldTrain;
+    [SerializeField] GameObject dictatorTrain;
+    [SerializeField] GameObject lambdaTrain;
+
     void Start()
     {
         railIdVector = new List<int>();
@@ -46,9 +51,25 @@ public class EmptyTileBehavior : MonoBehaviour
                 GameObject rail = Instantiate(railPrefab, transform.position + additionnalHeight, Quaternion.identity);
                 RailBehavior railComponent = rail.GetComponent<RailBehavior>();
                 railComponent.AddTrainOrder(GameStateResources.currentTrainStationId, currentOrderId);
-
                 isBuilding = false;
                 built = true;
+
+                if (GameStateResources.trainstationDestinyType == 0)
+                {
+                    SpawnLambdaTrain();
+                }
+                if (GameStateResources.trainstationDestinyType == 1)
+                {
+                    SpawnDictatorTrain();
+                }
+                if (GameStateResources.trainstationDestinyType == 2)
+                {
+                    SpawnRockstarTrain();
+                }
+                if (GameStateResources.trainstationDestinyType == 3)
+                {
+                    SpawnOldTrain();
+                }
             }
             else if (GameStateResources.mouseButtonHeldDown && GameStateResources.humanReached)
             {
@@ -121,5 +142,33 @@ public class EmptyTileBehavior : MonoBehaviour
         }
 
     }*/
+
+    void SpawnRockstarTrain()
+    {
+        GameObject train = Instantiate(rockstarTrain, GameStateResources.trainstationPosition, Quaternion.identity, null);
+        Train trainComponent = train.GetComponent<Train>();
+        trainComponent.Initialize(9, 12);
+    }
+
+    void SpawnOldTrain()
+    {
+        GameObject train = Instantiate(oldTrain, GameStateResources.trainstationPosition, Quaternion.identity, null);
+        Train trainComponent = train.GetComponent<Train>();
+        trainComponent.Initialize(Random.Range(34, 40), 5);
+    }
+
+    void SpawnDictatorTrain()
+    {
+        GameObject train = Instantiate(dictatorTrain, GameStateResources.trainstationPosition, Quaternion.identity, null);
+        Train trainComponent = train.GetComponent<Train>();
+        trainComponent.Initialize(Random.Range(14, 26), 6);
+    }
+
+    void SpawnLambdaTrain()
+    {
+        GameObject train = Instantiate(lambdaTrain, GameStateResources.trainstationPosition, Quaternion.identity, null);
+        Train trainComponent = train.GetComponent<Train>();
+        trainComponent.Initialize(Random.Range(14, 26), 8);
+    }
 
 }

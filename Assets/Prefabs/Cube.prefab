@@ -125,3 +125,7 @@ MonoBehaviour:
   railIdVector: 
   currentOrderId: 0
   railPrefab: {fileID: 7903051777942275954, guid: ca92439ebb026074d92df85b58e48443, type: 3}
+  rockstarTrain: {fileID: 88967640214497830, guid: f1556a3e815850b48bf3c4f73642d817, type: 3}
+  oldTrain: {fileID: 88967640214497830, guid: e051c6af67ba9254083d1cce55aa5f23, type: 3}
+  dictatorTrain: {fileID: 88967640214497830, guid: 4e236b93d82dd7d4fba7260460c52dd5, type: 3}
+  lambdaTrain: {fileID: 88967640214497830, guid: e167707baf90ffa448f7c2f3a6d90446, type: 3}
