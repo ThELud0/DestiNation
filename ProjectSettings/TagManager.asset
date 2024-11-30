@@ -8,7 +8,7 @@ TagManager:
   - Human
   - Trainstation
   - Rail
-  - NotSpawnableBaby
+  - Structure
   layers:
   - Default
   - TransparentFX

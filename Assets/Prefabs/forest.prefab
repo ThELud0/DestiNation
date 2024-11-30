@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1619596182716631156}
   m_Layer: 0
   m_Name: forest
-  m_TagString: Untagged
+  m_TagString: NotSpawnableBaby
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -87,6 +87,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cube
       objectReference: {fileID: 0}
+    - target: {fileID: 8651519298966343816, guid: 65883276e6db3194eafdc2da577a7d15, type: 3}
+      propertyPath: m_TagString
+      value: Structure
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -148,6 +152,10 @@ PrefabInstance:
     - target: {fileID: 8651519298966343816, guid: 65883276e6db3194eafdc2da577a7d15, type: 3}
       propertyPath: m_Name
       value: Cube (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8651519298966343816, guid: 65883276e6db3194eafdc2da577a7d15, type: 3}
+      propertyPath: m_TagString
+      value: Structure
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -211,6 +219,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cube (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 8651519298966343816, guid: 65883276e6db3194eafdc2da577a7d15, type: 3}
+      propertyPath: m_TagString
+      value: Structure
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -272,6 +284,10 @@ PrefabInstance:
     - target: {fileID: 8651519298966343816, guid: 65883276e6db3194eafdc2da577a7d15, type: 3}
       propertyPath: m_Name
       value: Cube (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8651519298966343816, guid: 65883276e6db3194eafdc2da577a7d15, type: 3}
+      propertyPath: m_TagString
+      value: Structure
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

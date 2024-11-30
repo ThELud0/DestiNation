@@ -250,6 +250,8 @@ GameObject:
   m_Component:
   - component: {fileID: 331692186}
   - component: {fileID: 331692185}
+  - component: {fileID: 331692187}
+  - component: {fileID: 331692188}
   m_Layer: 0
   m_Name: coder
   m_TagString: Untagged
@@ -301,6 +303,59 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &331692187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331692184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a86bf7509365ac43a498314ff3de198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baby_despawn_timer: 50
+  list_bloqued_baby_spawns: []
+  baby_spawn_rate_probability: 1
+  time_wait_spawn_baby: 0.5
+  baby_prefab: {fileID: 7072598506055338467, guid: c956c1a988a67c34a81a49eaa53b6706, type: 3}
+  range_max_x: 30
+  range_max_z: 51
+  floorY: 1
+  list_String_unspawnable_baby:
+  - Structure
+  - Train
+  - Rail
+  - TrainStation
+  - Human
+--- !u!54 &331692188
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331692184}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &629775361
 GameObject:
   m_ObjectHideFlags: 0
