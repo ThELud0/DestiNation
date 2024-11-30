@@ -49,9 +49,6 @@ public class EmptyTileBehavior : MonoBehaviour
             }
         }
 
-
-
-
     }
 
     void OnMouseOver()
@@ -92,6 +89,8 @@ public class EmptyTileBehavior : MonoBehaviour
                 }
 
             }
+
+
         }
 
 
