@@ -15,6 +15,8 @@ public class RailBehavior : MonoBehaviour
     public List<(int trainID, int orderID)> trainOrders = new List<(int, int)>();
     private bool isBuilding;
     private int additionalOrderID;
+    public float checkradius = 0.05f;
+    public LayerMask railLayer;
 
 
     // Array to store different rail style meshes
@@ -35,6 +37,8 @@ public class RailBehavior : MonoBehaviour
     public bool botOccupied;
     public bool leftOccupied;
     public bool rightOccupied;
+
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -127,7 +131,9 @@ public class RailBehavior : MonoBehaviour
 
     public void checkSurroundings()
     {
-
+        
+            
+        
     }
 
 
