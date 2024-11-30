@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using Unity.VisualScripting;
+
 public class RailBehavior : MonoBehaviour
 {
     [Serializable]
@@ -98,6 +100,7 @@ public class RailBehavior : MonoBehaviour
 
     }
 
+
     public void UpdateRailStyle()
     {
         // Ensure the index is within bounds
@@ -116,5 +119,6 @@ public class RailBehavior : MonoBehaviour
     {
 
     }
+
 
 }

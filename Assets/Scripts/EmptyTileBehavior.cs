@@ -51,7 +51,7 @@ public class EmptyTileBehavior : MonoBehaviour
                 GameObject rail = Instantiate(railPrefab, transform.position + additionnalHeight, Quaternion.identity);
                 RailBehavior railComponent = rail.GetComponent<RailBehavior>();
                 railComponent.AddTrainOrder(GameStateResources.currentTrainStationId, currentOrderId);
-                railComponent.UpdateRailStyle();
+                //railComponent.UpdateRailStyle();
                 isBuilding = false;
                 built = true;
 
@@ -148,28 +148,28 @@ public class EmptyTileBehavior : MonoBehaviour
     {
         GameObject train = Instantiate(rockstarTrain, GameStateResources.trainstationPosition, Quaternion.identity, null);
         Train trainComponent = train.GetComponent<Train>();
-        trainComponent.Initialize(9, 12);
+        trainComponent.Initialize(9, 12, GameStateResources.currentTrainStationId);
     }
 
     void SpawnOldTrain()
     {
         GameObject train = Instantiate(oldTrain, GameStateResources.trainstationPosition, Quaternion.identity, null);
         Train trainComponent = train.GetComponent<Train>();
-        trainComponent.Initialize(Random.Range(34, 40), 5);
+        trainComponent.Initialize(Random.Range(34, 40), 5, GameStateResources.currentTrainStationId);
     }
 
     void SpawnDictatorTrain()
     {
         GameObject train = Instantiate(dictatorTrain, GameStateResources.trainstationPosition, Quaternion.identity, null);
         Train trainComponent = train.GetComponent<Train>();
-        trainComponent.Initialize(Random.Range(14, 26), 6);
+        trainComponent.Initialize(Random.Range(14, 26), 6, GameStateResources.currentTrainStationId);
     }
 
     void SpawnLambdaTrain()
     {
         GameObject train = Instantiate(lambdaTrain, GameStateResources.trainstationPosition, Quaternion.identity, null);
         Train trainComponent = train.GetComponent<Train>();
-        trainComponent.Initialize(Random.Range(14, 26), 8);
+        trainComponent.Initialize(Random.Range(14, 26), 8, GameStateResources.currentTrainStationId);
     }
 
 }
