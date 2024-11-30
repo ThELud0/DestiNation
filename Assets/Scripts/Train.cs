@@ -5,6 +5,7 @@ public class Train : MonoBehaviour
 {
     float lifetime;
     float speed;
+    int trainID;
     
     public void Initialize(float lifetime, float speed)
     {
