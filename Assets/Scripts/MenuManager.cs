@@ -7,12 +7,15 @@ public class MenuManager : MonoBehaviour
 {
 
     [SerializeField]
-    GameObject creditSprite;
+    GameObject creditSprite, settingsGameobject;
+
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
             activateSprite(creditSprite,false);
+            activateSprite(settingsGameobject, false);
 
     }
 
@@ -25,7 +28,21 @@ public class MenuManager : MonoBehaviour
 
  public void OnCreditButtonEnter(){
     Debug.Log("test ca marche");
-    fadeIntCredit(4f);
+    activateSprite(creditSprite);
+    //fadeIntCredit(4f);
+}
+
+public void OnQuitCreditsButtonEnter(){
+    activateSprite(creditSprite, false);
+}
+
+
+ public void OnSettingsButtonEnter(){
+    activateSprite(settingsGameobject);
+}
+
+public void OnQuitSettingsButtonEnter(){
+    activateSprite(settingsGameobject, false);
 }
 
 

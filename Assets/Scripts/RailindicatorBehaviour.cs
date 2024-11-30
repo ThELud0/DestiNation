@@ -74,7 +74,7 @@ private TMP_Text textRailIndicator;
         }
 
 
-    // return the umber of rail placed according to hte number of tiles (*3)
+    // return the number of rail placed according to hte number of tiles (*3)
     int getNumberRailFromNumberTiles(int number_tiles_placed){
         return number_tiles_placed * 3;
     }
