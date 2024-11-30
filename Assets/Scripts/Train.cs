@@ -16,5 +16,15 @@ public class Train : MonoBehaviour
     void Update()
     {
         transform.position += new Vector3(speed * Time.deltaTime, 0, 0);
+        
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Train"))
+        {
+            Destroy(other.gameObject);
+            Destroy(gameObject);
+        }
     }
 }
