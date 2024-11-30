@@ -8,10 +8,6 @@ public class Trainstation : MonoBehaviour
     float lifetime;
     int destinyType;
 
-    [SerializeField] GameObject rockstarTrain;
-    [SerializeField] GameObject oldTrain;
-    [SerializeField] GameObject dictatorTrain;
-    [SerializeField] GameObject lambdaTrain;
     void Start()
     {
         destinyTimer = Time.time + Random.Range(3, 10);
@@ -22,23 +18,6 @@ public class Trainstation : MonoBehaviour
         if (Time.time >= destinyTimer)
         {
             changeNature();
-
-            if (destinyType == 0)
-            {
-                SpawnLambdaTrain();
-            }
-            if (destinyType == 1)
-            {
-                SpawnDictatorTrain();
-            }
-            if (destinyType == 2)
-            {
-                SpawnRockstarTrain();
-            }
-            if (destinyType == 3)
-            {
-                SpawnOldTrain();
-            }
         }
     }
 
@@ -68,40 +47,13 @@ public class Trainstation : MonoBehaviour
         destinyTimer = Time.time + Random.Range(10, 30);
     }
 
-    void SpawnRockstarTrain()
-    {
-        GameObject train = Instantiate(rockstarTrain, transform.position, Quaternion.identity, null);
-        Train trainComponent = train.GetComponent<Train>();
-        trainComponent.Initialize(9, 12);
-    }
-
-    void SpawnOldTrain()
-    {
-        GameObject train = Instantiate(oldTrain, transform.position, Quaternion.identity, null);
-        Train trainComponent = train.GetComponent<Train>();
-        trainComponent.Initialize(Random.Range(34, 40), 5);
-    }
-
-    void SpawnDictatorTrain()
-    {
-        GameObject train = Instantiate(dictatorTrain, transform.position, Quaternion.identity, null);
-        Train trainComponent = train.GetComponent<Train>();
-        trainComponent.Initialize(Random.Range(14, 26), 6);
-    }
-
-    void SpawnLambdaTrain()
-    {
-        GameObject train = Instantiate(lambdaTrain, transform.position, Quaternion.identity, null);
-        Train trainComponent = train.GetComponent<Train>();
-        trainComponent.Initialize(Random.Range(14, 26), 8);
-    }
-
     void OnMouseOver()
     {
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             GameStateResources.trainStationSelected = true;
             GameStateResources.currentTrainStationId += 1;
+            GameStateResources.trainstationDestinyType = destinyType;
             GameStateResources.currentFixedX = (int)transform.position.x;
             GameStateResources.currentFixedZ = (int)transform.position.z;
             GameStateResources.previousX = (int)transform.position.x;
