@@ -23,4 +23,6 @@ public static class GameStateResources
     public static int previousZ = 0;
 
     public static int currentIdGeneration = 0;
+
+    public static int trainstationDestinyType;
 }
