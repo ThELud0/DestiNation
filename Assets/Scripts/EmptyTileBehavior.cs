@@ -160,7 +160,7 @@ public class EmptyTileBehavior : MonoBehaviour
 
     void SpawnDictatorTrain()
     {
-        GameObject train = Instantiate(dictatorTrain, GameStateResources.trainstationPosition, Quaternion.identity, null);
+        GameObject train = Instantiate(dictatorTrain, GameStateResources.trainstationPosition, Quaternion.LookRotation(-dictatorTrain.transform.forward), null);
         Train trainComponent = train.GetComponent<Train>();
         trainComponent.Initialize(Random.Range(14, 26), 6, GameStateResources.currentTrainStationId);
     }
@@ -171,5 +171,4 @@ public class EmptyTileBehavior : MonoBehaviour
         Train trainComponent = train.GetComponent<Train>();
         trainComponent.Initialize(Random.Range(14, 26), 8, GameStateResources.currentTrainStationId);
     }
-
 }
