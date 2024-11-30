@@ -35,7 +35,7 @@ public class RailBehavior : MonoBehaviour
         meshFilter = GetComponent<MeshFilter>();
 
         // Set the initial mesh
-        UpdateRailStyle();
+        //UpdateRailStyle();
     }
 
     public void AddTrainOrder(int trainID, int orderID)
