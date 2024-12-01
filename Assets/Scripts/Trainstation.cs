@@ -97,6 +97,7 @@ public class Trainstation : MonoBehaviour
 
    public void spawnTrain(List<Vector2> railway)
     {
+        
         currentRailway = railway;
         occupied = true;
         GameObject train = new();

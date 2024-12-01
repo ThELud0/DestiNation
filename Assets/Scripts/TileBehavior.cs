@@ -90,7 +90,7 @@ public class TileBehavior : MonoBehaviour
             else if (currentPos.x < nextPos.x)
             {
                 //gb
-                rotation = Quaternion.Euler(0f, -90f, 0f);
+                rotation = Quaternion.Euler(0f, 180f, 0f);
                 CreateTurnRail(rotation);
             }
             else if (currentPos.y > nextPos.y)
