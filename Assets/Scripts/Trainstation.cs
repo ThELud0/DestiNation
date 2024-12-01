@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 using System.Collections.Generic;
 using TMPro.Examples;
-using Unity.Events;
+using UnityEngine.Events;
 
 public class Trainstation : MonoBehaviour
 {
@@ -44,8 +44,9 @@ public class Trainstation : MonoBehaviour
         {
             changeNature();
         }
-        /*
-        if (Mouse.current.leftButton.wasPressedThisFrame)
+
+       /* if (Mouse.current.leftButton.wasPressedThisFrame)
+
         {
             destinyType++;
             destinyType = destinyType % 4;
@@ -81,7 +82,7 @@ public class Trainstation : MonoBehaviour
 
 
 
-    void spawnTrain(List<Vector2> railway)
+    public void spawnTrain(List<Vector2> railway)
     {
         currentRailway = railway;
         occupied = true;
