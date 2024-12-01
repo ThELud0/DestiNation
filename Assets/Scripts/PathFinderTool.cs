@@ -42,8 +42,10 @@ void Update(){
         Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 
         RaycastHit[] hits = Physics.RaycastAll(ray, 100, unspawnableZone);
-        if (hits.Length > 0) {
-            foreach(RaycastHit hit in hits){
+        if (hits.Length > 0) 
+        {
+            foreach(RaycastHit hit in hits)
+             {
                 Debug.Log("the tag is "+hit.transform.gameObject.tag);
                 if(hit.transform.gameObject.tag == "Trainstation"){
                     trainChanged(hit.transform.gameObject.GetComponent<Trainstation>());
@@ -71,11 +73,11 @@ void Update(){
             }
 
         }
-
-        if(Physics.Raycast(ray, 100)){
+        RaycastHit hit2;
+        if(Physics.Raycast(ray, out hit2, 100)){
             Debug.Log("begin Path");
 
-            AddToPathOfTuile(hits[0].transform.position, false);
+            AddToPathOfTuile(hit2.transform.position, false);
         }else{
             Debug.Log("not detected");
         }
@@ -204,7 +206,7 @@ void Update(){
     }
 
     private void Visualize(Vector2 pos){
-            Instantiate(visualitor, new Vector3(pos.x, 2, pos.y), Quaternion.identity);
+            //Instantiate(visualitor, new Vector3(pos.x, 2, pos.y), Quaternion.identity);
     }
 
     private void pathCompleted(){
