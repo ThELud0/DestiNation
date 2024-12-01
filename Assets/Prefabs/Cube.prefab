@@ -143,3 +143,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   railPrefab: {fileID: 6872931132089904781, guid: 3c9beab240c39d1499eccca9498d2b0d, type: 3}
+  railTurnPrefab: {fileID: 2573125805078828792, guid: 768291306f9eb7b47a1a82eeb3d2316a, type: 3}
