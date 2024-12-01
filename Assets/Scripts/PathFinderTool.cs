@@ -11,7 +11,7 @@ public class PathFinderTool : MonoBehaviour
 
     private Trainstation current_trainstation = null;
 
-    public UnityEvent OnPathFound = new ();
+    public UnityEvent<List<Vector2>> OnPathFound = new ();
 
     public UnityEvent<List<Vector2>> OnBeginPathSet = new ();
 
@@ -24,6 +24,8 @@ public class PathFinderTool : MonoBehaviour
     public GameObject visualitor;
 
     public string[] list_String_unspawnable_baby;
+
+    public Levelgenerator levelGeneratorInstance;
     
 
 void Update(){
@@ -38,13 +40,14 @@ void Update(){
      void mouse_clicked()
    {
 
-                        Debug.Log("mouuuuse");
-
+        Debug.Log("mouuuuse");
         Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 
         RaycastHit[] hits = Physics.RaycastAll(ray, 100, unspawnableZone);
-        if (hits.Length > 0) {
-            foreach(RaycastHit hit in hits){
+        if (hits.Length > 0) 
+        {
+            foreach(RaycastHit hit in hits)
+             {
                 Debug.Log("the tag is "+hit.transform.gameObject.tag);
                 if(hit.transform.gameObject.tag == "Trainstation"){
                     trainChanged(hit.transform.gameObject.GetComponent<Trainstation>());
@@ -72,11 +75,11 @@ void Update(){
             }
 
         }
+        RaycastHit hit2;
+        if(Physics.Raycast(ray, out hit2, 100)){
+            Debug.Log("begin Path");
 
-        if(Physics.Raycast(ray, 100)){
-                Debug.Log("begin Path");
-
-            AddToPathOfTuile(hits[0].transform.position, false);
+            AddToPathOfTuile(hit2.transform.position, false);
         }else{
             Debug.Log("not detected");
         }
@@ -194,7 +197,7 @@ void Update(){
         OnPathFound.RemoveAllListeners();
         current_trainstation = newTrainStation;
         precedent_pos_mouse_pressed = new Vector2(newTrainStation.transform.position.x, newTrainStation.transform.position.z);
-        //OnPathFound.AddListener(current_trainstation.);
+        OnPathFound.AddListener(current_trainstation.spawnTrain);
    }
 
 
@@ -205,15 +208,15 @@ void Update(){
     }
 
     private void Visualize(Vector2 pos){
-            GameObject g = Instantiate(visualitor);
-            g.transform.position = new Vector3(pos.x, 2, pos.y);
+            //Instantiate(visualitor, new Vector3(pos.x, 2, pos.y), Quaternion.identity);
     }
 
     private void pathCompleted(){
         Debug.Log("path completed"+ list_tuiles_path);
         printPath();
         precedent_pos_mouse_pressed = Vector2.zero;
-        OnPathFound.Invoke();
+        OnPathFound.Invoke(list_tuiles_path);
+        levelGeneratorInstance.CheckCurrent(list_tuiles_path);
    }
 
 }

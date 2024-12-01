@@ -133,7 +133,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5355939622477294630, guid: c956c1a988a67c34a81a49eaa53b6706, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5355939622477294630, guid: c956c1a988a67c34a81a49eaa53b6706, type: 3}
       propertyPath: m_LocalPosition.z
@@ -434,6 +434,56 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 1
+--- !u!1 &746793314 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2715802535821775, guid: 3720c9a0428d28e4f97bc835f914c671, type: 3}
+  m_PrefabInstance: {fileID: 6064803648820989097}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &746793317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 746793314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9255418517bcf943bb2e7a07f5ac5f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnPathFound:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBeginPathSet:
+    m_PersistentCalls:
+      m_Calls: []
+  unspawnableZone:
+    serializedVersion: 2
+    m_Bits: 247
+  visualitor: {fileID: 7903051777942275954, guid: ca92439ebb026074d92df85b58e48443, type: 3}
+  list_String_unspawnable_baby:
+  - Structure
+  - Trainstation
+--- !u!114 &746793318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 746793314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2a8ca43e67499b43b31f86f73130107, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blockPrefab: {fileID: 8651519298966343816, guid: 65883276e6db3194eafdc2da577a7d15, type: 3}
+  big_forest_prefab: {fileID: 7746342499448250147, guid: b265ac234698bb44f83e772d79ebad68, type: 3}
+  moutain_prefab: {fileID: 3269038912783853773, guid: 5fe4da2cca72f254fa42220f8dc65508, type: 3}
+  dim_x_block: 30
+  dim_z_block: 30
+  list_big_forest: []
+  list_mountains: []
+  floor_Y: 1
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -491,6 +541,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1418452151733360444, guid: a5f46bd5576355a43a7075a3e49175d2, type: 3}
+      propertyPath: m_TagString
+      value: Trainstation
+      objectReference: {fileID: 0}
     - target: {fileID: 1671699591389387673, guid: a5f46bd5576355a43a7075a3e49175d2, type: 3}
       propertyPath: m_Name
       value: Trainstation (1)
@@ -501,7 +555,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7929160426795005072, guid: a5f46bd5576355a43a7075a3e49175d2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7929160426795005072, guid: a5f46bd5576355a43a7075a3e49175d2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -552,6 +606,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: 27x27cubes
       objectReference: {fileID: 0}
+    - target: {fileID: 3017398705540129454, guid: f23bf8737a5daf645b9c92c80313e307, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4628596566051648621, guid: f23bf8737a5daf645b9c92c80313e307, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -591,6 +649,10 @@ PrefabInstance:
     - target: {fileID: 4628596566051648621, guid: f23bf8737a5daf645b9c92c80313e307, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5922153313009599941, guid: f23bf8737a5daf645b9c92c80313e307, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -649,10 +711,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5283828226989980947, guid: 3720c9a0428d28e4f97bc835f914c671, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2715802535821775, guid: 3720c9a0428d28e4f97bc835f914c671, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 746793318}
+    - targetCorrespondingSourceObject: {fileID: 2715802535821775, guid: 3720c9a0428d28e4f97bc835f914c671, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 746793317}
   m_SourcePrefab: {fileID: 100100000, guid: 3720c9a0428d28e4f97bc835f914c671, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
