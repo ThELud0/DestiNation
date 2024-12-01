@@ -123,6 +123,17 @@ public class Train : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider collision)
+    {
+ 
+        if (collision.CompareTag("Human"))
+        {
+            onTrainArrived.Invoke();
+            Destroy(collision.gameObject);
+            Destroy(gameObject);
+        }
+    }
+
 
     private void Destroy(){
         GameStateResources.compteurTrain--;

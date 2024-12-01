@@ -13,7 +13,7 @@ public class Human : MonoBehaviour
     {
         
     }
-
+    /*
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Train"))
@@ -22,7 +22,7 @@ public class Human : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
+    */
     private void OnMouseOver()
     {
         if (GameStateResources.mouseButtonHeldDown && 
