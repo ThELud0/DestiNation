@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 using System.Collections.Generic;
 using TMPro.Examples;
+using Unity.Events;
 
 public class Trainstation : MonoBehaviour
 {
@@ -10,7 +11,9 @@ public class Trainstation : MonoBehaviour
     float trainlifetime;
     float trainspeed;
     int destinyType;
-    List<Vector2> test;
+    List<Vector2> currentRailway;
+    public bool occupied = false;
+    public UnityEvent<List<Vector2>> onTrainHasArrived = new();
 
 
     [SerializeField] GameObject rockstarTrain;
@@ -22,29 +25,32 @@ public class Trainstation : MonoBehaviour
     void Start()
     {
         destinyTimer = Time.time + Random.Range(3, 10);
-
+        /*
         test = new List<Vector2>();
-        for (int i = 5; i<15; i++)
+        for (int i = 5; i<18; i++)
         {
             test.Add(new Vector2(i, 5));
         }
         for (int i = 5; i < 15; i++)
         {
-            test.Add(new Vector2(14, i));
-        }
+            test.Add(new Vector2(17, i));
+        }*/
     }
 
     void Update()
     {
+        
         if (Time.time >= destinyTimer)
         {
             changeNature();
         }
-
+        /*
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
+            destinyType++;
+            destinyType = destinyType % 4;
             spawnTrain(test);
-        }
+        }*/
     }
 
     void changeNature()
@@ -77,38 +83,51 @@ public class Trainstation : MonoBehaviour
 
     void spawnTrain(List<Vector2> railway)
     {
+        currentRailway = railway;
+        occupied = true;
         GameObject train = new();
-            if (GameStateResources.trainstationDestinyType == 0)
+            if (destinyType == 0)
             {
             trainlifetime = Random.Range(14, 26);
             trainspeed = 8;
-             train = Instantiate(lambdaTrain, new Vector3(5f,1f,0f), Quaternion.identity);
+            //train = Instantiate(lambdaTrain, new Vector3(railway[0].x, 1f, railway[0].y), Quaternion.Euler(0, -90, 0));
+            train = Instantiate(lambdaTrain, new Vector3(railway[0].x, 1f, railway[0].y), Quaternion.identity);
         }
-            else if (GameStateResources.trainstationDestinyType == 1)
+            else if (destinyType == 1)
             {
             trainlifetime = Random.Range(14, 26);
             trainspeed = 6;
-             train = Instantiate(dictatorTrain, new Vector3(5f, 1f, 0f), Quaternion.LookRotation(-dictatorTrain.transform.forward));
+            //train = Instantiate(dictatorTrain, new Vector3(railway[0].x, 1f, railway[0].y), Quaternion.LookRotation(-dictatorTrain.transform.forward));
+            train = Instantiate(dictatorTrain, new Vector3(railway[0].x, 1f, railway[0].y), Quaternion.identity);
         }
-            else if (GameStateResources.trainstationDestinyType == 2)
+            else if (destinyType == 2)
             {
                 trainlifetime = 9;
                 trainspeed = 12;
-                 train = Instantiate(rockstarTrain, new Vector3(5f, 1f, 0f), Quaternion.identity);
+                 train = Instantiate(rockstarTrain, new Vector3(railway[0].x, 1f, railway[0].y), Quaternion.identity);
             }
-            else if (GameStateResources.trainstationDestinyType == 3)
+            else if (destinyType == 3)
             {
             trainlifetime = Random.Range(34, 40);
             trainspeed = 5;
-             train = Instantiate(oldTrain, new Vector3(5f, 1f, 0f), Quaternion.identity);
+             train = Instantiate(oldTrain, new Vector3(railway[0].x, 1f, railway[0].y), Quaternion.identity);
         }
         if (train.GetComponent<Train>() != null)
         {
             Debug.Log("here");
             Train trainComponent = train.GetComponent<Train>();
             trainComponent.Initialize(trainlifetime, trainspeed, railway);
+            trainComponent.onTrainArrived.AddListener(trainHasArrived);
         }
 
+
+
+    }
+
+    void trainHasArrived()
+    {
+        occupied = false;
+        onTrainHasArrived.Invoke(currentRailway);
     }
 
 
