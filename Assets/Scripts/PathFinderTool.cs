@@ -11,7 +11,7 @@ public class PathFinderTool : MonoBehaviour
 
     private Trainstation current_trainstation = null;
 
-    public UnityEvent OnPathFound = new ();
+    public UnityEvent<List<Vector2>> OnPathFound = new ();
 
     public UnityEvent<List<Vector2>> OnBeginPathSet = new ();
 
@@ -24,6 +24,8 @@ public class PathFinderTool : MonoBehaviour
     public GameObject visualitor;
 
     public string[] list_String_unspawnable_baby;
+
+    public Levelgenerator levelGeneratorInstance;
     
 
 void Update(){
@@ -194,7 +196,7 @@ void Update(){
         OnPathFound.RemoveAllListeners();
         current_trainstation = newTrainStation;
         precedent_pos_mouse_pressed = new Vector2(newTrainStation.transform.position.x, newTrainStation.transform.position.z);
-        //OnPathFound.AddListener(current_trainstation.);
+        OnPathFound.AddListener(current_trainstation.spawnTrain);
    }
 
 
@@ -213,7 +215,8 @@ void Update(){
         Debug.Log("path completed"+ list_tuiles_path);
         printPath();
         precedent_pos_mouse_pressed = Vector2.zero;
-        OnPathFound.Invoke();
+        OnPathFound.Invoke(list_tuiles_path);
+        levelGeneratorInstance.CheckPath(list_tuiles_path);
    }
 
 }

@@ -18,6 +18,8 @@ public class Trainstation : MonoBehaviour
     [SerializeField] GameObject dictatorTrain;
     [SerializeField] GameObject lambdaTrain;
 
+    private float floory = 3f;
+
     [SerializeField] GameObject departure;
     void Start()
     {
@@ -75,32 +77,32 @@ public class Trainstation : MonoBehaviour
 
 
 
-    void spawnTrain(List<Vector2> railway)
+   public void spawnTrain(List<Vector2> railway)
     {
         GameObject train = new();
             if (GameStateResources.trainstationDestinyType == 0)
             {
             trainlifetime = Random.Range(14, 26);
             trainspeed = 8;
-             train = Instantiate(lambdaTrain, new Vector3(5f,1f,0f), Quaternion.identity);
+             train = Instantiate(lambdaTrain, new Vector3(5f,floory,0f), Quaternion.identity);
         }
             else if (GameStateResources.trainstationDestinyType == 1)
             {
             trainlifetime = Random.Range(14, 26);
             trainspeed = 6;
-             train = Instantiate(dictatorTrain, new Vector3(5f, 1f, 0f), Quaternion.LookRotation(-dictatorTrain.transform.forward));
+             train = Instantiate(dictatorTrain, new Vector3(5f, floory, 0f), Quaternion.LookRotation(-dictatorTrain.transform.forward));
         }
             else if (GameStateResources.trainstationDestinyType == 2)
             {
                 trainlifetime = 9;
                 trainspeed = 12;
-                 train = Instantiate(rockstarTrain, new Vector3(5f, 1f, 0f), Quaternion.identity);
+                 train = Instantiate(rockstarTrain, new Vector3(5f, floory, 0f), Quaternion.identity);
             }
             else if (GameStateResources.trainstationDestinyType == 3)
             {
             trainlifetime = Random.Range(34, 40);
             trainspeed = 5;
-             train = Instantiate(oldTrain, new Vector3(5f, 1f, 0f), Quaternion.identity);
+             train = Instantiate(oldTrain, new Vector3(5f, floory, 0f), Quaternion.identity);
         }
         if (train.GetComponent<Train>() != null)
         {
