@@ -32,6 +32,9 @@ public class Train : MonoBehaviour
             isMoving = true;
             SetNextTarget();
         }
+
+        transform.position = currentTarget;
+
         /*
         Vector3 direction = currentTarget - transform.position;
         if (direction != Vector3.zero)
