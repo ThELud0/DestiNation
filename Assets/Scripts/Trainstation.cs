@@ -110,6 +110,7 @@ public class Trainstation : MonoBehaviour
             {
             trainlifetime = Random.Range(14, 26);
             trainspeed = 6;
+            GameStateResources.compteurDictator++;
              train = Instantiate(dictatorTrain, new Vector3(5f, floory, 0f), Quaternion.LookRotation(-dictatorTrain.transform.forward));
         }
             else if (destinyType == 2)
@@ -122,13 +123,15 @@ public class Trainstation : MonoBehaviour
             {
             trainlifetime = Random.Range(34, 40);
             trainspeed = 5;
+            GameStateResources.compteurOld++;
              train = Instantiate(oldTrain, new Vector3(5f, floory, 0f), Quaternion.identity);
         }
         if (train.GetComponent<Train>() != null)
         {
             Debug.Log("here");
+            GameStateResources.compteurTrain++;
             Train trainComponent = train.GetComponent<Train>();
-            trainComponent.Initialize(trainlifetime, trainspeed, railway);
+            trainComponent.Initialize(trainlifetime, trainspeed, railway,destinyType);
             trainComponent.onTrainArrived.AddListener(trainHasArrived);
         }
 
