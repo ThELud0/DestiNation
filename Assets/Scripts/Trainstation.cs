@@ -36,15 +36,15 @@ public class Trainstation : MonoBehaviour
 
     void Update()
     {
-        if (Time.time >= destinyTimer)
+       /* if (Time.time >= destinyTimer)
         {
             changeNature();
-        }
+        }*/
 
-        if (Mouse.current.leftButton.wasPressedThisFrame)
+       /* if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             spawnTrain(test);
-        }
+        }*/
     }
 
     void changeNature()

@@ -2,11 +2,12 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class PathFinderTool : MonoBehaviour
 {
 
-    private Vector2 precedent_pos_mouse_pressed = null, current_pos_mouse_pressed = null;
+    private Vector2 precedent_pos_mouse_pressed, current_pos_mouse_pressed;
 
     private Trainstation current_trainstation = null;
 
@@ -18,43 +19,72 @@ public class PathFinderTool : MonoBehaviour
 
     private Levelgenerator tuile_manager;
 
+    public LayerMask unspawnableZone;
+
+    public GameObject visualitor;
+
     public string[] list_String_unspawnable_baby;
     
 
-     void OnMouseDown()
+void Update(){
+    if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+      mouse_clicked();
+            
+        }
+}
+
+
+     void mouse_clicked()
    {
+
+                        Debug.Log("mouuuuse");
+
         Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 
-        RaycastHit[] hits = Physics.RaycastAll(ray, out hit, 100);
+        RaycastHit[] hits = Physics.RaycastAll(ray, 100, unspawnableZone);
         if (hits.Length > 0) {
             foreach(RaycastHit hit in hits){
-                if(hit.transform.gameObject.tag == "TrainStation"){
-                    trainChanged(hit.transform.gameObject.GetComponent<TrainStation>());
+                Debug.Log("the tag is "+hit.transform.gameObject.tag);
+                if(hit.transform.gameObject.tag == "Trainstation"){
+                    trainChanged(hit.transform.gameObject.GetComponent<Trainstation>());
+                    Debug.Log("trainnnn");
                     return;
                 }
 
                 if(hit.transform.gameObject.tag == "Human"){
-                    pathCompleted();
+                    AddToPathOfTuile(hit.transform.position, true);
+                    Debug.Log("baaby");
+
                     return;
                 }
 
                 if(hit.transform.gameObject.tag == "Structure"){
                     resetpath();
+                    Debug.Log("on annulle");
+
                     return;
                 }
 
-                if(precedent_pos_mouse_pressed==null){
+                if(precedent_pos_mouse_pressed==Vector2.zero){
                     return;
                 }
             }
 
-            AddToPathOfTuile(hit.transform.position);
+        }
+
+        if(Physics.Raycast(ray, 100)){
+                Debug.Log("begin Path");
+
+            AddToPathOfTuile(hits[0].transform.position, false);
+        }else{
+            Debug.Log("not detected");
         }
    }
 
 
      bool isTileFreeForRail(Vector2 tested_vec){
-        transform.position = new Vector3(tested_vec.x, floorY+3, tested_vec.y);
+        transform.position = new Vector3(tested_vec.x, 3, tested_vec.y);
         Ray ray_test = new Ray(transform.position, Vector3.down);
         RaycastHit[] hits =  Physics.RaycastAll(ray_test, 2f);
             if (hits.Length > 0)
@@ -84,13 +114,25 @@ public class PathFinderTool : MonoBehaviour
     }
    
 
-   private int dir(float a, float b){
-        return (b-a)/Mathf.abs(b-a);
+   private float dir(float a, float b){
+        return (b-a)/Mathf.Abs(b-a);
    }
 
-   private void AddToPathOfTuile(Vector3 posMouse){
-        current_pos_mouse_pressed=posMouse;
+   private void AddToPathOfTuile(Vector3 posMouse, bool isEnd = true){
+
+    
+                if(precedent_pos_mouse_pressed==Vector2.zero){
+                    return;
+                }
+        current_pos_mouse_pressed=new Vector2(posMouse.x, posMouse.z);
         TestAddTuileToPath(new Vector2(precedent_pos_mouse_pressed.x, precedent_pos_mouse_pressed.y), new Vector2(current_pos_mouse_pressed.x, current_pos_mouse_pressed.y));
+        if (isEnd){
+            pathCompleted();
+            return;
+        }else{
+            precedent_pos_mouse_pressed=current_pos_mouse_pressed;
+        }
+        return;
 
    }
 
@@ -105,11 +147,14 @@ public class PathFinderTool : MonoBehaviour
    
 
    private void TestAddTuileToPath(Vector2 start, Vector2 end){
+    Debug.Log("ok on va de "+start+" a "+end);
     Vector2 newStart = new Vector2(start.x, start.y);
         if (newStart.x != end.x){
                 newStart.x = newStart.x + dir(newStart.x, end.x);
                 if (isTileFreeForRail(newStart)){
                         list_tuiles_path.Add(newStart);
+                                                Visualize(newStart);
+
                         TestAddTuileToPath(newStart, end);
                         return;
                 }
@@ -121,13 +166,13 @@ public class PathFinderTool : MonoBehaviour
             newStart.y = newStart.y + dir(newStart.y, end.y);
                 if (isTileFreeForRail(newStart)){
                         list_tuiles_path.Add(newStart);
+                        Visualize(newStart);
                         TestAddTuileToPath(newStart, end);
                         return;
                 }
         }
 
         if (newStart == end){
-            pathCompleted();
             return;
         }
         resetpath();
@@ -135,6 +180,8 @@ public class PathFinderTool : MonoBehaviour
 
    private void resetpath(){
         list_tuiles_path.Clear();
+        precedent_pos_mouse_pressed = Vector2.zero;
+        current_pos_mouse_pressed = Vector2.zero;
         OnBeginPathSet.Invoke(null);
    }
 
@@ -142,14 +189,30 @@ public class PathFinderTool : MonoBehaviour
         OnBeginPathSet.Invoke(list_tuiles_path);
    }
 
-   private void trainChanged(GameObject newTrainStation){
+   private void trainChanged(Trainstation newTrainStation){
         resetpath();
         OnPathFound.RemoveAllListeners();
         current_trainstation = newTrainStation;
+        precedent_pos_mouse_pressed = new Vector2(newTrainStation.transform.position.x, newTrainStation.transform.position.z);
         //OnPathFound.AddListener(current_trainstation.);
    }
 
+
+    public void printPath(){
+        foreach(Vector2 vec in list_tuiles_path){
+            Debug.Log(vec);
+        }
+    }
+
+    private void Visualize(Vector2 pos){
+            GameObject g = Instantiate(visualitor);
+            g.transform.position = new Vector3(pos.x, 2, pos.y);
+    }
+
     private void pathCompleted(){
+        Debug.Log("path completed"+ list_tuiles_path);
+        printPath();
+        precedent_pos_mouse_pressed = Vector2.zero;
         OnPathFound.Invoke();
    }
 
