@@ -29,7 +29,7 @@ public class MusicManager : MonoBehaviour
         Basse.Play();
         LocoBase.Play();
 
-        StartCoroutine(TestSounds());
+        // StartCoroutine(TestSounds());
     }
 
     public void SetVolumeTimbale(float _volume){

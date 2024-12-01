@@ -13,7 +13,10 @@ public class Trainstation : MonoBehaviour
     int destinyType;
     List<Vector2> currentRailway;
     public bool occupied = false;
+    public Vector3 startPoint;
     public UnityEvent<List<Vector2>> onTrainHasArrived = new();
+
+    
 
 
     [SerializeField] GameObject rockstarTrain;
@@ -37,6 +40,14 @@ public class Trainstation : MonoBehaviour
         {
             test.Add(new Vector2(17, i));
         }*/
+    }
+
+    public Vector2[] getStartRailPosition()
+    {
+        Vector2[] l = new Vector2[2];
+        l[0] = new Vector2 (startPoint.x, startPoint.z+1);
+        l[1]= new Vector2 (startPoint.x, startPoint.z-1);
+        return l;
     }
 
     void Update()

@@ -60,6 +60,10 @@ public class Levelgenerator : MonoBehaviour
         CheckCurrent(listVectors);
     }
 
+    public void destroyCurrentRail(){
+        
+    }
+
 
     public void CheckCurrent(List<Vector2> railway)
     {
