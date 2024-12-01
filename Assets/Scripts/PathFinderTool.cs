@@ -153,7 +153,7 @@ void Update(){
                 newStart.x = newStart.x + dir(newStart.x, end.x);
                 if (isTileFreeForRail(newStart)){
                         list_tuiles_path.Add(newStart);
-                                                Visualize(newStart);
+                        Visualize(newStart);
 
                         TestAddTuileToPath(newStart, end);
                         return;
