@@ -28,9 +28,21 @@ public class Train : MonoBehaviour
     void Start(){
         if (railway.Count > 0)
         {
+            currentTargetIndex++;
             isMoving = true;
             SetNextTarget();
         }
+        /*
+        Vector3 direction = currentTarget - transform.position;
+        if (direction != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+
+            Quaternion rotationOffset = Quaternion.Euler(0, 90, 0);
+            targetRotation *= rotationOffset;
+
+            transform.rotation = targetRotation;
+        }*/
     }
 
     void Update()
@@ -81,7 +93,7 @@ public class Train : MonoBehaviour
         if (direction != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(direction);
-
+            
             Quaternion rotationOffset = Quaternion.Euler(0, -90, 0);
             targetRotation *= rotationOffset;
 
@@ -94,8 +106,14 @@ public class Train : MonoBehaviour
         if (collision.collider.CompareTag("Train"))
         {
             onTrainArrived.Invoke();
-            Destroy(collision.gameObject);
-            Destroy(gameObject);
+            //Destroy(collision.gameObject);
+            Destroy(transform.gameObject);
+        }
+        if (collision.collider.CompareTag("Human"))
+        {
+            onTrainArrived.Invoke();
+           //Destroy(collision.gameObject);
+            Destroy(transform.gameObject);
         }
     }
 
