@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using Unity.VisualScripting;
 
 public class PathFinderTool : MonoBehaviour
 {
@@ -349,8 +350,10 @@ void Update(){
         Debug.Log("path completed"+ list_tuiles_path);
         printPath();
         precedent_pos_mouse_pressed = Vector2.zero;
+        current_trainstation.GetComponent<Trainstation>().onTrainHasArrived.AddListener(levelGeneratorInstance.DeleteCurrent);
         OnPathFound.Invoke(list_tuiles_path);
         levelGeneratorInstance.CheckCurrent(list_tuiles_path);
+        
    }
 
 }

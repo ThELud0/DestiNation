@@ -53,11 +53,12 @@ public class Levelgenerator : MonoBehaviour
         //tilesMap[x1, z1].createRail(param);
         List<Vector2> listVectors = new List<Vector2> { new Vector2(1, 1), new Vector2(1, 2),
             new Vector2(1, 3), new Vector2(2, 3), new Vector2(3, 3),
-            new Vector2(3, 4), new Vector2(4, 4), new Vector2(4, 5), new Vector2(5, 5),
-            new Vector2(5, 6), new Vector2(4, 6), new Vector2(3,6), new Vector2(3, 7), new Vector2(2, 7)
+            new Vector2(3, 4), new Vector2(3, 5), new Vector2(3, 6), new Vector2(4, 6),
+            new Vector2(4, 5), new Vector2(3, 5), new Vector2(2,5), new Vector2(2, 6)
 
         };
         CheckCurrent(listVectors);
+        DeleteCurrent(listVectors);
     }
 
     public void destroyCurrentRail(){
@@ -81,15 +82,32 @@ public class Levelgenerator : MonoBehaviour
 
             }
 
-            
+        }
 
 
-           
+    }
 
+    public void DeleteCurrent(List<Vector2> railway)
+    {
 
+        for (int i = 0; i < railway.Count - 1; i++)
+        {
+            Vector2 currentPos = railway[i];
+            Vector2 nextPos = railway[i + 1];
+            Quaternion rotation = Quaternion.identity;
+
+            if (i > 0)
+            {
+                Vector2 previousPos = railway[i - 1];
+                tilesMap[(int)currentPos.x, (int)currentPos.y].GetComponent<TileBehavior>().DeleteRail();
+
+            }
 
         }
+
+   
     }
+
 }
 
 
