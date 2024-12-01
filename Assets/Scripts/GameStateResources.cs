@@ -26,4 +26,8 @@ public static class GameStateResources
 
     public static int trainstationDestinyType;
     public static Vector3 trainstationPosition;
+
+    public static int compteurDictator;
+    public static int compteurTrain;
+    public static int compteurOld;
 }
