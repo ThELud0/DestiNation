@@ -10,6 +10,8 @@ public class Train : MonoBehaviour
     //public int trainID;
     List<Vector2> railway;
 
+    int destinyType;
+
     private int currentTargetIndex = 0; // Index of the current waypoint
     private Vector3 currentTarget; // The current target position in 3D space
     private bool isMoving = false; // Is the train moving?
@@ -17,11 +19,12 @@ public class Train : MonoBehaviour
     public UnityEvent onTrainArrived = new ();
 
     //[SerializeField] GameObject raycastOrigin;
-    public void Initialize(float lifetime, float speed, List<Vector2> railway)
+    public void Initialize(float lifetime, float speed, List<Vector2> railway, int destinyType)
     {
         this.lifetime = lifetime;
         this.speed = speed;
         this.railway = railway;
+        this.destinyType = destinyType;
     }
 
 
@@ -110,14 +113,25 @@ public class Train : MonoBehaviour
         {
             onTrainArrived.Invoke();
             //Destroy(collision.gameObject);
-            Destroy(transform.gameObject);
+            Destroy();
         }
         if (collision.collider.CompareTag("Human"))
         {
             onTrainArrived.Invoke();
            //Destroy(collision.gameObject);
-            Destroy(transform.gameObject);
+            Destroy();
         }
+    }
+
+
+    private void Destroy(){
+        GameStateResources.compteurTrain--;
+        if (destinyType == 1){
+            GameStateResources.compteurDictator--;
+        }else if (destinyType == 3){
+            GameStateResources.compteurOld--;
+        }
+        Destroy(gameObject);
     }
 
     /*

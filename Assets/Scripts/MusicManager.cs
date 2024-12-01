@@ -29,7 +29,26 @@ public class MusicManager : MonoBehaviour
         Basse.Play();
         LocoBase.Play();
 
-        StartCoroutine(TestSounds());
+        //StartCoroutine(TestSounds());
+    }
+
+    void Update(){
+        if (GameStateResources.compteurTrain>0){
+            SetVolumeLocoBase(1);
+        }else{
+            SetVolumeLocoBase(0);
+        }
+        if (GameStateResources.compteurDictator>0){
+            SetVolumeTimbale(1);
+        }else{
+            SetVolumeTimbale(0);
+        }
+        if (GameStateResources.compteurOld>0){
+            SetVolumeBasse(1);
+        }else{
+            SetVolumeBasse(0);
+        }
+
     }
 
     public void SetVolumeTimbale(float _volume){
