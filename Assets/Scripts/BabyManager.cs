@@ -31,7 +31,7 @@ public class BabyManager : MonoBehaviour
     void Start()
     {
         //spawn_baby_random_place();
-        //StartCoroutine(LoopSpawnBaby());
+        StartCoroutine(LoopSpawnBaby());
     }
 
     Vector2 getRandomVector2(){

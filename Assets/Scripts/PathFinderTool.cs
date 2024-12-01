@@ -216,7 +216,7 @@ void Update(){
         printPath();
         precedent_pos_mouse_pressed = Vector2.zero;
         OnPathFound.Invoke(list_tuiles_path);
-        levelGeneratorInstance.CheckPath(list_tuiles_path);
+        levelGeneratorInstance.CheckCurrent(list_tuiles_path);
    }
 
 }

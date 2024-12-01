@@ -21,7 +21,7 @@ public class Trainstation : MonoBehaviour
     [SerializeField] GameObject dictatorTrain;
     [SerializeField] GameObject lambdaTrain;
 
-    private float floory = 3f;
+    private float floory = 2f;
 
     [SerializeField] GameObject departure;
     void Start()
