@@ -53,7 +53,8 @@ public class Levelgenerator : MonoBehaviour
         //tilesMap[x1, z1].createRail(param);
         List<Vector2> listVectors = new List<Vector2> { new Vector2(1, 1), new Vector2(1, 2),
             new Vector2(1, 3), new Vector2(2, 3), new Vector2(3, 3),
-            new Vector2(3, 4), new Vector2(4, 4), new Vector2(4, 5), new Vector2(5, 5)
+            new Vector2(3, 4), new Vector2(4, 4), new Vector2(4, 5), new Vector2(5, 5),
+            new Vector2(5, 6), new Vector2(4, 6), new Vector2(3,6), new Vector2(3, 7), new Vector2(2, 7)
 
         };
         CheckCurrent(listVectors);
@@ -71,8 +72,8 @@ public class Levelgenerator : MonoBehaviour
 
             if (i > 0)
             {
-                Vector2 lastPos = railway[i - 1];
-                tilesMap[(int)currentPos.x, (int)currentPos.y].GetComponent<TileBehavior>().CheckPath(currentPos, nextPos, lastPos);
+                Vector2 previousPos = railway[i - 1];
+                tilesMap[(int)currentPos.x, (int)currentPos.y].GetComponent<TileBehavior>().CheckPath(currentPos, nextPos, previousPos);
 
             }
 

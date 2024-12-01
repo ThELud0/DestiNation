@@ -25,66 +25,106 @@ public class TileBehavior : MonoBehaviour
     }
 
 
-    public void CheckPath(Vector2 currentPos, Vector2 nextPos, Vector2 lastPos)
+    public void CheckPath(Vector2 currentPos, Vector2 nextPos, Vector2 previousPos)
     {
 
-        Vector2 turnDir = nextPos - currentPos;
+        //Vector2 turnDir = nextPos - currentPos;
         Quaternion rotation = Quaternion.identity;
 
-            
-                if (turnDir == new Vector2(1, 0))
-                {
-                    rotation = Quaternion.Euler(0f, -90f, 0f);
-                    CreateTurnRail(rotation);
-                    return;
-                }
-                else if (turnDir == new Vector2(0, 1))
-                {
-                    rotation = Quaternion.Euler(0f, 90f, 0f);
-                    CreateTurnRail(rotation);
-                    return;
-                 }
-                else if (turnDir == new Vector2(-1, 1) || turnDir == new Vector2(1, -1))
-                {
-                    CreateTurnRail(rotation);
-                     return;
-
-                }
-            
-
-            if (currentPos.x < nextPos.x)
+        if (currentPos.y > previousPos.y)
+        {
+            if (currentPos.x > nextPos.x)
             {
-                // Direction "bas"
-                rotation = Quaternion.Euler(0f, 0f, 0f); // 
-                CreateRail(rotation);
-
+                //dh
+                rotation = Quaternion.Euler(0f, 0f, 0f);
+                CreateTurnRail(rotation);
             }
-            else if (currentPos.x > nextPos.x)
+            else if (currentPos.x < nextPos.x)
             {
-                // Direction "haut"
-                rotation = Quaternion.Euler(0f, 0f, 0f); // Pas de rotation
-                CreateRail(rotation);
-
+                //db
+                rotation = Quaternion.Euler(0f, -90f, 0f);
+                CreateTurnRail(rotation);
             }
             else if (currentPos.y < nextPos.y)
             {
-                // Direction "droite"
-                rotation = Quaternion.Euler(0f, 90f, 0f); // Rotation 90° autour de l'axe Y
+                //d
+                rotation = Quaternion.Euler(0f, 90f, 0f);
                 CreateRail(rotation);
-
+            }
+        }
+        else if (currentPos.x > previousPos.x)
+        {
+            if (currentPos.y < nextPos.y)
+            {
+                //bd
+                rotation = Quaternion.Euler(0f, 90f, 0f);
+                CreateTurnRail(rotation);
             }
             else if (currentPos.y > nextPos.y)
             {
-                // Direction "gauche"
-                CreateRail(rotation);
-
+                //bg
+                rotation = Quaternion.Euler(0f, -90f, 0f);
+                CreateTurnRail(rotation);
             }
-
-
-
-
-
+            else if (currentPos.x < nextPos.x)
+            {
+                //b
+                rotation = Quaternion.Euler(0f, 00f, 0f);
+                CreateRail(rotation);
+            }
         }
+        else if (currentPos.y < previousPos.y)
+        {
+            if (currentPos.x > nextPos.x)
+            {
+                //gh
+                rotation = Quaternion.Euler(0f, 90f, 0f);
+                CreateTurnRail(rotation);
+            }
+            else if (currentPos.x < nextPos.x)
+            {
+                //gb
+                rotation = Quaternion.Euler(0f, -90f, 0f);
+                CreateTurnRail(rotation);
+            }
+            else if (currentPos.y > nextPos.y)
+            {
+                //g
+                rotation = Quaternion.Euler(0f, 90f, 0f);
+                CreateRail(rotation);
+            }
+        }
+        else if (currentPos.x < previousPos.x)
+        {
+            if (currentPos.y < nextPos.y)
+            {
+                //hd
+                rotation = Quaternion.Euler(0f, 180f, 0f);
+                CreateTurnRail(rotation);
+            }
+            else if (currentPos.y > nextPos.y)
+            {
+                //hg
+                rotation = Quaternion.Euler(0f, -90f, 0f);
+                CreateTurnRail(rotation);
+            }
+            else if (currentPos.x > nextPos.x)
+            {
+                //h
+                rotation = Quaternion.Euler(0f, 0f, 0f);
+                CreateRail(rotation);
+            }
+        }
+
+
+
+      
+
+
+
+
+
+    }
     }
     //var monrail
 
