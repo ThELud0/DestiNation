@@ -27,6 +27,10 @@ public class Trainstation : MonoBehaviour
     private float floory = 2f;
 
     [SerializeField] GameObject departure;
+
+    public Vector3 getDeparturePosition(){
+        return departure.transform.position;
+    }
     void Start()
     {
         destinyTimer = Time.time + Random.Range(3, 10);
