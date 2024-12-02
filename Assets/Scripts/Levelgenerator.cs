@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using static UnityEditor.PlayerSettings;
+using UnityEngine.Tilemaps;
 
 
 public class Levelgenerator : MonoBehaviour
@@ -77,6 +78,41 @@ public class Levelgenerator : MonoBehaviour
         return list_index[posx, posy];
     }
 
+    public TileBehavior getTile(int posx, int posy)
+    {
+        return tilesMap[posx, posy].GetComponent<TileBehavior>();
+    }
+    
+    public void colorPathToYellow(List<Vector2> l)
+    {
+       colorPath(l, 0);
+    }
+
+      public void colorPathToRed(List<Vector2> l)
+    {
+       colorPath(l, 1);
+    }
+
+      public void colorPathToGreen(List<Vector2> l)
+    {
+        Debug.Log("go greeeeeeeen"+l.Count);
+       colorPath(l, 2);
+    }
+    
+    public void disableColorsAllTiles()
+    {
+        foreach(GameObject tile in tilesMap){
+            tile.GetComponent<TileBehavior>().disableMarkers();
+        }
+    }
+    public void colorPath(List<Vector2> l, int indexColor)
+    {
+        disableColorsAllTiles();
+        foreach(Vector2 vec in l)
+         {
+            getTile((int)vec.x, (int)vec.y).setMarker(indexColor);
+        }
+    }
     void Generate_Indicator_Matrice(int n){
 
     }
@@ -98,8 +134,9 @@ public class Levelgenerator : MonoBehaviour
             if (i > 0)
             {
                 Vector2 previousPos = railway[i - 1];
-                tilesMap[(int)currentPos.x, (int)currentPos.y].GetComponent<TileBehavior>().CheckPath(currentPos, nextPos, previousPos);
-
+                Vector2 dir = nextPos - previousPos;
+                //tilesMap[(int)currentPos.x, (int)currentPos.y].GetComponent<TileBehavior>().CheckPath(currentPos, nextPos, previousPos);
+                //getTile((int)currentPos.x, (int)currentPos.y).addRail(dir);
             }
 
         }
