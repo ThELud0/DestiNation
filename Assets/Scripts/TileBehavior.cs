@@ -8,7 +8,7 @@ public class TileBehavior : MonoBehaviour
 {
 
     [SerializeField]
-    private GameObject railPrefab, railTurnPrefab, IntersectionQuadrupleEnCroixRM;
+    private GameObject railStraightPrefab, railTurnPrefab, railIntersectionQuadrupleEnCroixRM;
     Vector3 additionnalHeight = new Vector3(0f, 1f, 0f);
     GameObject createdRail;
 
@@ -19,20 +19,31 @@ public class TileBehavior : MonoBehaviour
 
 void Start()
 {
+    disableMeshRails();
     disableMarkers();
+    //CreateRail(railStraightPrefab, new Quaternion());
 }
-    /*public void CreateRail(Quaternion rotation)
+    public void CreateRail(GameObject prefab, Quaternion rotation)
     {
-        if(createdRail == null)
+        if(createdRail != null)
         {
-            createdRail = Instantiate(railPrefab, transform.position + additionnalHeight, rotation);
+            createdRail.SetActive(false);
         }
-        else
-        {
-            Destroy(createdRail);
-            intersectionRail = Instantiate(IntersectionQuadrupleEnCroixRM, transform.position + additionnalHeight, rotation);
+        createdRail = prefab;
+        //intersectionRail = Instantiate(createdRail, transform.position + additionnalHeight, rotation);
+        createdRail.transform.rotation = rotation;
+        prefab.SetActive(true);
+
+        
+        
+    }
+
+    private void disableMeshRails(){
+        /*foreach(GameObject p in new GameObject[]{railStraightPrefab, railTurnPrefab, railIntersectionQuadrupleEnCroixRM}){
+            p.SetActive(false);
         }
-    }*/
+        createdRail = null;*/
+    }
 
    /* public void createRail(GameObject prefabRail, Quaternion){
 
@@ -103,22 +114,43 @@ public void CreateRail(){
     }
 
     private void UpdateRail(){
-                Quaternion rotation = Quaternion.identity;
+            Quaternion rotation = Quaternion.identity;
 
             bool[] info_all_rail = getCodedInformations();
+            Debug.Log(info_all_rail[0] + "/"+info_all_rail[1] + "/"+info_all_rail[2] + "/"+ info_all_rail[3]);
+            Debug.Log(compareBoolLists(info_all_rail,new bool[4]{true,true, false, false}));
+            
 
-            if(info_all_rail == new bool[4]{true, false, true, false}){
+            if(compareBoolLists(info_all_rail,new bool[4]{true,false, true, false})){
+                Debug.Log("on pass par la");
+                rotation = Quaternion.Euler(0f, 0f, 0f);
+                CreateRail(railStraightPrefab,rotation);
+            }else if(compareBoolLists(info_all_rail,new bool[4]{true,true, false, false})){
+                                Debug.Log("non on pass par la");
+
+                rotation = Quaternion.Euler(0f, 0f, 0f);
+                CreateRail(railTurnPrefab,rotation);
+            }else if(compareBoolLists(info_all_rail,new bool[4]{false,true, false, true})){
+                                Debug.Log("non on pass par la");
+
                 rotation = Quaternion.Euler(0f, 90f, 0f);
-                //CreateRail(rotation);
-            }else if(info_all_rail == new bool[4]{false,true, false, true}){
+                CreateRail(railStraightPrefab,rotation);
+            }else{
+                                Debug.Log("enfaite on pass par la");
+
                 rotation = Quaternion.Euler(0f, 0f, 0f);
-                //CreateRail(rotation);
-            }else if(info_all_rail == new bool[4]{false,true, false, true}){
-                rotation = Quaternion.Euler(0f, 0f, 0f);
-                //CreateRail(rotation);
+                CreateRail(railStraightPrefab,rotation);
             }
     }
 
+private bool compareBoolLists(bool[] info_all_rail, bool[] bool_infos){
+    for(int i=0; i<bool_infos.Length; i++){
+            if(bool_infos[i]!=info_all_rail[i]){
+                    return false;
+            }
+    }
+    return true;
+}
 
     public void CheckPath(Vector2 currentPos, Vector2 nextPos, Vector2 previousPos)
     {
@@ -209,9 +241,9 @@ public void CreateRail(){
             }
         }
     }
-    public void DeleteRail()
+   public void DeleteRail()
     {
-        if (createdRail != null)
+        /*if (createdRail != null)
         {
             Destroy(createdRail);
             createdRail = null;
@@ -221,7 +253,7 @@ public void CreateRail(){
             Destroy(intersectionRail);
             intersectionRail = null;
             createdRail = Instantiate(railPrefab, transform.position + additionnalHeight, Quaternion.identity);
-        }
+        }*/
     }
 
     public GameObject RailReturn()

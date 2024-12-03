@@ -70,7 +70,7 @@ public class Levelgenerator : MonoBehaviour
 
         };
         CheckCurrent(listVectors);
-        DeleteCurrent(listVectors);
+        //DeleteCurrent(listVectors);
     }
 
     public int getStateFromTile(int posx, int posy)
@@ -136,7 +136,8 @@ public class Levelgenerator : MonoBehaviour
                 Vector2 previousPos = railway[i - 1];
                 Vector2 dir = nextPos - previousPos;
                 //tilesMap[(int)currentPos.x, (int)currentPos.y].GetComponent<TileBehavior>().CheckPath(currentPos, nextPos, previousPos);
-                //getTile((int)currentPos.x, (int)currentPos.y).addRail(dir);
+                getTile((int)currentPos.x, (int)currentPos.y).addRail(dir);
+                //Debug.Log(dir+" is dir");
             }
 
         }

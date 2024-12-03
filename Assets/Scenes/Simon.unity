@@ -555,6 +555,8 @@ GameObject:
   - component: {fileID: 1688341576}
   - component: {fileID: 1688341575}
   - component: {fileID: 1688341574}
+  - component: {fileID: 1688341579}
+  - component: {fileID: 1688341578}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -652,6 +654,44 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1688341578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688341573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7fa6da0919eb5b4ab9a433657f1a2bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PopUpSource: {fileID: 0}
+  PlayerActionSource: {fileID: 0}
+  ArrivedToDestination: {fileID: 0}
+  PopUpBaby: {fileID: 0}
+  BabyEnd: {fileID: 0}
+  PopUpStation: {fileID: 0}
+  TrainAccident: {fileID: 0}
+  RailPose: {fileID: 0}
+  RailUnPose: {fileID: 0}
+  EndRailPose: {fileID: 0}
+  Button0: {fileID: 0}
+--- !u!114 &1688341579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688341573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dde83d925add2b4996d1362e1628aa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Timbales: {fileID: 0}
+  Basse: {fileID: 0}
+  LocoBase: {fileID: 0}
 --- !u!1001 &4037206149750441597
 PrefabInstance:
   m_ObjectHideFlags: 0
