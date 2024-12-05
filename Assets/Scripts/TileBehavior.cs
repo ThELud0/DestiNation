@@ -2,17 +2,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using static UnityEditor.FilePathAttribute;
+using System.Collections;
+using UnityEngine.Events;
+using UnityEngine.InputSystem;
+using Unity.VisualScripting;
+using System.Linq;
+using NUnit.Framework;
+
+
 
 
 public class TileBehavior : MonoBehaviour
 {
 
     [SerializeField]
-    private GameObject railStraightPrefab, railTurnPrefab, railIntersectionQuadrupleEnCroixRM;
+    private GameObject railStraightPrefab, railTurnPrefab, railIntersectionQuadrupleEnCroixRM, autreRailTurnPrefab;
+    
+     [SerializeField]
+    private Transform railsParent;
     Vector3 additionnalHeight = new Vector3(0f, 1f, 0f);
     GameObject createdRail;
 
-    private List<Vector2> all_dir_set = new ();
+    public bool tileForRail = false;
+
+    private List<Vector2[]> all_dir_set = new ();
     GameObject intersectionRail;
 
 [SerializeField]    GameObject[] markers;
@@ -21,38 +34,68 @@ void Start()
 {
     disableMeshRails();
     disableMarkers();
+    //addRail(new Vector2[]{new Vector2(1,0), new Vector2(1,0)});
     //CreateRail(railStraightPrefab, new Quaternion());
 }
-    public void CreateRail(GameObject prefab, Quaternion rotation)
+    public void CreateStraighRail(Quaternion rotation)
     {
-        if(createdRail != null)
-        {
-            createdRail.SetActive(false);
-        }
-        createdRail = prefab;
-        //intersectionRail = Instantiate(createdRail, transform.position + additionnalHeight, rotation);
-        createdRail.transform.rotation = rotation;
-        prefab.SetActive(true);
+
+        //disableMeshRails();
+        //createdRail.SetActive(false);
+         
+       // createdRail = prefab;
+        //createdRail = Instantiate(prefab, transform.position + additionnalHeight, rotation);
+        //createdRail.transform.rotation = rotation;
+        //railStraightPrefab.transform.rotation = rotation;
+        disableMeshRails();
+        railsParent.rotation = rotation;
+        railStraightPrefab.SetActive(true);
+        Debug.Log("Displayoin "+ railStraightPrefab);
+
+        //createdRail = Instantiate(railTurnPrefab, transform.position + additionnalHeight, rotation);
+        //railStraightPrefab.SetActive(true);
+        //createdRail.SetActive(true);
 
         
         
     }
 
+    public void CreateTurnRail(Quaternion rotation){
+        disableMeshRails();
+        railsParent.rotation = rotation;
+        railTurnPrefab.SetActive(true);
+        Debug.Log("Displayoin "+ railTurnPrefab);
+
+    }
+
+   /* void Update(){
+        if (Mouse.current.leftButton.wasPressedThisFrame){
+          //  addRail(new Vector2(2,0));
+           // Debug.Log("clicked");
+        }
+    }*/
+
     private void disableMeshRails(){
-        /*foreach(GameObject p in new GameObject[]{railStraightPrefab, railTurnPrefab, railIntersectionQuadrupleEnCroixRM}){
+
+        if(!tileForRail){
+            return;
+        }
+        foreach(GameObject p in new GameObject[]{railStraightPrefab, railTurnPrefab, railIntersectionQuadrupleEnCroixRM, autreRailTurnPrefab}){
             p.SetActive(false);
         }
-        createdRail = null;*/
+        /*createdRail = null;
+        createdRail = railStraightPrefab;
+        createdRail.SetActive(true);*/
     }
 
    /* public void createRail(GameObject prefabRail, Quaternion){
 
     }*/
 
-    public void CreateTurnRail(Quaternion rotation)
+   /* public void CreateTurnRail(Quaternion rotation)
     {
         createdRail = Instantiate(railTurnPrefab, transform.position + additionnalHeight, rotation);
-    }
+    }*/
 
 
 public void CreateRail(){
@@ -84,31 +127,62 @@ public void CreateRail(){
         markers[2].SetActive(true);
     }
 
-    public void addRail(Vector2 dir){
+    public void addRail(Vector2[] dir){
             all_dir_set.Add(dir);
             UpdateRail();
     }
 
-     public void removeRail(Vector2 dir){
-            all_dir_set.Remove(dir);
+     public void removeRail(Vector2[] dir){
+        List<Vector2[]> new_all_dir = new ();
+        bool item_lremoved = false;
+        for (int i = 0; i < all_dir_set.Count; i++)
+        {
+            if(all_dir_set[i][0]!=dir[0] || all_dir_set[i][1]!=dir[1] || item_lremoved){
+                    new_all_dir.Add(all_dir_set[i]);
+            }else{
+                item_lremoved = true;
+            }
+        }
+        all_dir_set = new_all_dir;
+            //all_dir_set.Remove(dir);
+            if(all_dir_set.Count>0){
+                //Debug.LogWarning(all_dir_set.Count+":"+all_dir_set[0][0].x+"."+all_dir_set[0][0].y+" / " + dir[0].x+"."+dir[0].y);
+                Debug.LogWarning(all_dir_set.Count+":"+all_dir_set[0][0].ToString()+" / " + dir[0].ToString());
+                Debug.LogWarning(all_dir_set.Count+"::"+all_dir_set[0][1].ToString()+" / " + dir[1].ToString());
+
+            }
+            //all_dir_set.Clear();
             UpdateRail();
     }
 
     private bool[] getCodedInformations(){
         bool[] exits_coded_bools = {false,false,false,false};
-        foreach(Vector2 dir in all_dir_set){
-                if (dir.x > 0){
-                    exits_coded_bools[2]=true;
-                }
-                if (dir.x < 0){
+        foreach(Vector2[] dir in all_dir_set){
+                    //Debug.Log("on code "+dir.x+"/"+dir.y);
+                  if (dir[0].x > 0 || dir[1].x<0){
                     exits_coded_bools[0]=true;
                 }
-                 if (dir.y > 0){
+                if (dir[0].y>0 || dir[1].y<0){
                     exits_coded_bools[1]=true;
                 }
-                if (dir.y< 0){
-                    exits_coded_bools[3]=true;
+                 if (dir[1].x > 0 || dir[0].x < 0 ){
+                    exits_coded_bools[2]=true;
                 }
+                if (dir[1].y> 0 || dir[0].y<0){
+                    exits_coded_bools[3]=true;
+                }  
+                /*if (dir.x > 0 || dir.x<-1){
+                    exits_coded_bools[2]=true;
+                }
+                if (dir.x < 0 || dir.x>1){
+                    exits_coded_bools[0]=true;
+                }
+                 if (dir.y > 0 || dir.y <- 1){
+                    exits_coded_bools[1]=true;
+                }
+                if (dir.y< 0 || dir.y> 1){
+                    exits_coded_bools[3]=true;
+                }*/
         }
         return exits_coded_bools;
     }
@@ -118,28 +192,43 @@ public void CreateRail(){
 
             bool[] info_all_rail = getCodedInformations();
             Debug.Log(info_all_rail[0] + "/"+info_all_rail[1] + "/"+info_all_rail[2] + "/"+ info_all_rail[3]);
-            Debug.Log(compareBoolLists(info_all_rail,new bool[4]{true,true, false, false}));
+            //Debug.Log(compareBoolLists(info_all_rail,new bool[4]{true,true, false, false}));
             
 
             if(compareBoolLists(info_all_rail,new bool[4]{true,false, true, false})){
-                Debug.Log("on pass par la");
+                Debug.Log("tftf");
                 rotation = Quaternion.Euler(0f, 0f, 0f);
-                CreateRail(railStraightPrefab,rotation);
+                //CreateRail(railStraightPrefab,rotation);
+                CreateStraighRail(rotation);
             }else if(compareBoolLists(info_all_rail,new bool[4]{true,true, false, false})){
-                                Debug.Log("non on pass par la");
-
-                rotation = Quaternion.Euler(0f, 0f, 0f);
-                CreateRail(railTurnPrefab,rotation);
-            }else if(compareBoolLists(info_all_rail,new bool[4]{false,true, false, true})){
-                                Debug.Log("non on pass par la");
+                                Debug.Log("ttff");
 
                 rotation = Quaternion.Euler(0f, 90f, 0f);
-                CreateRail(railStraightPrefab,rotation);
-            }else{
-                                Debug.Log("enfaite on pass par la");
+                //CreateRail(railTurnPrefab,rotation);
+                CreateTurnRail(rotation);
+            }else if(compareBoolLists(info_all_rail,new bool[4]{false,true, false, true})){
+                                Debug.Log("ftft");
+
+                rotation = Quaternion.Euler(0f, 270f, 0f);
+                CreateStraighRail(rotation);
+            }else if(compareBoolLists(info_all_rail,new bool[4]{false,true, true, false})){
+                                Debug.Log("fttf");
 
                 rotation = Quaternion.Euler(0f, 0f, 0f);
-                CreateRail(railStraightPrefab,rotation);
+                CreateTurnRail(rotation);
+            }else if(compareBoolLists(info_all_rail,new bool[4]{false,false, true, true})){
+                                Debug.Log("fftt");
+
+                rotation = Quaternion.Euler(0f, 270f, 0f);
+                CreateTurnRail(rotation);
+            }else if (compareBoolLists(info_all_rail,new bool[4]{true,false, false, true})){
+                                Debug.Log("tfft");
+
+                rotation = Quaternion.Euler(0f, 180f, 0f);
+                CreateTurnRail(rotation);
+            }else{
+                Debug.LogWarning("aaaaargh"+info_all_rail[0] + "/"+info_all_rail[1] + "/"+info_all_rail[2] + "/"+ info_all_rail[3]);
+                disableMeshRails();
             }
     }
 

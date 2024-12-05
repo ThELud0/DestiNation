@@ -89,6 +89,8 @@ public class BetterPathFinderTool : MonoBehaviour
                     }
                     //Debug.Log("trainnnn");
                     return;
+                }else if(hit.transform.gameObject.tag == "Structure"){
+                    resetPath();
                 }
 
 
@@ -100,7 +102,7 @@ public class BetterPathFinderTool : MonoBehaviour
             {
                 return;
             }
-            print("precedent pos is now " + hits[0].transform.position);
+           // print("precedent pos is now " + hits[0].transform.position);
 
             addCurrentPathTovalidatedAndContinuePath(hits[0].transform.position);
             //here, we are on an empty sol, all other cases have returned
@@ -192,6 +194,10 @@ public class BetterPathFinderTool : MonoBehaviour
                 {
                     levelGeneratorInstance.colorPathToGreen(getConcatenatePath());
                     return;
+                }else if (hit.transform.gameObject.tag == "Structure")
+                {
+                    levelGeneratorInstance.colorPathToRed(getConcatenatePath());
+                    return;
                 }
                 else
                 {
@@ -231,12 +237,17 @@ public class BetterPathFinderTool : MonoBehaviour
 
     private bool isTileForRailCanBePlaced(Vector2 pos_tested)
     {
+        foreach(Vector2 dir in getConcatenatePath()){
+            if(pos_tested == dir){
+                return false;
+            }
+        }
         return levelGeneratorInstance.getStateFromTile((int)pos_tested.x, (int)pos_tested.y) != 4;
     }
 
     private List<Vector2> recursiveGetPath(Vector2 start, Vector2 end)
     {
-        print($"de {start} a {end}");
+        //print($"de {start} a {end}");
         if (start.x != end.x)
         {
             float start_next_step = start.x + dir_normalised(start.x, end.x);
@@ -248,7 +259,7 @@ public class BetterPathFinderTool : MonoBehaviour
             }
             else
             {
-                print($"cant put rail on {pos_tested}");
+               // print($"cant put rail on {pos_tested}");
             }
         }
 
@@ -263,16 +274,16 @@ public class BetterPathFinderTool : MonoBehaviour
             }
             else
             {
-                print($"cant put rail on {pos_tested}");
+               // print($"cant put rail on {pos_tested}");
             }
         }
 
         if (start == end)
         {
-            print($"finished");
+            //print($"finished");
             return list_tuiles_path_tested;
         }
-        print($"cancelled");
+       // print($"cancelled");
         return null;
     }
 
@@ -286,10 +297,16 @@ public class BetterPathFinderTool : MonoBehaviour
     {
         //resetpath();
         OnPathFound.RemoveAllListeners();
+        if(newTrainStation.occupied){
+            resetPath();
+            return;
+        }
         current_trainstation = newTrainStation;
+
         canBuildPath = true;
         precedent_pos_mouse_pressed = GameTools.get2Dfrom3DVector(current_trainstation.getDeparturePosition());
         OnPathFound.AddListener(current_trainstation.spawnTrain);
+        list_tuiles_path_validated.Add(precedent_pos_mouse_pressed);
     }
 
     private List<Vector2> getConcatenatePath()
@@ -305,6 +322,7 @@ public class BetterPathFinderTool : MonoBehaviour
         List<Vector2> l = new();
         levelGeneratorInstance.colorPath(l, 0);
         levelGeneratorInstance.CheckCurrent(list_tuiles_path_validated);
+        current_trainstation.onTrainHasArrived.AddListener(levelGeneratorInstance.DeleteCurrent);
         OnPathFound.Invoke(list_tuiles_path_validated);
         canBuildPath = false;
         ClearAllPaths();
@@ -313,6 +331,12 @@ public class BetterPathFinderTool : MonoBehaviour
     private void ClearAllPaths(){
         list_tuiles_path_tested.Clear();
         list_tuiles_path_validated.Clear();
+    }
+
+    private void resetPath(){
+        ClearAllPaths();
+        current_trainstation = null;
+        canBuildPath = false;
     }
 
 

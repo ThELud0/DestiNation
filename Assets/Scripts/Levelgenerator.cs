@@ -16,6 +16,8 @@ public class Levelgenerator : MonoBehaviour
     [SerializeField]
     private int dim_x_block, dim_z_block;
 
+    [SerializeField]
+    private List<Vector2> la;
 
     [SerializeField]
     private Vector2[] list_big_forest, list_mountains;
@@ -69,7 +71,7 @@ public class Levelgenerator : MonoBehaviour
             new Vector2(4, 5), new Vector2(3, 5), new Vector2(2,5), new Vector2(2, 6)
 
         };
-        CheckCurrent(listVectors);
+       // CheckCurrent(listVectors);
         //DeleteCurrent(listVectors);
     }
 
@@ -121,31 +123,42 @@ public class Levelgenerator : MonoBehaviour
         
     }
 
+    public void DeleteCurrent(List<Vector2> railway){
+        CheckCurrent(railway, true);
+    }
 
-    public void CheckCurrent(List<Vector2> railway)
+
+    public void CheckCurrent(List<Vector2> railway, bool removeTiles = false)
     {
 
-        for (int i = 0; i < railway.Count - 1; i++)
+        la = railway;
+
+        for (int i = 1; i < railway.Count - 1; i++)
         {
             Vector2 currentPos = railway[i];
             Vector2 nextPos = railway[i + 1];
             Quaternion rotation = Quaternion.identity;
+            Vector2 previousPos = railway[i - 1];
+                Vector2 dir_lastToCurrent = currentPos - previousPos;
+                Vector2 dir_CurrentToNext = nextPos - currentPos;
 
-            if (i > 0)
-            {
-                Vector2 previousPos = railway[i - 1];
-                Vector2 dir = nextPos - previousPos;
                 //tilesMap[(int)currentPos.x, (int)currentPos.y].GetComponent<TileBehavior>().CheckPath(currentPos, nextPos, previousPos);
-                getTile((int)currentPos.x, (int)currentPos.y).addRail(dir);
-                //Debug.Log(dir+" is dir");
-            }
+                if (!removeTiles){
+                getTile((int)currentPos.x, (int)currentPos.y).addRail(new Vector2[]{dir_lastToCurrent, dir_CurrentToNext});
+
+                }else{
+                Debug.Log("destroy");
+
+                getTile((int)currentPos.x, (int)currentPos.y).removeRail(new Vector2[]{dir_lastToCurrent, dir_CurrentToNext});
+                }
+
 
         }
 
 
     }
 
-    public void DeleteCurrent(List<Vector2> railway)
+    /*public void DeleteCurrent(List<Vector2> railway)
     {
 
         for (int i = 0; i < railway.Count - 1; i++)
@@ -164,7 +177,7 @@ public class Levelgenerator : MonoBehaviour
         }
 
    
-    }
+    }*/
 
 
 }

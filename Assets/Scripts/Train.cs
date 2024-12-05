@@ -2,13 +2,15 @@ using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine.Rendering;
 
 public class Train : MonoBehaviour
 {
     float lifetime;
-    float speed;
+    float speed, floorY = 2f;
     //public int trainID;
-    List<Vector2> railway;
+    List<Vector2> railway = new();
 
     int destinyType;
 
@@ -19,12 +21,16 @@ public class Train : MonoBehaviour
     public UnityEvent onTrainArrived = new ();
 
     //[SerializeField] GameObject raycastOrigin;
-    public void Initialize(float lifetime, float speed, List<Vector2> railway, int destinyType)
+    public void Initialize(float lifetime, float speed, List<Vector2> given_railway, int destinyType)
     {
         this.lifetime = lifetime;
         this.speed = speed;
-        this.railway = railway;
+        foreach(Vector2 vec in given_railway){
+            railway.Add(vec);
+        }
         this.destinyType = destinyType;
+
+        launchTrain();
     }
 
 
@@ -36,7 +42,6 @@ public class Train : MonoBehaviour
             SetNextTarget();
         }
 
-        transform.position = currentTarget;
 
         /*
         Vector3 direction = currentTarget - transform.position;
@@ -59,18 +64,30 @@ public class Train : MonoBehaviour
         }
     }
 
+    private void launchTrain(){
+        currentTarget = railway[0];
+        currentTarget.y = floorY;
+        transform.position = GameTools.get3Dfrom2DVector(currentTarget);
+        currentTargetIndex=1;
+        isMoving = true;
+        SetNextTarget();
+    }
+
     private void SetNextTarget()
     {
+
+        Debug.Log(currentTargetIndex+"////"+railway.Count);
         if (currentTargetIndex < railway.Count)
         {
             // Convert Vector2 to Vector3 (x, 0, z) for 3D space
-            currentTarget = new Vector3(railway[currentTargetIndex].x, transform.position.y, railway[currentTargetIndex].y);
+            currentTarget = new Vector3(railway[currentTargetIndex].x,floorY, railway[currentTargetIndex].y);
         }
         else
         {
             // No more waypoints, stop moving
             isMoving = false;
             Debug.Log("Train has reached the final destination.");
+            onTrainArrived.Invoke();
         }
     }
 
@@ -89,6 +106,7 @@ public class Train : MonoBehaviour
         {
             // Move to the next waypoint
             currentTargetIndex++;
+            Debug.Log("Next");
             SetNextTarget();
         }
     }

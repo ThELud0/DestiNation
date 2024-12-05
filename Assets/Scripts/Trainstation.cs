@@ -102,7 +102,8 @@ public class Trainstation : MonoBehaviour
    public void spawnTrain(List<Vector2> railway)
     {
         
-        currentRailway = railway;
+        //currentRailway = railway;
+        currentRailway = GameTools.copyListVector2(railway);
         occupied = true;
         GameObject train = new();
             if (destinyType == 0)
@@ -136,7 +137,9 @@ public class Trainstation : MonoBehaviour
             Debug.Log("here");
             GameStateResources.compteurTrain++;
             Train trainComponent = train.GetComponent<Train>();
+            train.transform.position = GameTools.get3Dfrom2DVector(railway[0]);
             trainComponent.Initialize(trainlifetime, trainspeed, railway,destinyType);
+            Debug.Log(railway[0].x+"/" +railway[0].y);
             trainComponent.onTrainArrived.AddListener(trainHasArrived);
         }
 
@@ -147,6 +150,7 @@ public class Trainstation : MonoBehaviour
     void trainHasArrived()
     {
         occupied = false;
+        Debug.Log(currentRailway.Count+" is the railwaay");
         onTrainHasArrived.Invoke(currentRailway);
     }
 
