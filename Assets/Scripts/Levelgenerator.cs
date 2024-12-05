@@ -132,6 +132,7 @@ public class Levelgenerator : MonoBehaviour
     {
 
         la = railway;
+                Debug.Log("destroyyyyyy");
 
         for (int i = 1; i < railway.Count - 1; i++)
         {
@@ -147,7 +148,6 @@ public class Levelgenerator : MonoBehaviour
                 getTile((int)currentPos.x, (int)currentPos.y).addRail(new Vector2[]{dir_lastToCurrent, dir_CurrentToNext});
 
                 }else{
-                Debug.Log("destroy");
 
                 getTile((int)currentPos.x, (int)currentPos.y).removeRail(new Vector2[]{dir_lastToCurrent, dir_CurrentToNext});
                 }

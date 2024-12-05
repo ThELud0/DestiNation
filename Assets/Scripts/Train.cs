@@ -18,7 +18,7 @@ public class Train : MonoBehaviour
     private Vector3 currentTarget; // The current target position in 3D space
     private bool isMoving = false; // Is the train moving?
 
-    public UnityEvent onTrainArrived = new ();
+    public UnityEvent<List<Vector2>> onTrainArrived = new ();
 
     //[SerializeField] GameObject raycastOrigin;
     public void Initialize(float lifetime, float speed, List<Vector2> given_railway, int destinyType)
@@ -87,7 +87,7 @@ public class Train : MonoBehaviour
             // No more waypoints, stop moving
             isMoving = false;
             Debug.Log("Train has reached the final destination.");
-            onTrainArrived.Invoke();
+            onTrainArrived.Invoke(railway);
         }
     }
 
@@ -129,13 +129,13 @@ public class Train : MonoBehaviour
     {
         if (collision.collider.CompareTag("Train"))
         {
-            onTrainArrived.Invoke();
+            onTrainArrived.Invoke(railway);
             //Destroy(collision.gameObject);
             Destroy();
         }
         if (collision.collider.CompareTag("Human"))
         {
-            onTrainArrived.Invoke();
+            onTrainArrived.Invoke(railway);
            //Destroy(collision.gameObject);
             Destroy();
         }
@@ -146,7 +146,7 @@ public class Train : MonoBehaviour
  
         if (collision.CompareTag("Human"))
         {
-            onTrainArrived.Invoke();
+            onTrainArrived.Invoke(railway);
             Destroy(collision.gameObject);
             Destroy(gameObject);
         }

@@ -147,11 +147,11 @@ public class Trainstation : MonoBehaviour
 
     }
 
-    void trainHasArrived()
+    void trainHasArrived(List<Vector2> list_vec)
     {
         occupied = false;
         Debug.Log(currentRailway.Count+" is the railwaay");
-        onTrainHasArrived.Invoke(currentRailway);
+       onTrainHasArrived.Invoke(list_vec);
     }
 
 

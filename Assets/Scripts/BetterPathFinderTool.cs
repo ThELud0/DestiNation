@@ -295,12 +295,17 @@ public class BetterPathFinderTool : MonoBehaviour
 
     private void setNewTrainstationStart(Trainstation newTrainStation)
     {
+
+        if (current_trainstation!=null){
+            current_trainstation.onTrainHasArrived.RemoveAllListeners();
+
+        }
         //resetpath();
         OnPathFound.RemoveAllListeners();
-        if(newTrainStation.occupied){
+        /*if(newTrainStation.occupied){
             resetPath();
             return;
-        }
+        }*/
         current_trainstation = newTrainStation;
 
         canBuildPath = true;

@@ -16,7 +16,7 @@ public class TileBehavior : MonoBehaviour
 {
 
     [SerializeField]
-    private GameObject railStraightPrefab, railTurnPrefab, railIntersectionQuadrupleEnCroixRM, autreRailTurnPrefab;
+    private GameObject railStraightPrefab, railTurnPrefab, railIntersectionQuadrupleEnCroixRM, autreRailTurnPrefab, ThirdWaysRailPrefab, CrossRailPrefab;
     
      [SerializeField]
     private Transform railsParent;
@@ -27,6 +27,7 @@ public class TileBehavior : MonoBehaviour
 
     private List<Vector2[]> all_dir_set = new ();
     GameObject intersectionRail;
+    int iii = 0;
 
 [SerializeField]    GameObject[] markers;
 
@@ -64,8 +65,17 @@ void Start()
         disableMeshRails();
         railsParent.rotation = rotation;
         railTurnPrefab.SetActive(true);
-        Debug.Log("Displayoin "+ railTurnPrefab);
+    }
 
+     public void Create3WayRailPrefab(Quaternion rotation){
+        disableMeshRails();
+        railsParent.rotation = rotation;
+        ThirdWaysRailPrefab.SetActive(true);
+    }
+
+    public void CreateCrossRailPrefab(){
+        disableMeshRails();
+        CrossRailPrefab.SetActive(true);
     }
 
    /* void Update(){
@@ -80,7 +90,8 @@ void Start()
         if(!tileForRail){
             return;
         }
-        foreach(GameObject p in new GameObject[]{railStraightPrefab, railTurnPrefab, railIntersectionQuadrupleEnCroixRM, autreRailTurnPrefab}){
+        foreach(GameObject p in new GameObject[]{railStraightPrefab, railTurnPrefab, railIntersectionQuadrupleEnCroixRM, autreRailTurnPrefab,
+        ThirdWaysRailPrefab, CrossRailPrefab}){
             p.SetActive(false);
         }
         /*createdRail = null;
@@ -141,8 +152,12 @@ public void CreateRail(){
                     new_all_dir.Add(all_dir_set[i]);
             }else{
                 item_lremoved = true;
+                iii++;
             }
         }
+        if(iii > 1 ){
+            Debug.LogError("i,e");
+        } 
         all_dir_set = new_all_dir;
             //all_dir_set.Remove(dir);
             if(all_dir_set.Count>0){
@@ -226,6 +241,20 @@ public void CreateRail(){
 
                 rotation = Quaternion.Euler(0f, 180f, 0f);
                 CreateTurnRail(rotation);
+            }else if(compareBoolLists(info_all_rail,new bool[4]{false,true, true, true})){
+                rotation = Quaternion.Euler(0f, 90f, 0f);
+                Create3WayRailPrefab(rotation);
+            }else if(compareBoolLists(info_all_rail,new bool[4]{true,false, true, true})){
+                rotation = Quaternion.Euler(0f, 180f, 0f);
+                Create3WayRailPrefab(rotation);
+            }else if(compareBoolLists(info_all_rail,new bool[4]{true,true, false, true})){
+                rotation = Quaternion.Euler(0f, 270f, 0f);
+                Create3WayRailPrefab(rotation);
+            }else if(compareBoolLists(info_all_rail,new bool[4]{true,true, true, false})){
+                rotation = Quaternion.Euler(0f, 0f, 0f);
+                Create3WayRailPrefab(rotation);
+            }else if(compareBoolLists(info_all_rail,new bool[4]{true,true, true, true})){
+                    CreateCrossRailPrefab();
             }else{
                 Debug.LogWarning("aaaaargh"+info_all_rail[0] + "/"+info_all_rail[1] + "/"+info_all_rail[2] + "/"+ info_all_rail[3]);
                 disableMeshRails();
