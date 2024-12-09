@@ -7,7 +7,7 @@ public class BabyManager : MonoBehaviour
 {
 
     [SerializeField]
-    private int baby_despawn_timer = 5;
+    private int baby_despawn_timer = 5, babyLostCounter = 0,nbBabyDeadTillLost= 5;
 
     [SerializeField]
     private Vector2[] list_bloqued_baby_spawns;
@@ -102,10 +102,22 @@ public class BabyManager : MonoBehaviour
         StartCoroutine(waitTillBabyExplode( newBaby,baby_despawn_timer));
     }
 
+    private void babyLost(GameObject baby){
+        Destroy(baby);
+        babyLostCounter++;
+        if(babyLostCounter>nbBabyDeadTillLost){
+            gameIsLost();
+        }
+    }
+
+    private void gameIsLost(){
+        Debug.LogWarning("Game lost");
+    }
+
 
     IEnumerator waitTillBabyExplode(GameObject baby,int duration){
             yield return new WaitForSeconds(duration);
-            Destroy(baby);
+            babyLost(baby);
     }
 
      IEnumerator LoopSpawnBaby(){

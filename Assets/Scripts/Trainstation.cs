@@ -9,7 +9,7 @@ public class Trainstation : MonoBehaviour
 {
     float destinyTimer;
     float trainlifetime;
-    float trainspeed;
+    float trainspeed, speedModificator = 0.5f;
     int destinyType;
     List<Vector2> currentRailway;
     public bool occupied = false;
@@ -62,10 +62,10 @@ public class Trainstation : MonoBehaviour
 
     void Update()
     {
-        
+        destinyType = 0;
         if (Time.time >= destinyTimer)
         {
-            changeNature();
+           // changeNature();
         }
 
        /* if (Mouse.current.leftButton.wasPressedThisFrame)
@@ -144,7 +144,7 @@ public class Trainstation : MonoBehaviour
             GameStateResources.compteurTrain++;
             Train trainComponent = train.GetComponent<Train>();
             train.transform.position = GameTools.get3Dfrom2DVector(railway[0]);
-            trainComponent.Initialize(trainlifetime, trainspeed, railway,destinyType);
+            trainComponent.Initialize(trainlifetime, trainspeed*speedModificator, railway,destinyType);
             Debug.Log(railway[0].x+"/" +railway[0].y);
             trainComponent.onTrainArrived.AddListener(trainHasArrived);
         }

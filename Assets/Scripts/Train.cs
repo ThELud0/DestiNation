@@ -2,6 +2,7 @@ using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections.Generic;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine.Rendering;
 using TMPro.Examples;
@@ -13,7 +14,7 @@ public class Train : MonoBehaviour
     //public int trainID;
     List<Vector2> railway = new();
 
-    int destinyType, counter = 0;
+    int destinyType, counter = 0, time_wait_till_despawn = 3;
 
     private int currentTargetIndex = 0; // Index of the current waypoint
     private Vector3 currentTarget; // The current target position in 3D space
@@ -79,7 +80,7 @@ public class Train : MonoBehaviour
     private void SetNextTarget()
     {
 
-        Debug.Log(currentTargetIndex+"////"+railway.Count);
+        Debug.Log(currentTarget+"///"+currentTargetIndex+"////"+railway.Count);
         if (currentTargetIndex < railway.Count)
         {
             // Convert Vector2 to Vector3 (x, 0, z) for 3D space
@@ -172,6 +173,12 @@ public class Train : MonoBehaviour
 
            trainHasReacheddestination(collision.GetComponent<Human>());
         }
+         if (collision.CompareTag("Train"))
+        {
+            Debug.Log("Carambolage");
+            isMoving = false;
+            StartCoroutine(waitTillDisappear());
+        }
     }
 
     private void trainHasReacheddestination(Human h){
@@ -202,6 +209,12 @@ public class Train : MonoBehaviour
             GameStateResources.compteurOld--;
         }
         Destroy(gameObject);
+    }
+
+       IEnumerator waitTillDisappear(){
+            yield return new WaitForSeconds(time_wait_till_despawn);
+
+            trainHasReacheddestination(null);
     }
 
     /*
