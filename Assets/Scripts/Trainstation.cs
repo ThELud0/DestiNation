@@ -14,7 +14,9 @@ public class Trainstation : MonoBehaviour
     List<Vector2> currentRailway;
     public bool occupied = false;
     public Vector3 startPoint;
-    public UnityEvent<List<Vector2>> onTrainHasArrived = new();
+    //public UnityEvent<List<Vector2>> onTrainHasArrived = new();
+
+    private BetterPathFinderTool pathFindToolInstance;
 
     
 
@@ -44,6 +46,10 @@ public class Trainstation : MonoBehaviour
         {
             test.Add(new Vector2(17, i));
         }*/
+    }
+
+    public void setPathFindToolInstance(BetterPathFinderTool tool){
+        pathFindToolInstance = tool;
     }
 
     public Vector2[] getStartRailPosition()
@@ -147,11 +153,19 @@ public class Trainstation : MonoBehaviour
 
     }
 
-    void trainHasArrived(List<Vector2> list_vec)
+    void trainHasArrived(List<Vector2> list_vec, Human human_reached, Train train)
     {
         occupied = false;
-        Debug.Log(currentRailway.Count+" is the railwaay");
-       onTrainHasArrived.Invoke(list_vec);
+        Debug.Log(list_vec.Count+" is the railwaay");
+        //onTrainHasArrived.Invoke(list_vec);
+        //onTrainHasArrived.RemoveAllListeners();
+        pathFindToolInstance.callForDeleteCurrent(list_vec);
+        train.DestroyTrain();
+
+        if(human_reached!=null){
+            Destroy(human_reached.gameObject);
+        }
+       
     }
 
 

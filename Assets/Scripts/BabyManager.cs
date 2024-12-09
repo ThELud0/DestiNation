@@ -22,10 +22,13 @@ public class BabyManager : MonoBehaviour
     private int range_max_x=20, range_max_z = 20;
 
     [SerializeField]
-    private int floorY = 1;
+    private int floorY = 0;
 
     [SerializeField]
     private string[] list_String_unspawnable_baby;
+
+    [SerializeField]
+    private Levelgenerator levelgenerator;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -50,7 +53,16 @@ public class BabyManager : MonoBehaviour
     }
 
     bool ZoneNotSpawnable(Vector2 tested_vec){
-        transform.position = new Vector3(tested_vec.x, floorY+3, tested_vec.y);
+
+        int[] id_zone_non_spawnable = new int[]{1,2,3,4};
+
+        foreach (int id_zone in id_zone_non_spawnable){
+            if(levelgenerator.getStateFromTile((int)tested_vec.x, (int)tested_vec.y)==id_zone){
+                return true;
+            }
+        }
+        return false;
+        /*transform.position = new Vector3(tested_vec.x, floorY+3, tested_vec.y);
         Ray ray_test = new Ray(transform.position, Vector3.down);
         RaycastHit[] hits =  Physics.RaycastAll(ray_test, 2f);
             if (hits.Length > 0)
@@ -71,7 +83,8 @@ public class BabyManager : MonoBehaviour
             }else {
             }
             
-            return false;
+            return false;*/
+
     }
 
     void spawn_baby_random_place(){
@@ -85,6 +98,7 @@ public class BabyManager : MonoBehaviour
         
         GameObject newBaby = Instantiate(baby_prefab);
         newBaby.transform.position = new Vector3(randVec.x, floorY+1, randVec.y);
+        levelgenerator.setStateFromTile((int)randVec.x,(int)randVec.y,3);
         StartCoroutine(waitTillBabyExplode( newBaby,baby_despawn_timer));
     }
 

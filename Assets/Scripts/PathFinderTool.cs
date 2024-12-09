@@ -350,9 +350,9 @@ void Update(){
         Debug.Log("path completed"+ list_tuiles_path);
         printPath();
         precedent_pos_mouse_pressed = Vector2.zero;
-        current_trainstation.GetComponent<Trainstation>().onTrainHasArrived.AddListener(levelGeneratorInstance.DeleteCurrent);
+        //current_trainstation.GetComponent<Trainstation>().onTrainHasArrived.AddListener(levelGeneratorInstance.DeleteCurrent);
         OnPathFound.Invoke(list_tuiles_path);
-        levelGeneratorInstance.CheckCurrent(list_tuiles_path);
+        //levelGeneratorInstance.CheckCurrent(list_tuiles_path);
         
    }
 

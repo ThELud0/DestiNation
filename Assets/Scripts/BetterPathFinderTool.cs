@@ -165,8 +165,8 @@ public class BetterPathFinderTool : MonoBehaviour
 
     private void addCurrentPathTovalidatedAndContinuePath(Vector3 pos)
     {
+        precedent_pos_mouse_pressed = (list_tuiles_path_tested[^1]);
          list_tuiles_path_validated = getConcatenatePath();
-        precedent_pos_mouse_pressed = GameTools.get2Dfrom3DVector(pos);
     }
 
 
@@ -182,9 +182,9 @@ public class BetterPathFinderTool : MonoBehaviour
         {
             foreach (RaycastHit hit in hits)
             {
-
+                //Debug.Log(hits[0].transform.position);
                 getPathFromPrecedentPointToMouse(hits[0].transform.position);
-                Debug.Log("the tag is " + hit.transform.gameObject.tag + " and " + list_tuiles_path_tested);
+               // Debug.Log("the tag is " + hit.transform.gameObject.tag + " and " + list_tuiles_path_tested);
                 if (hit.transform.gameObject.tag == "Trainstation")
                 {
                     levelGeneratorInstance.colorPathToRed(getConcatenatePath());
@@ -232,6 +232,8 @@ public class BetterPathFinderTool : MonoBehaviour
             levelGeneratorInstance.colorPathToYellow(list);
             return true;
         }
+        //levelGeneratorInstance.colorPathToRed(list);
+
         return false;
     }
 
@@ -242,7 +244,18 @@ public class BetterPathFinderTool : MonoBehaviour
                 return false;
             }
         }
-        return levelGeneratorInstance.getStateFromTile((int)pos_tested.x, (int)pos_tested.y) != 4;
+
+        int[] zone_rail_cannot_be_placed = new int[]{2,3,4};
+        foreach (int zone in zone_rail_cannot_be_placed){
+               if(levelGeneratorInstance.getStateFromTile((int)pos_tested.x, (int)pos_tested.y) == zone) {
+                    return false;
+               }
+        }
+        return true;
+    }
+
+    private bool isDestination(Vector2 pos_tested){
+        return levelGeneratorInstance.getStateFromTile((int)pos_tested.x, (int)pos_tested.y) == 3;
     }
 
     private List<Vector2> recursiveGetPath(Vector2 start, Vector2 end)
@@ -252,6 +265,10 @@ public class BetterPathFinderTool : MonoBehaviour
         {
             float start_next_step = start.x + dir_normalised(start.x, end.x);
             Vector2 pos_tested = new Vector2((int)start_next_step, (int)start.y);
+            if(pos_tested==end && isDestination(end)){
+                list_tuiles_path_tested.Add(pos_tested);
+                return list_tuiles_path_tested;
+            }
             if (isTileForRailCanBePlaced(pos_tested))
             {
                 list_tuiles_path_tested.Add(pos_tested);
@@ -267,6 +284,10 @@ public class BetterPathFinderTool : MonoBehaviour
         {
             float start_next_step = start.y + dir_normalised(start.y, end.y);
             Vector2 pos_tested = new Vector2(start.x, start_next_step);
+            if(pos_tested==end && isDestination(end)){
+                list_tuiles_path_tested.Add(pos_tested);
+                return list_tuiles_path_tested;
+            }
             if (isTileForRailCanBePlaced(pos_tested))
             {
                 list_tuiles_path_tested.Add(pos_tested);
@@ -297,7 +318,7 @@ public class BetterPathFinderTool : MonoBehaviour
     {
 
         if (current_trainstation!=null){
-            current_trainstation.onTrainHasArrived.RemoveAllListeners();
+            //current_trainstation.onTrainHasArrived.RemoveAllListeners();
 
         }
         //resetpath();
@@ -326,11 +347,18 @@ public class BetterPathFinderTool : MonoBehaviour
         list_tuiles_path_validated =  getConcatenatePath();
         List<Vector2> l = new();
         levelGeneratorInstance.colorPath(l, 0);
+        //levelGeneratorInstance.setRailInListIndex();
         levelGeneratorInstance.CheckCurrent(list_tuiles_path_validated);
-        current_trainstation.onTrainHasArrived.AddListener(levelGeneratorInstance.DeleteCurrent);
+        //current_trainstation.onTrainHasArrived.AddListener(callForDeleteCurrent);
+        current_trainstation.setPathFindToolInstance(this);
         OnPathFound.Invoke(list_tuiles_path_validated);
         canBuildPath = false;
         ClearAllPaths();
+    }
+
+    public void callForDeleteCurrent(List<Vector2> list_pos){
+        Debug.Log("called ");
+        levelGeneratorInstance.DeleteCurrent(list_pos);
     }
 
     private void ClearAllPaths(){

@@ -4,6 +4,7 @@ using UnityEngine.Events;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine.Rendering;
+using TMPro.Examples;
 
 public class Train : MonoBehaviour
 {
@@ -12,13 +13,15 @@ public class Train : MonoBehaviour
     //public int trainID;
     List<Vector2> railway = new();
 
-    int destinyType;
+    int destinyType, counter = 0;
 
     private int currentTargetIndex = 0; // Index of the current waypoint
     private Vector3 currentTarget; // The current target position in 3D space
     private bool isMoving = false; // Is the train moving?
 
-    public UnityEvent<List<Vector2>> onTrainArrived = new ();
+    private bool hasTheTrainReturned = false, hasLaunchedTrigger = false;
+
+    public UnityEvent<List<Vector2>, Human, Train> onTrainArrived = new ();
 
     //[SerializeField] GameObject raycastOrigin;
     public void Initialize(float lifetime, float speed, List<Vector2> given_railway, int destinyType)
@@ -84,10 +87,13 @@ public class Train : MonoBehaviour
         }
         else
         {
-            // No more waypoints, stop moving
-            isMoving = false;
-            Debug.Log("Train has reached the final destination.");
-            onTrainArrived.Invoke(railway);
+
+            if(hasTheTrainReturned) {
+                trainHasReacheddestination(null);
+            }else{
+                goReverse();
+            }
+            //trainHasReacheddestination();
         }
     }
 
@@ -127,33 +133,68 @@ public class Train : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        return;
         if (collision.collider.CompareTag("Train"))
         {
-            onTrainArrived.Invoke(railway);
+            if(hasLaunchedTrigger){
+                return;
+            }
+            hasLaunchedTrigger=true;
+            onTrainArrived.Invoke(railway, null, this);
             //Destroy(collision.gameObject);
-            Destroy();
+            //Destroy();
         }
         if (collision.collider.CompareTag("Human"))
         {
-            onTrainArrived.Invoke(railway);
+            if(hasLaunchedTrigger){
+                return;
+            }
+                        hasLaunchedTrigger=true;
+
+            //onTrainArrived.Invoke(railway, collision.gameObject.GetComponent<Human>(), this);
            //Destroy(collision.gameObject);
-            Destroy();
+            //Destroy();
+            trainHasReacheddestination(collision.gameObject.GetComponent<Human>());
         }
     }
 
     private void OnTriggerEnter(Collider collision)
     {
- 
+        
         if (collision.CompareTag("Human"))
         {
-            onTrainArrived.Invoke(railway);
-            Destroy(collision.gameObject);
-            Destroy(gameObject);
+            Debug.Log("TTrigger"+counter);
+            counter++;
+            if(hasLaunchedTrigger){
+                return;
+            }
+            hasLaunchedTrigger=true;
+
+           trainHasReacheddestination(collision.GetComponent<Human>());
         }
     }
 
+    private void trainHasReacheddestination(Human h){
+        // No more waypoints, stop moving
+            isMoving = false;
+            Debug.Log("Train has reached the final destination.");
+            onTrainArrived.Invoke(railway,h,this);
+    }
 
-    private void Destroy(){
+    public void goReverse(){
+        List<Vector2> new_railway = new ();
+        for (int i = 0; i < railway.Count; i++)
+        {
+            new_railway.Add(railway[railway.Count-i-1]);
+        }
+        railway = new_railway;
+        hasTheTrainReturned = true;
+        currentTargetIndex = 0;
+        SetNextTarget();
+    }
+
+
+    public void DestroyTrain(){
         GameStateResources.compteurTrain--;
         if (destinyType == 1){
             GameStateResources.compteurDictator--;

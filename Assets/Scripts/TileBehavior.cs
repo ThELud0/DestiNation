@@ -23,9 +23,11 @@ public class TileBehavior : MonoBehaviour
     Vector3 additionnalHeight = new Vector3(0f, 1f, 0f);
     GameObject createdRail;
 
+    private Levelgenerator levelgenerator;
+
     public bool tileForRail = false;
 
-    private List<Vector2[]> all_dir_set = new ();
+[SerializeField]    private List<Vector2[]> all_dir_set = new ();
     GameObject intersectionRail;
     int iii = 0;
 
@@ -138,6 +140,10 @@ public void CreateRail(){
         markers[2].SetActive(true);
     }
 
+    public void setTileManager(Levelgenerator levelGen){
+        levelgenerator = levelGen;
+    }
+
     public void addRail(Vector2[] dir){
             all_dir_set.Add(dir);
             UpdateRail();
@@ -209,7 +215,7 @@ public void CreateRail(){
             Debug.Log(info_all_rail[0] + "/"+info_all_rail[1] + "/"+info_all_rail[2] + "/"+ info_all_rail[3]);
             //Debug.Log(compareBoolLists(info_all_rail,new bool[4]{true,true, false, false}));
             
-
+            setRailInListIndex(true);
             if(compareBoolLists(info_all_rail,new bool[4]{true,false, true, false})){
                 Debug.Log("tftf");
                 rotation = Quaternion.Euler(0f, 0f, 0f);
@@ -242,13 +248,13 @@ public void CreateRail(){
                 rotation = Quaternion.Euler(0f, 180f, 0f);
                 CreateTurnRail(rotation);
             }else if(compareBoolLists(info_all_rail,new bool[4]{false,true, true, true})){
-                rotation = Quaternion.Euler(0f, 90f, 0f);
+                rotation = Quaternion.Euler(0f, 270f, 0f);
                 Create3WayRailPrefab(rotation);
             }else if(compareBoolLists(info_all_rail,new bool[4]{true,false, true, true})){
                 rotation = Quaternion.Euler(0f, 180f, 0f);
                 Create3WayRailPrefab(rotation);
             }else if(compareBoolLists(info_all_rail,new bool[4]{true,true, false, true})){
-                rotation = Quaternion.Euler(0f, 270f, 0f);
+                rotation = Quaternion.Euler(0f, 90f, 0f);
                 Create3WayRailPrefab(rotation);
             }else if(compareBoolLists(info_all_rail,new bool[4]{true,true, true, false})){
                 rotation = Quaternion.Euler(0f, 0f, 0f);
@@ -257,9 +263,15 @@ public void CreateRail(){
                     CreateCrossRailPrefab();
             }else{
                 Debug.LogWarning("aaaaargh"+info_all_rail[0] + "/"+info_all_rail[1] + "/"+info_all_rail[2] + "/"+ info_all_rail[3]);
+                setRailInListIndex(false);
                 disableMeshRails();
             }
     }
+
+
+private void setRailInListIndex(bool isRail){
+    levelgenerator.setRailInListIndex(GameTools.get2Dfrom3DVector(transform.position),isRail);
+}
 
 private bool compareBoolLists(bool[] info_all_rail, bool[] bool_infos){
     for(int i=0; i<bool_infos.Length; i++){

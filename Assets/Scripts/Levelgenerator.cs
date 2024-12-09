@@ -11,7 +11,7 @@ public class Levelgenerator : MonoBehaviour
     private int[,] list_index;
 
     [SerializeField]
-    private GameObject blockPrefab, big_forest_prefab, moutain_prefab;
+    private GameObject blockPrefab, big_forest_prefab, moutain_prefab, stationPrefab;
 
     [SerializeField]
     private int dim_x_block, dim_z_block;
@@ -20,7 +20,7 @@ public class Levelgenerator : MonoBehaviour
     private List<Vector2> la;
 
     [SerializeField]
-    private Vector2[] list_big_forest, list_mountains;
+    private Vector2[] list_big_forest, list_mountains, list_stations;
 
 
     [SerializeField]
@@ -44,6 +44,7 @@ public class Levelgenerator : MonoBehaviour
                 GameObject gbj = Instantiate(blockPrefab);
                 gbj.transform.position = new Vector3(a, floor_Y, b);
                 tilesMap[a, b] = gbj;
+                getTile(a,b).setTileManager(this);
                 list_index[a, b] = 0;
 
             }
@@ -53,14 +54,26 @@ public class Levelgenerator : MonoBehaviour
         {
             GameObject big_forest = Instantiate(big_forest_prefab);
             big_forest.transform.position = new Vector3(pos_forest.x, floor_Y + 1, pos_forest.y);
-            list_index[(int)pos_forest.x, (int)pos_forest.y] = 4; 
+            //list_index[(int)pos_forest.x, (int)pos_forest.y] = 4; 
+            generateBlockIndex((int)pos_forest.x, (int)pos_forest.y, 2, 4);
+
         }
 
         foreach (Vector2 pos_mountain in list_mountains)
         {
             GameObject mountain = Instantiate(moutain_prefab);
             mountain.transform.position = new Vector3(pos_mountain.x, floor_Y + 1, pos_mountain.y);
-            list_index[(int)pos_mountain.x, (int)pos_mountain.y] = 4; 
+            //list_index[(int)pos_mountain.x, (int)pos_mountain.y] = 4; 
+            generateBlockIndex((int)pos_mountain.x, (int)pos_mountain.y, 4, 4);
+
+        }
+
+         foreach (Vector2 pos_station in list_stations)
+        {
+            GameObject station = Instantiate(stationPrefab);
+            station.transform.position = new Vector3(pos_station.x, floor_Y + 1, pos_station.y);
+            //list_index[(int)pos_mountain.x, (int)pos_mountain.y] = 4; 
+            generateBlockIndex((int)pos_station.x, (int)pos_station.y, 3, 2);
 
         }
 
@@ -75,9 +88,39 @@ public class Levelgenerator : MonoBehaviour
         //DeleteCurrent(listVectors);
     }
 
+    private void generateBlockIndex(int pos_start_x, int pos_start_y, int range, int index){
+        for (int i = 0; i < range; i++)
+        {
+            for (int j = 0; j < range; j++)
+            {
+                list_index[pos_start_x+i, pos_start_y+j]=index;
+            }
+        }
+    }
+
+    public void setRailInListIndex(Vector2 pos, bool isRail = true){
+        if (isRail){  
+                list_index[(int)pos.x, (int)pos.y] = 1;
+        }else{
+                list_index[(int)pos.x, (int)pos.y] = 0;
+
+        }
+    }
+
+    public void setListRailInListIndex(List<Vector2> pos_list, bool isRail = true){
+       foreach(Vector2 pos in pos_list){
+        setRailInListIndex(pos, isRail);
+       }
+    }
+
     public int getStateFromTile(int posx, int posy)
     {
         return list_index[posx, posy];
+    }
+
+     public void setStateFromTile(int posx, int posy, int state)
+    {
+        list_index[posx, posy] =state;
     }
 
     public TileBehavior getTile(int posx, int posy)
@@ -124,6 +167,7 @@ public class Levelgenerator : MonoBehaviour
     }
 
     public void DeleteCurrent(List<Vector2> railway){
+        Debug.Log("destroyyyyyy");
         CheckCurrent(railway, true);
     }
 
@@ -132,7 +176,6 @@ public class Levelgenerator : MonoBehaviour
     {
 
         la = railway;
-                Debug.Log("destroyyyyyy");
 
         for (int i = 1; i < railway.Count - 1; i++)
         {
