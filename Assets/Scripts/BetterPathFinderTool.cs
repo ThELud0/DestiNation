@@ -359,6 +359,7 @@ if(gameStateInstance.isGamePaused()){
     private void thePathHaveBeenSet()
     {
         Debug.Log("TCHOU THCOOOOOOOU");
+        gameStateInstance.OnRailPlaced();
         list_tuiles_path_validated =  getConcatenatePath();
         List<Vector2> l = new();
         levelGeneratorInstance.colorPath(l, 0);

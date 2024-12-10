@@ -21,6 +21,8 @@ public class BabyManager : MonoBehaviour
     [SerializeField]
     private int range_max_x=20, range_max_z = 20;
 
+    private float increaseDifficultySpawnerRate = 0.0f, increaseDifficultySpawnRateIncrementor = 0.005f;
+
     [SerializeField]
     private int floorY = 0;
 
@@ -40,8 +42,8 @@ public class BabyManager : MonoBehaviour
     }
 
     public void launchLoopBaby(){
-        //spawn_baby_random_place();
-        StartCoroutine(LoopSpawnBaby());
+        spawn_baby_random_place();
+        StartCoroutine(FirstSpawnBaby());
     }
 
     Vector2 getRandomVector2(){
@@ -101,7 +103,8 @@ public class BabyManager : MonoBehaviour
              Debug.Log("Il y a quelques chose a cet endroit !");
         }
 
-        
+        gStateInstance.OnBabySpawn();
+        increaseDifficultySpawnerRate+=increaseDifficultySpawnRateIncrementor;
         
         GameObject newBaby = Instantiate(baby_prefab);
         newBaby.transform.position = new Vector3(randVec.x, floorY+1, randVec.y);
@@ -119,7 +122,21 @@ public class BabyManager : MonoBehaviour
 
     IEnumerator waitTillBabyExplode(GameObject baby,int duration){
             yield return new WaitForSeconds(duration);
+            if(!gameState.gamePause){
+             
             babyLost(baby);
+            }
+    }
+
+      IEnumerator FirstSpawnBaby(){
+            yield return new WaitForSeconds(3);
+            if(!gStateInstance.isGamePaused()){
+  
+            if(Random.Range(0f,1f)< baby_spawn_rate_probability+increaseDifficultySpawnerRate){
+                spawn_baby_random_place();
+            }
+            StartCoroutine(LoopSpawnBaby());
+            }
     }
 
      IEnumerator LoopSpawnBaby(){

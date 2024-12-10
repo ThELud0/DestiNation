@@ -20,6 +20,16 @@ public class SoundManager : MonoBehaviour
     [SerializeField]private AudioClip RailPose;
     [SerializeField]private AudioClip RailUnPose;
     [SerializeField]private AudioClip EndRailPose;
+
+    [SerializeField]private AudioClip endGame;
+
+
+    [SerializeField]private AudioClip[] gareEntrance;
+    private int gareEntranceSimultaneousCounter = 0;
+
+    public float durationResetTimerGare=5f;
+
+    private float trackTrainEntranceTime;
     [SerializeField]private AudioClip Button0;
 
     //Priority
@@ -37,6 +47,12 @@ public class SoundManager : MonoBehaviour
         // Assigner l'instance et la marquer pour persister entre les scènes
         Instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    void Update(){
+        if( Time.time - trackTrainEntranceTime>durationResetTimerGare){
+            gareEntranceSimultaneousCounter = 0;
+        }
     }
 
     // Only for AudioSource = PopUpSource
@@ -71,7 +87,12 @@ public class SoundManager : MonoBehaviour
     }
     //Popup Plays
     public void PlayArrivedToDestination(){
-        PlaySoundWithPriority(ArrivedToDestination, SoundPriority.Medium);
+        //PlaySoundWithPriority(ArrivedToDestination, SoundPriority.Medium);
+        if(gareEntranceSimultaneousCounter<4){
+            PlaySoundWithPriority(gareEntrance[gareEntranceSimultaneousCounter], SoundPriority.Medium);
+            gareEntranceSimultaneousCounter++;
+        }
+        trackTrainEntranceTime = Time.time;
     }
     public void PlayPopUpBaby(){
         PlaySoundWithPriority(PopUpBaby, SoundPriority.Medium);
@@ -89,9 +110,15 @@ public class SoundManager : MonoBehaviour
     //Play PlayerActionSounds
     public void PlayRailPose(){
         PlayerActionSource.clip = RailPose;
-        PlayerActionSource.loop = true;
+       // PlayerActionSource.loop = true;
         PlayerActionSource.Play();
     }
+
+  /*  public void PlayTRa(){
+        PlayerActionSource.clip = RailPose;
+       // PlayerActionSource.loop = true;
+        PlayerActionSource.Play();
+    }*/
     public void PlayRailUnPose(){
         PlayerActionSource.clip = RailUnPose;
         PlayerActionSource.loop = false;
@@ -102,6 +129,17 @@ public class SoundManager : MonoBehaviour
         PlayerActionSource.loop = false;
         PlayerActionSource.Play();
     }
+
+
+    public void PlayEndGame(){
+        PlayerActionSource.Stop();
+        PopUpSource.Stop();
+        PlayerActionSource.clip = endGame;
+        PlayerActionSource.loop = false;
+        PlaySoundWithPriority(endGame, SoundPriority.High);
+    }
+
+
     public void PlayButton0(){
         PlayerActionSource.clip = Button0;
         PlayerActionSource.loop = false;

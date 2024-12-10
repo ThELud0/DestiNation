@@ -9,12 +9,13 @@ using TMPro.Examples;
 
 public class Train : MonoBehaviour
 {
+
     float lifetime;
     float speed, floorY = 2f;
     //public int trainID;
-    List<Vector2> railway = new();
+    List<Vector2> railway = new(), copyRail=new(), list_rail_passed = new();
 
-    int destinyType, counter = 0, time_wait_till_despawn = 3;
+    int destinyType, counter = 0, time_wait_till_despawn = 10;
 
     public bool gamePaused = false;
 
@@ -22,9 +23,15 @@ public class Train : MonoBehaviour
     private Vector3 currentTarget; // The current target position in 3D space
     private bool isMoving = false; // Is the train moving?
 
+    private int babyCaptured = 0;
+
     private bool hasTheTrainReturned = false, hasLaunchedTrigger = false;
 
-    public UnityEvent<List<Vector2>, Human, Train> onTrainArrived = new ();
+    public UnityEvent<List<Vector2>, int, Train> onTrainArrived = new ();
+
+    public UnityEvent onTrainCrash = new ();
+
+    public UnityEvent<GameObject> onBabyCaptured = new ();
 
     //[SerializeField] GameObject raycastOrigin;
     public void Initialize(float lifetime, float speed, List<Vector2> given_railway, int destinyType)
@@ -33,6 +40,7 @@ public class Train : MonoBehaviour
         this.speed = speed;
         foreach(Vector2 vec in given_railway){
             railway.Add(vec);
+            copyRail.Add(vec);
         }
         this.destinyType = destinyType;
 
@@ -64,13 +72,15 @@ public class Train : MonoBehaviour
 
     void Update()
     {
-        if (isMoving && !gamePaused)
+
+        if (isMoving && !gameState.gamePause)
         {
             MoveTowardsTarget();
         }
     }
 
     private void launchTrain(){
+        gameState.compteurTrain++;
         //currentTarget = railway[0];
         currentTarget = new Vector3(railway[0].x,floorY, railway[0].y);
        // currentTarget.y = floorY;
@@ -93,9 +103,9 @@ public class Train : MonoBehaviour
         {
 
             if(hasTheTrainReturned) {
-                trainHasReacheddestination(null);
+                trainHasReacheddestination(babyCaptured);
             }else{
-                goReverse();
+                goReverse(railway);
             }
             //trainHasReacheddestination();
         }
@@ -114,6 +124,8 @@ public class Train : MonoBehaviour
         // Check if the train has reached the current target
         if (Vector3.Distance(transform.position, currentTarget) < 0.01f)
         {
+            list_rail_passed.Add(railway[currentTargetIndex]);
+
             // Move to the next waypoint
             currentTargetIndex++;
             Debug.Log("Next");
@@ -144,7 +156,7 @@ public class Train : MonoBehaviour
                 return;
             }
             hasLaunchedTrigger=true;
-            onTrainArrived.Invoke(railway, null, this);
+           // onTrainArrived.Invoke(railway, 0, this);
             //Destroy(collision.gameObject);
             //Destroy();
         }
@@ -158,9 +170,11 @@ public class Train : MonoBehaviour
             //onTrainArrived.Invoke(railway, collision.gameObject.GetComponent<Human>(), this);
            //Destroy(collision.gameObject);
             //Destroy();
-            trainHasReacheddestination(collision.gameObject.GetComponent<Human>());
+          //  trainHasReacheddestination(collision.gameObject.GetComponent<Human>());
         }
     }
+
+    
 
     private void OnTriggerEnter(Collider collision)
     {
@@ -173,29 +187,33 @@ public class Train : MonoBehaviour
                 return;
             }
             hasLaunchedTrigger=true;
-
-           trainHasReacheddestination(collision.GetComponent<Human>());
+            //Destroy(collision.gameObject);
+            onBabyCaptured.Invoke(collision.transform.gameObject);
+            babyCaptured++;
+            goReverse(list_rail_passed);
         }
          if (collision.CompareTag("Train"))
         {
             Debug.Log("Carambolage");
             isMoving = false;
+            onTrainCrash.Invoke();
+            
             StartCoroutine(waitTillDisappear());
         }
     }
 
-    private void trainHasReacheddestination(Human h){
+    private void trainHasReacheddestination(int h){
         // No more waypoints, stop moving
             isMoving = false;
             Debug.Log("Train has reached the final destination.");
-            onTrainArrived.Invoke(railway,h,this);
+            onTrainArrived.Invoke(copyRail,h,this);
     }
 
-    public void goReverse(){
+    public void goReverse(List<Vector2> current_rail){
         List<Vector2> new_railway = new ();
-        for (int i = 0; i < railway.Count; i++)
+        for (int i = 0; i < current_rail.Count; i++)
         {
-            new_railway.Add(railway[railway.Count-i-1]);
+            new_railway.Add(current_rail[current_rail.Count-i-1]);
         }
         railway = new_railway;
         hasTheTrainReturned = true;
@@ -206,6 +224,7 @@ public class Train : MonoBehaviour
 
     public void DestroyTrain(){
         GameStateResources.compteurTrain--;
+        gameState.compteurTrain--;
         if (destinyType == 1){
             GameStateResources.compteurDictator--;
         }else if (destinyType == 3){
@@ -217,7 +236,7 @@ public class Train : MonoBehaviour
        IEnumerator waitTillDisappear(){
             yield return new WaitForSeconds(time_wait_till_despawn);
 
-            trainHasReacheddestination(null);
+            trainHasReacheddestination(0);
     }
 
     /*

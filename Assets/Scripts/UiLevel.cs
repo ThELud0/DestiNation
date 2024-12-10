@@ -10,14 +10,19 @@ public class UiLevel : MonoBehaviour
 
     [SerializeField] 
     GameObject panelLost;
+
+    [SerializeField] GameObject pauseMenu, unpauseMenu;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     
     void Start(){
+        Time.timeScale = 1;
         panelLost.SetActive(false);
+        switchMenuPauseUnpause(false);
     }
     public void updateText(int score, int babyDead, int maxBabyDead){
         scoreText.text = "Score :"+score.ToString();
-        babyCounterText.text = babyDead.ToString()+"/"+maxBabyDead.ToString();
+        babyCounterText.text = "Destinies lost : "+babyDead.ToString()+"/"+maxBabyDead.ToString();
     }
 
     private void updateTextFinalScore(int scoreFinal){
@@ -37,4 +42,22 @@ public class UiLevel : MonoBehaviour
     public void OnMenuButtonPressed(){
             SceneManager.LoadScene("Scenes/Menu");
     }
+
+
+private void switchMenuPauseUnpause(bool isPause){
+    pauseMenu.SetActive(!isPause);
+    unpauseMenu.SetActive(isPause);
+}
+
+       public void OnPauseButtonPressed(){
+        Time.timeScale = 0;
+        switchMenuPauseUnpause(true);
+    }
+
+     public void OnResumeButtonPressed(){
+        Time.timeScale = 1;
+        switchMenuPauseUnpause(false);
+    }
+
+
 }

@@ -11,7 +11,7 @@ public class Trainstation : MonoBehaviour
 {
     float destinyTimer;
     float trainlifetime;
-    float trainspeed, speedModificator = 0.5f;
+    float trainspeed, speedModificator = 0.2f;
     int destinyType;
     List<Vector2> currentRailway;
     public bool occupied = false;
@@ -165,13 +165,26 @@ public class Trainstation : MonoBehaviour
             trainComponent.Initialize(trainlifetime, trainspeed*speedModificator, railway,destinyType);
             Debug.Log(railway[0].x+"/" +railway[0].y);
             trainComponent.onTrainArrived.AddListener(trainHasArrived);
-        }
+            trainComponent.onTrainCrash.AddListener(trainCrashed);      
+            trainComponent.onBabyCaptured.AddListener(babyAcquired);        
+
+              }
 
 
 
     }
 
-    void trainHasArrived(List<Vector2> list_vec, Human human_reached, Train train)
+    private void babyAcquired(GameObject g){
+        Destroy(g);
+            Vector2 pos_baby = GameTools.get2Dfrom3DVector(g.transform.position);
+            pathFindToolInstance.levelGeneratorInstance.removeBabyObstacle(pos_baby);
+    }
+
+    public void trainCrashed(){
+        pathFindToolInstance.gameStateInstance.OnCrashTrain();
+    }
+
+    void trainHasArrived(List<Vector2> list_vec, int humans_reached, Train train)
     {
         occupied = false;
         Debug.Log(list_vec.Count+" is the railwaay");
@@ -180,9 +193,9 @@ public class Trainstation : MonoBehaviour
         pathFindToolInstance.callForDeleteCurrent(list_vec);
         train.DestroyTrain();
 
-        if(human_reached!=null){
-            Destroy(human_reached.gameObject);
-            pathFindToolInstance.gameStateInstance.addToScore();
+        if(humans_reached>0){
+            //Destroy(human_reached.gameObject);
+            pathFindToolInstance.gameStateInstance.addNbBabyToScore(humans_reached);
         }
        
     }

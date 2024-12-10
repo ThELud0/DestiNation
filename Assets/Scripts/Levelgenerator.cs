@@ -150,6 +150,10 @@ public class Levelgenerator : MonoBehaviour
             tile.GetComponent<TileBehavior>().disableMarkers();
         }
     }
+
+    public void removeBabyObstacle(Vector2 pos){
+        list_index[(int)pos.x, (int)pos.y]=0;
+    }
     public void colorPath(List<Vector2> l, int indexColor)
     {
         disableColorsAllTiles();

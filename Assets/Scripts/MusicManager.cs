@@ -33,7 +33,29 @@ public class MusicManager : MonoBehaviour
     }
 
     void Update(){
-        if (GameStateResources.compteurTrain>0){
+       if (gameState.compteurTrain>0 && !gameState.gamePause){
+            SetVolumeLocoBase(1);
+        }else{
+            SetVolumeLocoBase(0);
+        }
+        if (gameState.compteurTrain>=5&& !gameState.gamePause){
+            SetVolumeTimbale(1);
+        }else{
+            SetVolumeTimbale(0);
+        }
+        if (gameState.compteurTrain>=3&& !gameState.gamePause){
+            SetVolumeBasse(1);
+        }else{
+            SetVolumeBasse(0);
+        }
+      
+      
+      
+      
+       /* 
+       
+       //old mais doit bien marcher
+       if (GameStateResources.compteurTrain>0){
             SetVolumeLocoBase(1);
         }else{
             SetVolumeLocoBase(0);
@@ -47,7 +69,7 @@ public class MusicManager : MonoBehaviour
             SetVolumeBasse(1);
         }else{
             SetVolumeBasse(0);
-        }
+        }*/
 
     }
 
