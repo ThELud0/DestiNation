@@ -24,6 +24,9 @@ public class BabyManager : MonoBehaviour
     [SerializeField]
     private int floorY = 0;
 
+        [SerializeField]
+    private gameState gStateInstance;
+
     [SerializeField]
     private string[] list_String_unspawnable_baby;
 
@@ -33,6 +36,10 @@ public class BabyManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        launchLoopBaby();
+    }
+
+    public void launchLoopBaby(){
         //spawn_baby_random_place();
         StartCoroutine(LoopSpawnBaby());
     }
@@ -104,15 +111,10 @@ public class BabyManager : MonoBehaviour
 
     private void babyLost(GameObject baby){
         Destroy(baby);
-        babyLostCounter++;
-        if(babyLostCounter>nbBabyDeadTillLost){
-            gameIsLost();
-        }
+        gStateInstance.newBabyDead();
     }
 
-    private void gameIsLost(){
-        Debug.LogWarning("Game lost");
-    }
+
 
 
     IEnumerator waitTillBabyExplode(GameObject baby,int duration){
@@ -122,9 +124,12 @@ public class BabyManager : MonoBehaviour
 
      IEnumerator LoopSpawnBaby(){
             yield return new WaitForSeconds(time_wait_spawn_baby);
+            if(!gStateInstance.isGamePaused()){
+  
             if(Random.Range(0f,1f)< baby_spawn_rate_probability){
                 spawn_baby_random_place();
             }
             StartCoroutine(LoopSpawnBaby());
+            }
     }
 }

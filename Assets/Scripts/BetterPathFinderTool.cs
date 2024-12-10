@@ -15,6 +15,7 @@ public class BetterPathFinderTool : MonoBehaviour
 
     private bool canBuildPath = false;
 
+
     private Trainstation current_trainstation = null;
 
     public UnityEvent<List<Vector2>> OnPathFound = new();
@@ -27,6 +28,9 @@ public class BetterPathFinderTool : MonoBehaviour
     private Levelgenerator tuile_manager;
 
     public LayerMask sol_occulter;
+
+    
+    public gameState gameStateInstance;
 
     //public GameObject visualitor;
 
@@ -45,6 +49,11 @@ public class BetterPathFinderTool : MonoBehaviour
 
     void Update()
     {
+if(gameStateInstance.isGamePaused()){
+    resetPath();
+    return;
+}
+
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             OnClickOnTile();
@@ -69,7 +78,7 @@ public class BetterPathFinderTool : MonoBehaviour
         {
             foreach (RaycastHit hit in hits)
             {
-                Debug.Log("the tag is " + hit.transform.gameObject.tag);
+                //Debug.Log("the tag is " + hit.transform.gameObject.tag);
                 if (hit.transform.gameObject.tag == "Trainstation")
                 {
                     setNewTrainstationStart(hit.transform.gameObject.GetComponent<Trainstation>());
@@ -226,7 +235,13 @@ public class BetterPathFinderTool : MonoBehaviour
     {
         current_pos_mouse_pressed = GameTools.get2Dfrom3DVector(pos_clicked);
         list_tuiles_path_tested.Clear();
-        List<Vector2> list = recursiveGetPath(precedent_pos_mouse_pressed, current_pos_mouse_pressed);
+        List<Vector2> list;
+        if (list_tuiles_path_validated.Count == 0){
+            list = recursiveGetPath(current_trainstation.getClosestStartRailPosition(current_pos_mouse_pressed), current_pos_mouse_pressed);
+        }else{
+            //list_tuiles_path_validated.Add(precedent_pos_mouse_pressed);
+            list = recursiveGetPath(precedent_pos_mouse_pressed, current_pos_mouse_pressed);
+        }
         if (list != null)
         {
             levelGeneratorInstance.colorPathToYellow(list);
@@ -332,7 +347,7 @@ public class BetterPathFinderTool : MonoBehaviour
         canBuildPath = true;
         precedent_pos_mouse_pressed = GameTools.get2Dfrom3DVector(current_trainstation.getDeparturePosition());
         OnPathFound.AddListener(current_trainstation.spawnTrain);
-        list_tuiles_path_validated.Add(precedent_pos_mouse_pressed);
+       // list_tuiles_path_validated.Add(precedent_pos_mouse_pressed);
     }
 
     private List<Vector2> getConcatenatePath()
@@ -357,7 +372,7 @@ public class BetterPathFinderTool : MonoBehaviour
     }
 
     public void callForDeleteCurrent(List<Vector2> list_pos){
-        Debug.Log("called ");
+        //Debug.Log("called ");
         levelGeneratorInstance.DeleteCurrent(list_pos);
     }
 

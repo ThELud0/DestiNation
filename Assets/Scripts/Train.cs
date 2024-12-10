@@ -1,4 +1,4 @@
-using UnityEditor.ShaderGraph.Internal;
+//using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections.Generic;
@@ -15,6 +15,8 @@ public class Train : MonoBehaviour
     List<Vector2> railway = new();
 
     int destinyType, counter = 0, time_wait_till_despawn = 3;
+
+    public bool gamePaused = false;
 
     private int currentTargetIndex = 0; // Index of the current waypoint
     private Vector3 currentTarget; // The current target position in 3D space
@@ -62,16 +64,17 @@ public class Train : MonoBehaviour
 
     void Update()
     {
-        if (isMoving)
+        if (isMoving && !gamePaused)
         {
             MoveTowardsTarget();
         }
     }
 
     private void launchTrain(){
-        currentTarget = railway[0];
-        currentTarget.y = floorY;
-        transform.position = GameTools.get3Dfrom2DVector(currentTarget);
+        //currentTarget = railway[0];
+        currentTarget = new Vector3(railway[0].x,floorY, railway[0].y);
+       // currentTarget.y = floorY;
+        transform.position = currentTarget;
         currentTargetIndex=1;
         isMoving = true;
         SetNextTarget();

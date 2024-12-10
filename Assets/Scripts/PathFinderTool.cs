@@ -27,7 +27,7 @@ public class PathFinderTool : MonoBehaviour
     public string[] list_String_unspawnable_baby;
 
     public Levelgenerator levelGeneratorInstance;
-    
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
@@ -36,6 +36,8 @@ public class PathFinderTool : MonoBehaviour
             Gizmos.DrawSphere(new Vector3(step.x, 3f, step.y), 0.2f);
         }
     }
+
+
 
 void Update(){
     if (Mouse.current.leftButton.wasPressedThisFrame)

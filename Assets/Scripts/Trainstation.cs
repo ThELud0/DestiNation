@@ -4,6 +4,8 @@ using UnityEngine.UIElements;
 using System.Collections.Generic;
 using TMPro.Examples;
 using UnityEngine.Events;
+using UnityEditor;
+using Unity.VisualScripting;
 
 public class Trainstation : MonoBehaviour
 {
@@ -14,6 +16,11 @@ public class Trainstation : MonoBehaviour
     List<Vector2> currentRailway;
     public bool occupied = false;
     public Vector3 startPoint;
+
+    [SerializeField] private GameObject[] list_entrance;
+
+
+
     //public UnityEvent<List<Vector2>> onTrainHasArrived = new();
 
     private BetterPathFinderTool pathFindToolInstance;
@@ -58,6 +65,17 @@ public class Trainstation : MonoBehaviour
         l[0] = new Vector2 (startPoint.x, startPoint.z+1);
         l[1]= new Vector2 (startPoint.x, startPoint.z-1);
         return l;
+    }
+
+    public Vector2 getClosestStartRailPosition(Vector2 pos_mouse){
+            Vector2 pos_selected = GameTools.get2Dfrom3DVector(list_entrance[0].transform.position);
+            foreach(GameObject g in list_entrance){
+                Vector2 test_pos = GameTools.get2Dfrom3DVector(g.transform.position);
+                if(Vector2.Distance(test_pos, pos_mouse)<Vector2.Distance(pos_selected, pos_mouse)){
+                    pos_selected = test_pos;
+                }
+            }
+            return pos_selected;
     }
 
     void Update()
@@ -164,6 +182,7 @@ public class Trainstation : MonoBehaviour
 
         if(human_reached!=null){
             Destroy(human_reached.gameObject);
+            pathFindToolInstance.gameStateInstance.addToScore();
         }
        
     }

@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
+
 
 
 public class MenuManager : MonoBehaviour
@@ -27,7 +29,7 @@ public class MenuManager : MonoBehaviour
 
 
  public void OnCreditButtonEnter(){
-    Debug.Log("test ca marche");
+  //  Debug.Log("test ca marche");
     activateSprite(creditSprite);
     //fadeIntCredit(4f);
 }
@@ -40,6 +42,11 @@ public void OnQuitCreditsButtonEnter(){
  public void OnSettingsButtonEnter(){
     activateSprite(settingsGameobject);
 }
+
+public void OnPlayButtonEnter(){
+    SceneManager.LoadScene("Scenes/Level_Scene");
+}
+
 
 public void OnQuitSettingsButtonEnter(){
     activateSprite(settingsGameobject, false);
@@ -64,7 +71,7 @@ IEnumerator fadeIntCredit(float duration)
     {
         counter += Time.deltaTime;
         float alpha = Mathf.Lerp(1, 0, counter / duration);
-        Debug.Log(alpha);
+      //  Debug.Log(alpha);
         creditRender.color = new Color(spriteColor.r, spriteColor.g, spriteColor.b, alpha);
 
         yield return null;
