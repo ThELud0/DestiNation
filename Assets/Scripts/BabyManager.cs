@@ -21,7 +21,9 @@ public class BabyManager : MonoBehaviour
     [SerializeField]
     private int range_max_x=20, range_max_z = 20;
 
-    private float increaseDifficultySpawnerRate = 0.0f, increaseDifficultySpawnRateIncrementor = 0.005f;
+
+[SerializeField]
+    private float increaseDifficultySpawnerRate = 0.0f, increaseDifficultySpawnRateIncrementor = 0.007f;
 
     [SerializeField]
     private int floorY = 0;
@@ -109,24 +111,27 @@ public class BabyManager : MonoBehaviour
         GameObject newBaby = Instantiate(baby_prefab);
         newBaby.transform.position = new Vector3(randVec.x, floorY+1, randVec.y);
         levelgenerator.setStateFromTile((int)randVec.x,(int)randVec.y,3);
-        StartCoroutine(waitTillBabyExplode( newBaby,baby_despawn_timer));
+        newBaby.GetComponent<Human>().Initialize(baby_despawn_timer, this);
+        //newBaby.GetComponent<Human>().OnBabyDespawn.AddListener( babyLost) ;
+
+        //StartCoroutine(waitTillBabyExplode( newBaby,baby_despawn_timer));
     }
 
-    private void babyLost(GameObject baby){
-        Destroy(baby);
+    public void babyLost(Human baby){
+        Destroy(baby.gameObject);
         gStateInstance.newBabyDead();
     }
 
 
 
 
-    IEnumerator waitTillBabyExplode(GameObject baby,int duration){
+   /* IEnumerator waitTillBabyExplode(GameObject baby,int duration){
             yield return new WaitForSeconds(duration);
             if(!gameState.gamePause){
              
             babyLost(baby);
             }
-    }
+    }*/
 
       IEnumerator FirstSpawnBaby(){
             yield return new WaitForSeconds(3);
@@ -142,10 +147,15 @@ public class BabyManager : MonoBehaviour
      IEnumerator LoopSpawnBaby(){
             yield return new WaitForSeconds(time_wait_spawn_baby);
             if(!gStateInstance.isGamePaused()){
-  
-            if(Random.Range(0f,1f)< baby_spawn_rate_probability){
+            float current_proba = baby_spawn_rate_probability+increaseDifficultySpawnerRate;
+            while(current_proba>1){
+                spawn_baby_random_place();
+                current_proba-=1;
+            }
+            if(Random.Range(0f,1f)< current_proba ){
                 spawn_baby_random_place();
             }
+            
             StartCoroutine(LoopSpawnBaby());
             }
     }

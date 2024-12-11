@@ -775,11 +775,13 @@ MonoBehaviour:
   babyLostCounter: 0
   nbBabyDeadTillLost: 1
   list_bloqued_baby_spawns: []
-  baby_spawn_rate_probability: 0.3
-  time_wait_spawn_baby: 1
+  baby_spawn_rate_probability: 0.03
+  time_wait_spawn_baby: 0.2
   baby_prefab: {fileID: 4208153424205529738, guid: 19e84e2dbd9398f418632a64a14ef226, type: 3}
   range_max_x: 30
   range_max_z: 51
+  increaseDifficultySpawnerRate: 0
+  increaseDifficultySpawnRateIncrementor: 0.002
   floorY: 1
   gStateInstance: {fileID: 331692189}
   list_String_unspawnable_baby:
@@ -1409,8 +1411,8 @@ Camera:
   m_GameObject: {fileID: 629775361}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

@@ -11,7 +11,7 @@ public class BetterPathFinderTool : MonoBehaviour
 {
 
     [SerializeField]
-    private Vector2 precedent_pos_mouse_pressed, current_pos_mouse_pressed;
+    private Vector2 precedent_pos_mouse_pressed, current_pos_mouse_pressed, start_rail;
 
     private bool canBuildPath = false;
 
@@ -237,7 +237,8 @@ if(gameStateInstance.isGamePaused()){
         list_tuiles_path_tested.Clear();
         List<Vector2> list;
         if (list_tuiles_path_validated.Count == 0){
-            list = recursiveGetPath(current_trainstation.getClosestStartRailPosition(current_pos_mouse_pressed), current_pos_mouse_pressed);
+            start_rail =  current_trainstation.getClosestStartRailPosition(current_pos_mouse_pressed);
+            list = recursiveGetPath(start_rail, current_pos_mouse_pressed);
         }else{
             //list_tuiles_path_validated.Add(precedent_pos_mouse_pressed);
             list = recursiveGetPath(precedent_pos_mouse_pressed, current_pos_mouse_pressed);
@@ -359,6 +360,7 @@ if(gameStateInstance.isGamePaused()){
     private void thePathHaveBeenSet()
     {
         Debug.Log("TCHOU THCOOOOOOOU");
+        list_tuiles_path_validated.Insert(0, GameTools.get2Dfrom3DVector(current_trainstation.transform.position));
         gameStateInstance.OnRailPlaced();
         list_tuiles_path_validated =  getConcatenatePath();
         List<Vector2> l = new();
