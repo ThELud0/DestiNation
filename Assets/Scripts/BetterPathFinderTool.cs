@@ -332,7 +332,7 @@ if(gameStateInstance.isGamePaused()){
 
     private void setNewTrainstationStart(Trainstation newTrainStation)
     {
-
+        resetPath();
         if (current_trainstation!=null){
             //current_trainstation.onTrainHasArrived.RemoveAllListeners();
 
@@ -360,7 +360,8 @@ if(gameStateInstance.isGamePaused()){
     private void thePathHaveBeenSet()
     {
         Debug.Log("TCHOU THCOOOOOOOU");
-        list_tuiles_path_validated.Insert(0, GameTools.get2Dfrom3DVector(current_trainstation.transform.position));
+        //list_tuiles_path_validated.Insert(0, GameTools.get2Dfrom3DVector(current_trainstation.transform.position));
+        list_tuiles_path_validated.Insert(0, GameTools.get2Dfrom3DVector(current_trainstation.getCenter()));
         gameStateInstance.OnRailPlaced();
         list_tuiles_path_validated =  getConcatenatePath();
         List<Vector2> l = new();

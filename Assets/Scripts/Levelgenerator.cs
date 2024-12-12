@@ -22,6 +22,8 @@ public class Levelgenerator : MonoBehaviour
     [SerializeField]
     private Vector2[] list_big_forest, list_mountains, list_stations;
 
+    private List<GameObject> list_stations_created=new ();
+
 
     [SerializeField]
     private int floor_Y = 1;
@@ -71,6 +73,7 @@ public class Levelgenerator : MonoBehaviour
          foreach (Vector2 pos_station in list_stations)
         {
             GameObject station = Instantiate(stationPrefab);
+            list_stations_created.Add(station);
             station.transform.position = new Vector3(pos_station.x, floor_Y + 1, pos_station.y);
             //list_index[(int)pos_mountain.x, (int)pos_mountain.y] = 4; 
             generateBlockIndex((int)pos_station.x, (int)pos_station.y, 3, 2);
@@ -149,6 +152,16 @@ public class Levelgenerator : MonoBehaviour
         foreach(GameObject tile in tilesMap){
             tile.GetComponent<TileBehavior>().disableMarkers();
         }
+    }
+
+    public bool isNotInRangeOfTrainstations(float disctance, Vector2 pos){
+        foreach(GameObject gare in list_stations_created){
+            Vector2 pos_flat = GameTools.get2Dfrom3DVector(gare.GetComponent<Trainstation>().getCenter());
+            if(Vector2.Distance(pos_flat,pos)<disctance){
+                return false;
+            }
+        }
+        return true;
     }
 
     public void removeBabyObstacle(Vector2 pos){

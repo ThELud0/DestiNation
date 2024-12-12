@@ -17,6 +17,10 @@ public class Trainstation : MonoBehaviour
     public bool occupied = false;
     public Vector3 startPoint;
 
+     [SerializeField] private Transform center;
+
+    
+
     [SerializeField] private GameObject[] list_entrance;
 
 
@@ -39,6 +43,10 @@ public class Trainstation : MonoBehaviour
 
     public Vector3 getDeparturePosition(){
         return departure.transform.position;
+    }
+
+    public Vector3 getCenter(){
+        return center.position;
     }
     void Start()
     {
@@ -75,6 +83,7 @@ public class Trainstation : MonoBehaviour
                     pos_selected = test_pos;
                 }
             }
+            Debug.LogWarning("on choisit "+pos_selected.ToString());
             return pos_selected;
     }
 

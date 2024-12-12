@@ -15,13 +15,13 @@ public class Train : MonoBehaviour
     //public int trainID;
     List<Vector2> railway = new(), copyRail=new(), list_rail_passed = new();
 
-    int destinyType, counter = 0, time_wait_till_despawn = 10;
+    int destinyType, counter = 0, time_wait_till_despawn = 10, stepRotation = 0;
 
     public bool gamePaused = false;
-
+    [SerializeField] float magnitudeTreshold=1f, rotateTreshold=2f;
     private int currentTargetIndex = 0; // Index of the current waypoint
     private Vector3 currentTarget; // The current target position in 3D space
-    private bool isMoving = false; // Is the train moving?
+    private bool isMoving = false, isTurning = false; // Is the train moving?
 
     private int babyCaptured = 0;
 
@@ -86,6 +86,7 @@ public class Train : MonoBehaviour
        // currentTarget.y = floorY;
         transform.position = currentTarget;
         currentTargetIndex=1;
+        isTurning=false;
         isMoving = true;
         SetNextTarget();
     }
@@ -115,11 +116,13 @@ public class Train : MonoBehaviour
     {
         // Calculate the step size for this frame
         float step = speed * Time.deltaTime;
-
+        RotateTowardsTarget();
+        if(isTurning){
+            return;
+        }
         // Move the train towards the current target
         //transform.position = Vector3.MoveTowards(transform.position, currentTarget, step);
         transform.position = Vector3.Lerp(transform.position, currentTarget, step / Vector3.Distance(transform.position, currentTarget));
-        RotateTowardsTarget();
 
         // Check if the train has reached the current target
         if (Vector3.Distance(transform.position, currentTarget) < 0.01f)
@@ -136,15 +139,23 @@ public class Train : MonoBehaviour
     private void RotateTowardsTarget()
     {
         Vector3 direction = currentTarget - transform.position;
-        if (direction != Vector3.zero)
+        if (direction != Vector3.zero )
         {
+            isTurning = true;
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             
             Quaternion rotationOffset = Quaternion.Euler(0, -90, 0);
             targetRotation *= rotationOffset;
 
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * speed);
+            Quaternion leftTorotate = transform.rotation * Quaternion.Inverse(targetRotation);
+         isTurning = leftTorotate.eulerAngles.magnitude >magnitudeTreshold;
+        
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation,rotateTreshold);
+        stepRotation++;
+
+
         }
+
     }
 
     private void OnCollisionEnter(Collision collision)

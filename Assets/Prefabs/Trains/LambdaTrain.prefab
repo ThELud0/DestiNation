@@ -50,7 +50,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4c1a6281e64ddd4f9475077fbcb2b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gamePaused: 0
+  magnitudeTreshold: 70
+  rotateTreshold: 3
   onTrainArrived:
+    m_PersistentCalls:
+      m_Calls: []
+  onTrainCrash:
+    m_PersistentCalls:
+      m_Calls: []
+  onBabyCaptured:
     m_PersistentCalls:
       m_Calls: []
 --- !u!136 &3355605491451078125

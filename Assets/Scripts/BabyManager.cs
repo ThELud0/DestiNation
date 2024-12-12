@@ -13,7 +13,7 @@ public class BabyManager : MonoBehaviour
     private Vector2[] list_bloqued_baby_spawns;
 
     [SerializeField]
-    private float baby_spawn_rate_probability = 0.2f, time_wait_spawn_baby = 0.5f;
+    private float baby_spawn_rate_probability = 0.2f, time_wait_spawn_baby = 0.5f, babyRangeSpawn = 2f;
 
     [SerializeField]
     private GameObject baby_prefab;
@@ -100,7 +100,7 @@ public class BabyManager : MonoBehaviour
 
     void spawn_baby_random_place(){
         Vector2 randVec = getRandomVector2();
-        while(isVecInForbiddenList(randVec) || ZoneNotSpawnable(randVec)){
+        while(isVecInForbiddenList(randVec) || ZoneNotSpawnable(randVec) && !levelgenerator.isNotInRangeOfTrainstations(babyRangeSpawn,randVec)){
              randVec = getRandomVector2();
              Debug.Log("Il y a quelques chose a cet endroit !");
         }

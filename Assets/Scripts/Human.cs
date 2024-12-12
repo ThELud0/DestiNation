@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -20,6 +21,7 @@ public class Human : MonoBehaviour
     {
         if( Time.time - time_spawn > durationTillDespawn && !gameState.gamePause){
                 bbInstance.babyLost(this);
+               // Destroy(this.gameObject);
         }
     }
     /*

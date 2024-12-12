@@ -777,6 +777,7 @@ MonoBehaviour:
   list_bloqued_baby_spawns: []
   baby_spawn_rate_probability: 0.03
   time_wait_spawn_baby: 0.2
+  babyRangeSpawn: 5
   baby_prefab: {fileID: 4208153424205529738, guid: 19e84e2dbd9398f418632a64a14ef226, type: 3}
   range_max_x: 30
   range_max_z: 51
@@ -805,6 +806,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   precedent_pos_mouse_pressed: {x: 0, y: 0}
   current_pos_mouse_pressed: {x: 0, y: 0}
+  start_rail: {x: 0, y: 0}
   OnPathFound:
     m_PersistentCalls:
       m_Calls: []
