@@ -466,8 +466,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3, y: 2, z: 3}
-  m_Center: {x: 1, y: 0, z: 1}
+  m_Size: {x: 3, y: 1, z: 3}
+  m_Center: {x: 1, y: -0.89, z: 1}
 --- !u!114 &1186005383240045345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -483,6 +483,7 @@ MonoBehaviour:
   occupied: 0
   startPoint: {x: 0, y: 0, z: 0}
   center: {fileID: 4610522801924271797}
+  trainSpawnCooldown: 3
   list_entrance:
   - {fileID: 9221283120746198169}
   - {fileID: 4171213557156285417}

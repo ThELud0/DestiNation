@@ -192,7 +192,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 117, y: 52}
+  m_AnchoredPosition: {x: 117, y: 29}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &18264969
@@ -777,7 +777,7 @@ MonoBehaviour:
   list_bloqued_baby_spawns: []
   baby_spawn_rate_probability: 0.03
   time_wait_spawn_baby: 0.2
-  babyRangeSpawn: 5
+  babyRangeSpawn: 50
   baby_prefab: {fileID: 4208153424205529738, guid: 19e84e2dbd9398f418632a64a14ef226, type: 3}
   range_max_x: 30
   range_max_z: 51

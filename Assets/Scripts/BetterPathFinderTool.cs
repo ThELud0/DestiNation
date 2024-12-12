@@ -347,7 +347,7 @@ if(gameStateInstance.isGamePaused()){
 
         canBuildPath = true;
         precedent_pos_mouse_pressed = GameTools.get2Dfrom3DVector(current_trainstation.getDeparturePosition());
-        OnPathFound.AddListener(current_trainstation.spawnTrain);
+        OnPathFound.AddListener(current_trainstation.addTrainInQueue);
        // list_tuiles_path_validated.Add(precedent_pos_mouse_pressed);
     }
 
@@ -361,7 +361,7 @@ if(gameStateInstance.isGamePaused()){
     {
         Debug.Log("TCHOU THCOOOOOOOU");
         //list_tuiles_path_validated.Insert(0, GameTools.get2Dfrom3DVector(current_trainstation.transform.position));
-        list_tuiles_path_validated.Insert(0, GameTools.get2Dfrom3DVector(current_trainstation.getCenter()));
+        list_tuiles_path_validated.Insert(0, start_rail);
         gameStateInstance.OnRailPlaced();
         list_tuiles_path_validated =  getConcatenatePath();
         List<Vector2> l = new();
@@ -370,6 +370,7 @@ if(gameStateInstance.isGamePaused()){
         levelGeneratorInstance.CheckCurrent(list_tuiles_path_validated);
         //current_trainstation.onTrainHasArrived.AddListener(callForDeleteCurrent);
         current_trainstation.setPathFindToolInstance(this);
+        Debug.Log("dsqdsqdsqs "+list_tuiles_path_validated.Count);
         OnPathFound.Invoke(list_tuiles_path_validated);
         canBuildPath = false;
         ClearAllPaths();

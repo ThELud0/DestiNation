@@ -334,7 +334,7 @@ void Update(){
         OnPathFound.RemoveAllListeners();
         current_trainstation = newTrainStation;
         precedent_pos_mouse_pressed = new Vector2(newTrainStation.transform.position.x, newTrainStation.transform.position.z);
-        OnPathFound.AddListener(current_trainstation.spawnTrain);
+        OnPathFound.AddListener(current_trainstation.addTrainInQueue);
    }
 
 

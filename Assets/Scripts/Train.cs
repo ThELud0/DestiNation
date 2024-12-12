@@ -85,6 +85,8 @@ public class Train : MonoBehaviour
         currentTarget = new Vector3(railway[0].x,floorY, railway[0].y);
        // currentTarget.y = floorY;
         transform.position = currentTarget;
+        Vector2 firstDir = railway[1]-railway[0];
+        transform.rotation = Quaternion.LookRotation(new Vector3(firstDir.x,0, firstDir.y));
         currentTargetIndex=1;
         isTurning=false;
         isMoving = true;
@@ -127,7 +129,11 @@ public class Train : MonoBehaviour
         // Check if the train has reached the current target
         if (Vector3.Distance(transform.position, currentTarget) < 0.01f)
         {
+
+            if(!hasTheTrainReturned){
             list_rail_passed.Add(railway[currentTargetIndex]);
+
+            }
 
             // Move to the next waypoint
             currentTargetIndex++;
@@ -138,7 +144,18 @@ public class Train : MonoBehaviour
 
     private void RotateTowardsTarget()
     {
-        Vector3 direction = currentTarget - transform.position;
+
+          Vector3 direction = currentTarget - transform.position;
+        if (direction != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            
+            Quaternion rotationOffset = Quaternion.Euler(0, -90, 0);
+            targetRotation *= rotationOffset;
+
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * speed);
+        }
+       /* Vector3 direction = currentTarget - transform.position;
         if (direction != Vector3.zero )
         {
             isTurning = true;
@@ -150,11 +167,13 @@ public class Train : MonoBehaviour
             Quaternion leftTorotate = transform.rotation * Quaternion.Inverse(targetRotation);
          isTurning = leftTorotate.eulerAngles.magnitude >magnitudeTreshold;
         
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation,rotateTreshold);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation,rotateTreshold+1);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation,-1);
+
         stepRotation++;
 
 
-        }
+        }*/
 
     }
 
@@ -229,6 +248,12 @@ public class Train : MonoBehaviour
         railway = new_railway;
         hasTheTrainReturned = true;
         currentTargetIndex = 0;
+        currentTarget= new_railway[0];
+        Vector3 direction = currentTarget - transform.position;
+
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation,rotateTreshold+1);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation,-1);
         SetNextTarget();
     }
 

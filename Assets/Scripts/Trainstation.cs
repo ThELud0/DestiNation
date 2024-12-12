@@ -19,6 +19,9 @@ public class Trainstation : MonoBehaviour
 
      [SerializeField] private Transform center;
 
+     private List<List<Vector2>> trains_queue = new ();
+     [SerializeField] private float trainSpawnCooldown = 5f;
+    private float timeLastSpawnedTrain;
     
 
     [SerializeField] private GameObject[] list_entrance;
@@ -51,6 +54,7 @@ public class Trainstation : MonoBehaviour
     void Start()
     {
         destinyTimer = Time.time + Random.Range(3, 10);
+        timeLastSpawnedTrain=Time.time;
         /*
         test = new List<Vector2>();
         for (int i = 5; i<18; i++)
@@ -61,6 +65,22 @@ public class Trainstation : MonoBehaviour
         {
             test.Add(new Vector2(17, i));
         }*/
+    }
+
+    void Update(){
+    if(trains_queue.Count==0){
+        return;
+    }
+        if(Time.time - timeLastSpawnedTrain > trainSpawnCooldown){
+            
+                    Debug.Log(" ffirstTrainn is "+trains_queue[0].Count);
+            List<Vector2> firstTrainInQueue = GameTools.copyListVector2(trains_queue[0]) ;
+                        Debug.Log(" firstTrainn is "+firstTrainInQueue.Count);
+
+            trains_queue.RemoveAt(0); 
+            Debug.Log(" firstTrain is "+firstTrainInQueue.Count);
+            spawnTrain(firstTrainInQueue);
+        }
     }
 
     public void setPathFindToolInstance(BetterPathFinderTool tool){
@@ -87,13 +107,13 @@ public class Trainstation : MonoBehaviour
             return pos_selected;
     }
 
-    void Update()
+   /* void Update()
     {
         destinyType = 0;
         if (Time.time >= destinyTimer)
         {
            // changeNature();
-        }
+        }*/
 
        /* if (Mouse.current.leftButton.wasPressedThisFrame)
 
@@ -102,7 +122,7 @@ public class Trainstation : MonoBehaviour
             destinyType = destinyType % 4;
             spawnTrain(test);
         }*/
-    }
+    //}
 
     void changeNature()
     {
@@ -130,11 +150,14 @@ public class Trainstation : MonoBehaviour
         destinyTimer = Time.time + Random.Range(10, 30);
     }
 
+    public void addTrainInQueue(List<Vector2> _railway){
+        Debug.Log("whdzuidbsqjldbs "+_railway.Count);
+        trains_queue.Add(GameTools.copyListVector2(_railway));
+    }
 
-
-   public void spawnTrain(List<Vector2> railway)
+   private  void spawnTrain(List<Vector2> railway)
     {
-        
+        timeLastSpawnedTrain=Time.time;
         //currentRailway = railway;
         currentRailway = GameTools.copyListVector2(railway);
         occupied = true;
