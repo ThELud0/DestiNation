@@ -7,7 +7,7 @@ public class BabyManager : MonoBehaviour
 {
 
     [SerializeField]
-    private int baby_despawn_timer = 5, babyLostCounter = 0,nbBabyDeadTillLost= 5;
+    private int baby_despawn_timer = 5, babyLostCounter = 0,nbBabyDeadTillLost= 5, babyInSceneCounter = 0;
 
     [SerializeField]
     private Vector2[] list_bloqued_baby_spawns;
@@ -106,6 +106,7 @@ public class BabyManager : MonoBehaviour
         }
 
         gStateInstance.OnBabySpawn();
+        babyInSceneCounter++;
         increaseDifficultySpawnerRate+=increaseDifficultySpawnRateIncrementor;
         
         GameObject newBaby = Instantiate(baby_prefab);
@@ -119,6 +120,7 @@ public class BabyManager : MonoBehaviour
 
     public void babyLost(Human baby){
         Destroy(baby.gameObject);
+        babyInSceneCounter--;
         gStateInstance.newBabyDead();
     }
 
@@ -152,7 +154,7 @@ public class BabyManager : MonoBehaviour
                 spawn_baby_random_place();
                 current_proba-=1;
             }
-            if(Random.Range(0f,1f)< current_proba ){
+            if(Random.Range(0f,1f)< current_proba || babyInSceneCounter <= 0 ){
                 spawn_baby_random_place();
             }
             

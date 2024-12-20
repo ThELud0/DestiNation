@@ -38,6 +38,8 @@ public class SoundManager : MonoBehaviour
 
     private void Awake()
     {
+
+        
         // Si une instance existe déjà et que ce n'est pas celle-ci, détruisez cet objet
         if (Instance != null && Instance != this)
         {
@@ -46,7 +48,12 @@ public class SoundManager : MonoBehaviour
         }
         // Assigner l'instance et la marquer pour persister entre les scènes
         Instance = this;
+        setVolumeSoundtrackAndSounds();
         DontDestroyOnLoad(gameObject);
+    }
+
+    public static SoundManager getInstance(){
+        return Instance;
     }
 
     void Update(){
@@ -144,6 +151,12 @@ public class SoundManager : MonoBehaviour
         PlayerActionSource.clip = Button0;
         PlayerActionSource.loop = false;
         PlayerActionSource.Play();
+    }
+
+    public void setVolumeSoundtrackAndSounds(){
+        PopUpSource.volume = PlayerPrefs.GetFloat("VolumeSounds");
+        PlayerActionSource.volume = PlayerPrefs.GetFloat("VolumeSoundtrack");
+
     }
 
 }

@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 
@@ -11,11 +12,30 @@ public class MenuManager : MonoBehaviour
     [SerializeField]
     GameObject creditSprite, settingsGameobject;
 
+    [SerializeField]
+    Slider slideSound, slideSoundtrack;
+    Toggle toggleFullscreen;
+
+    [SerializeField] private float DefaultValueSoundtrackSLider=1f, DefaultValueSoundsSLider=1f;
+
+    [SerializeField] private float cooldownPopUpSound=1f, trackedTime = -1f;
+
+
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+            float valueToSounds = PlayerPrefs.GetFloat("VolumeSounds");
+            slideSound.SetValueWithoutNotify(valueToSounds);
+
+            float valueToSoundtrack = PlayerPrefs.GetFloat("VolumeSoundtrack");
+            slideSound.SetValueWithoutNotify(valueToSoundtrack);
+            
+            SoundManager.Instance.setVolumeSoundtrackAndSounds();
+
+
+            slideSoundtrack.SetValueWithoutNotify(DefaultValueSoundtrackSLider);
             activateSprite(creditSprite,false);
             activateSprite(settingsGameobject, false);
 
@@ -24,7 +44,12 @@ public class MenuManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(trackedTime>0 && Time.time - trackedTime > cooldownPopUpSound){
+            trackedTime=-1f;
+            SoundManager.Instance.setVolumeSoundtrackAndSounds();
+            SoundManager.Instance.PlayPopUpBaby();
+
+        }
     }
 
 
@@ -50,6 +75,26 @@ public void OnPlayButtonEnter(){
 
 public void OnQuitSettingsButtonEnter(){
     activateSprite(settingsGameobject, false);
+}
+
+public void OnSliderSoundtrackValueChange(float value){
+        PlayerPrefs.SetFloat("VolumeSoundtrack", slideSoundtrack.value);
+        SoundManager.Instance.setVolumeSoundtrackAndSounds();
+}
+
+public void OnSliderSoundsValueChange(float value){
+        PlayerPrefs.SetFloat("VolumeSounds", slideSound.value);
+        trackedTime = Time.time;
+}
+
+public void OnFullScreenCheckaseMarked(){
+   
+   bool value = toggleFullscreen.enabled;
+    if( value) {
+        Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
+    }else {
+        Screen.fullScreenMode = FullScreenMode.Windowed;
+    }
 }
 
 

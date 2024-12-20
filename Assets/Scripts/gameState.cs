@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using NUnit.Framework;
 using Unity.VisualScripting;
 
 using UnityEngine;
@@ -24,10 +26,18 @@ public class gameState : MonoBehaviour
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start(){
+    void Awake(){
                 compteurTrain = 0;
            updateTextInInstance(); 
            setGamePaused(false);
+           soundManagerInstance = SoundManager.getInstance();
+           if(soundManagerInstance == null){
+           Debug.Log("aaazazazaz   pb ici");
+
+           }else{
+                       Debug.Log("aaazazazaz   pb npn");
+
+           }
     }
 
     public bool isGamePaused(){
