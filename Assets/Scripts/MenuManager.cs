@@ -38,6 +38,7 @@ public class MenuManager : MonoBehaviour
             slideSoundtrack.SetValueWithoutNotify(DefaultValueSoundtrackSLider);
             activateSprite(creditSprite,false);
             activateSprite(settingsGameobject, false);
+            SoundManager.Instance.playMenuMusic();
 
     }
 
@@ -69,6 +70,8 @@ public void OnQuitCreditsButtonEnter(){
 }
 
 public void OnPlayButtonEnter(){
+    SoundManager.Instance.stopMenuMusic();
+
     SceneManager.LoadScene("Scenes/Level_Scene");
 }
 

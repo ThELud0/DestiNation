@@ -25,6 +25,8 @@ public class SoundManager : MonoBehaviour
 
 
     [SerializeField]private AudioClip[] gareEntrance;
+
+        [SerializeField]private AudioSource musicMenu;
     private int gareEntranceSimultaneousCounter = 0;
 
     public float durationResetTimerGare=5f;
@@ -60,6 +62,15 @@ public class SoundManager : MonoBehaviour
         if( Time.time - trackTrainEntranceTime>durationResetTimerGare){
             gareEntranceSimultaneousCounter = 0;
         }
+    }
+
+    public void playMenuMusic(){
+            musicMenu.Play();
+    }
+
+    public void stopMenuMusic(){
+            musicMenu.Stop();
+
     }
 
     // Only for AudioSource = PopUpSource
@@ -156,6 +167,8 @@ public class SoundManager : MonoBehaviour
     public void setVolumeSoundtrackAndSounds(){
         PopUpSource.volume = PlayerPrefs.GetFloat("VolumeSounds");
         PlayerActionSource.volume = PlayerPrefs.GetFloat("VolumeSoundtrack");
+        musicMenu.volume = PlayerPrefs.GetFloat("VolumeSoundtrack");
+
 
     }
 

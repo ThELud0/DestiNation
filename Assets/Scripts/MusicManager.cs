@@ -28,6 +28,7 @@ public class MusicManager : MonoBehaviour
         Timbales.Play();
         Basse.Play();
         LocoBase.Play();
+   
 
         //StartCoroutine(TestSounds());
     }
