@@ -40,6 +40,7 @@ public class UiLevel : MonoBehaviour
     }
 
     public void OnMenuButtonPressed(){
+        gameState.compteurTrain = 0;
             SceneManager.LoadScene("Scenes/Menu");
     }
 

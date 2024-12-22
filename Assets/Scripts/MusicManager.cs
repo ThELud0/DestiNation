@@ -25,9 +25,15 @@ public class MusicManager : MonoBehaviour
 
     void Start()
     {
+                SetVolumeLocoBase(0);
+        SetVolumeTimbale(0);
+        SetVolumeBasse(0);
         Timbales.Play();
         Basse.Play();
         LocoBase.Play();
+
+
+
    
 
         //StartCoroutine(TestSounds());
