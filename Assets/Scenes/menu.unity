@@ -271,6 +271,30 @@ PrefabInstance:
       propertyPath: musicMenu
       value: 
       objectReference: {fileID: 1129544816}
+    - target: {fileID: 1926917766987259833, guid: 19a1fe7fd8bc5fa4f9bd44924bf1185f, type: 3}
+      propertyPath: gareEntrance.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1926917766987259833, guid: 19a1fe7fd8bc5fa4f9bd44924bf1185f, type: 3}
+      propertyPath: 'gareEntrance.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 48e60f5b92a19f44aae3d15259d79910, type: 3}
+    - target: {fileID: 1926917766987259833, guid: 19a1fe7fd8bc5fa4f9bd44924bf1185f, type: 3}
+      propertyPath: 'gareEntrance.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 2ff4133fadd8d3c458aba1acfced82c7, type: 3}
+    - target: {fileID: 1926917766987259833, guid: 19a1fe7fd8bc5fa4f9bd44924bf1185f, type: 3}
+      propertyPath: 'gareEntrance.Array.data[2]'
+      value: 
+      objectReference: {fileID: 8300000, guid: d31a51c21e080964eb7f0b64f2bd03d0, type: 3}
+    - target: {fileID: 1926917766987259833, guid: 19a1fe7fd8bc5fa4f9bd44924bf1185f, type: 3}
+      propertyPath: 'gareEntrance.Array.data[3]'
+      value: 
+      objectReference: {fileID: 8300000, guid: f30d44432c1722442bb566bb4f6c0679, type: 3}
+    - target: {fileID: 1926917766987259833, guid: 19a1fe7fd8bc5fa4f9bd44924bf1185f, type: 3}
+      propertyPath: 'gareEntrance.Array.data[4]'
+      value: 
+      objectReference: {fileID: 8300000, guid: f2a0231973e31dc49a6f8d7651c2ab8c, type: 3}
     - target: {fileID: 5897447731857917399, guid: 19a1fe7fd8bc5fa4f9bd44924bf1185f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

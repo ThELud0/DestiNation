@@ -21,7 +21,7 @@ public class UiLevel : MonoBehaviour
         switchMenuPauseUnpause(false);
     }
     public void updateText(int score, int babyDead, int maxBabyDead){
-        scoreText.text = "Score :"+score.ToString();
+        scoreText.text = "Score : "+score.ToString();
         babyCounterText.text = "Destinies lost : "+babyDead.ToString()+"/"+maxBabyDead.ToString();
     }
 
