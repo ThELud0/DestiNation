@@ -14,7 +14,7 @@ public class MenuManager : MonoBehaviour
 
     [SerializeField]
     Slider slideSound, slideSoundtrack;
-    Toggle toggleFullscreen;
+    [SerializeField] Toggle toggleFullscreen;
 
     [SerializeField] private float DefaultValueSoundtrackSLider=1f, DefaultValueSoundsSLider=1f;
 
@@ -39,6 +39,10 @@ public class MenuManager : MonoBehaviour
             activateSprite(creditSprite,false);
             activateSprite(settingsGameobject, false);
             SoundManager.Instance.playMenuMusic();
+            if (!PlayerPrefs.HasKey("isFullscreen")){
+                PlayerPrefs.SetInt("isFullscreen",0);
+            }
+            actualizeFullScreenState();
 
     }
 
@@ -92,8 +96,17 @@ public void OnSliderSoundsValueChange(float value){
 
 public void OnFullScreenCheckaseMarked(){
    
-   bool value = toggleFullscreen.enabled;
-    if( value) {
+   int correspondinfInt =0;
+   if (toggleFullscreen.enabled) {
+        correspondinfInt = 1;
+   }
+   
+   PlayerPrefs.SetInt("isFullscreen", correspondinfInt);
+   actualizeFullScreenState();
+}
+
+private void actualizeFullScreenState(){
+   if( PlayerPrefs.GetInt("isFullscreen")==1) {
         Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
     }else {
         Screen.fullScreenMode = FullScreenMode.Windowed;
