@@ -84,6 +84,10 @@ public void OnQuitSettingsButtonEnter(){
     activateSprite(settingsGameobject, false);
 }
 
+public void OnQuitButtonEnter(){
+    Application.Quit();
+}
+
 public void OnSliderSoundtrackValueChange(float value){
         PlayerPrefs.SetFloat("VolumeSoundtrack", slideSoundtrack.value);
         SoundManager.Instance.setVolumeSoundtrackAndSounds();
@@ -96,12 +100,12 @@ public void OnSliderSoundsValueChange(float value){
 
 public void OnFullScreenCheckaseMarked(){
    
-   int correspondinfInt =0;
-   if (toggleFullscreen.enabled) {
-        correspondinfInt = 1;
+   if (PlayerPrefs.GetInt("isFullscreen")==0) {
+       PlayerPrefs.SetInt("isFullscreen", 1);
    }
-   
-   PlayerPrefs.SetInt("isFullscreen", correspondinfInt);
+   else{
+    PlayerPrefs.SetInt("isFullscreen", 0);
+   }
    actualizeFullScreenState();
 }
 
